@@ -32,9 +32,14 @@ ENV LANG C.UTF-8
 # Install dependencies (this is not necessary when using an *external* mini conda environment)
 RUN python3 -m pip install numpy
 RUN python3 -m pip install autopep8
+RUN python3 -m pip install torch torchvision torchaudio
 RUN python3 -m pip install transformers
-RUN python3 -m pip install datasets
 RUN python3 -m pip install pandas
+RUN python3 -m pip install scikit-learn
+RUN python3 -m pip install datasets
+RUN python3 -m pip install huggingface_hub
+RUN python3 -m pip install tqdm
+RUN python3 -m pip install pypickle
 
 # Specify a new user (USER_NAME and USER_UID are specified via --build-arg)
 ARG USER_UID
