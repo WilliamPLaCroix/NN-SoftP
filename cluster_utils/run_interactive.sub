@@ -3,10 +3,10 @@
 
 #universe                = docker
 #docker_image            = docker.lsv.uni-saarland.de/jguertler/idiotenschild:misinformation
-initialdir              = /nethome/[USER_NAME]                                                                              #/nethome/jguertler
-output                  = /data/users/[USER_NAME]/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log       #/data/users/jguertler/logs/output.log
-error                   = /data/users/[USER_NAME]/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log        #/data/users/jguertler/logs/error.log
-log                     = /data/users/[USER_NAME]/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log          #/data/users/jguertler/logs/log.log
+initialdir              = /nethome/[USER_NAME]
+output                  = /data/users/[USER_NAME]/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+error                   = /data/users/[USER_NAME]/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+log                     = /data/users/[USER_NAME]/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 request_CPUs            = 1
 request_memory          = 4G
 requirements            = (machine == "cl8lx.lsv.uni-saarland.de")
