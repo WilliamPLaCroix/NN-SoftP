@@ -1,7 +1,4 @@
-import os
-import wget
-
-from datasets import load_dataset, load_metric, Dataset, DatasetDict
+from datasets import Dataset, DatasetDict
 import pandas as pd
 from transformers import XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, TrainingArguments, Trainer
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
