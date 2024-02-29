@@ -14,6 +14,7 @@ ENV CUDA_HOME=/usr/local/cuda
 # Install additional programs
 RUN apt update && \
     apt install -y build-essential \
+    apt install -y python3.11 \
     htop \
     gnupg \
     curl \
