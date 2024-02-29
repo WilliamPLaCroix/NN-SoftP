@@ -6,16 +6,9 @@ import pandas as pd
 from transformers import XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, TrainingArguments, Trainer
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
-liar_url = "https://www.cs.ucsb.edu/~william/data/liar_dataset.zip"
-if not os.path.exists("./data/"):
-  os.mkdir("./data/")
-if not os.path.exists("./data/liar_dataset.zip"):
-  wget.download(liar_url, "./data/liar_dataset.zip")
-if not os.path.exists("./data/train.tsv"):
-  !unzip ./data/liar_dataset.zip -d ./data/
 
-train_df = pd.read_csv("./data/train.tsv", sep="\t", usecols=[1,2], names=["label", "text"])
-valid_df = pd.read_csv("./data/valid.tsv", sep="\t", usecols=[1,2], names=["label", "text"])
+train_df = pd.read_csv("/data/users/jguertler/datasets/liar/train.tsv", sep="\t", usecols=[1,2], names=["label", "text"])
+valid_df = pd.read_csv("/data/users/jguertler/datasets/liar/valid.tsv", sep="\t", usecols=[1,2], names=["label", "text"])
 
 label_dict = {
     "true":0,
