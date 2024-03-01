@@ -3,7 +3,7 @@
 # See https://docs.nvidia.com/deeplearning/frameworks/support-matrix/index.html#framework-matrix-2021 for installed python, pytorch, etc. versions
 
 # for LSV A100s server
-FROM nvcr.io/nvidia/pytorch:24.01-py3
+FROM nvcr.io/nvidia/pytorch:24.02-py3
 
 # for LSV V100 server
 # FROM nvcr.io/nvidia/pytorch:21.07-py3
@@ -32,7 +32,6 @@ ENV LANG C.UTF-8
 # Install dependencies (this is not necessary when using an *external* mini conda environment)
 RUN python3 -m pip install numpy
 RUN python3 -m pip install autopep8
-RUN python3 -m pip install torch torchvision torchaudio
 RUN python3 -m pip install transformers
 RUN python3 -m pip install pandas
 RUN python3 -m pip install scikit-learn
