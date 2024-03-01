@@ -2,7 +2,7 @@
 # Everything with a leading # is a comment
 
 #universe                = docker
-#docker_image            = docker.lsv.uni-saarland.de/jguertler/idiotenschild:misinformation
+#docker_image            = docker.lsv.uni-saarland.de/jguertler/idiotenschild:24.02-py3
 initialdir              = /nethome/[USER_NAME]
 output                  = /data/users/[USER_NAME]/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 error                   = /data/users/[USER_NAME]/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
