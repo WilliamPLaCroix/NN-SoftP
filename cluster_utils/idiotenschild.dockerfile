@@ -3,7 +3,7 @@
 # See https://docs.nvidia.com/deeplearning/frameworks/support-matrix/index.html#framework-matrix-2021 for installed python, pytorch, etc. versions
 
 # for LSV A100s server
-FROM nvcr.io/nvidia/pytorch:22.02-py3
+FROM nvcr.io/nvidia/pytorch:24.01-py3
 
 # for LSV V100 server
 # FROM nvcr.io/nvidia/pytorch:21.07-py3
@@ -14,7 +14,6 @@ ENV CUDA_HOME=/usr/local/cuda
 # Install additional programs
 RUN apt update && \
     apt install -y build-essential \
-    apt install -y python3.11 \
     htop \
     gnupg \
     curl \
