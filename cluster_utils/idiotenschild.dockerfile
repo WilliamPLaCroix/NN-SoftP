@@ -8,12 +8,16 @@ FROM nvcr.io/nvidia/pytorch:24.02-py3
 # for LSV V100 server
 # FROM nvcr.io/nvidia/pytorch:21.07-py3
 
+# SSH tunnel
+EXPOSE 8888
+
 # Set path to CUDA
 ENV CUDA_HOME=/usr/local/cuda
 
 # Install additional programs
 RUN apt update && \
     apt install -y build-essential \
+    net-tools \
     htop \
     gnupg \
     curl \
@@ -39,6 +43,7 @@ RUN python3 -m pip install datasets
 RUN python3 -m pip install huggingface_hub
 RUN python3 -m pip install tqdm
 RUN python3 -m pip install pypickle
+RUN python3 -m pip install accelerate
 
 # Specify a new user (USER_NAME and USER_UID are specified via --build-arg)
 ARG USER_UID
