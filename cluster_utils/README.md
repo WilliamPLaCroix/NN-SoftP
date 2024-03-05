@@ -30,15 +30,24 @@ Without the -interactive flag, you would have to provide a bash script or comman
 ```
 executable              = /nethome/[USER_NAME]/[SCRIPT_NAME]
 ```
-An example for such a run script is run_script.sh.
+This script will then be executed on the compute node. An example for such a run script is run_script.sh. The outputs can be observed in previously specified files. In the run.sub file output locations are set with
+
+```
+output                  = /data/users/[USER_NAME]/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+error                   = /data/users/[USER_NAME]/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+log                     = /data/users/[USER_NAME]/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+```
+Remember to replace [USER_NAME].
 
 #### GPU
 The example interactive run file does not request a GPU, so it is best used for small tasks, like building a docker image. GPUs available on the cluster are listed below. To run a job with a GPU have a look at the run.sub file. In particular the following two lines specify how many
 GPUs are needed and how much total VRAM:
 ```
 request_GPUs            = 1
-requirements            = (GPUs_GlobalMemoryMb >= 16000) && (machine == "cl17lx.lsv.uni-saarland.de")
+requirements            = (GPUs_GlobalMemoryMb >= 16000) && (machine == "cl16lx.lsv.uni-saarland.de")
 ```
+
+You can 
 
 Titan X GPU clusters:
 - cl8lx
@@ -48,7 +57,7 @@ Titan X GPU clusters:
 - cl12lx
 
 V100 GPU clusters:
-- cl16lx
+- cl16lx (that is the node almost no one uses)
 
 A100 GPU clusters:
 - cl17lx
