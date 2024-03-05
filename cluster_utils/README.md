@@ -41,18 +41,18 @@ requirements            = (GPUs_GlobalMemoryMb >= 16000) && (machine == "cl17lx.
 ```
 
 Titan X GPU clusters:
-cl8lx
-cl9lx
-cl10lx
-cl11lx
-cl12lx
+- cl8lx
+- cl9lx
+- cl10lx
+- cl11lx
+- cl12lx
 
 V100 GPU clusters:
-cl16lx
+- cl16lx
 
 A100 GPU clusters:
-cl17lx
-cl18lx
+- cl17lx
+- cl18lx
 
 
 ### Docker
