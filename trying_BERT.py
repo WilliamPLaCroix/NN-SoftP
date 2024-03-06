@@ -94,7 +94,7 @@ def main():
         model="lxyuan/distilbert-base-multilingual-cased-sentiments-student",
         top_k=None)
 
-    train = dataset["validation"]
+    train = dataset["train"]
 
     sentiments_list = []
 
@@ -154,7 +154,7 @@ def main():
             #         correct += 1
             batch.to('cpu')
         total = len(targets)
-        correct = np.sum(np.array(predictions) == np.array(targets))
+        correct = np.sum(np.array(predictions.to('cpu')) == np.array(targets.to('cpu')))
         print(correct/total*100, np.mean(losses))
         print(predictions)
     model.to('cpu')
