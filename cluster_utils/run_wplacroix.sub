@@ -3,11 +3,11 @@
 
 universe                = docker
 docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.1
-initialdir              = /nethome/[wplacroix]
-executable              = /nethome/[wplacroix]/[SCRIPT_NAME]
-output                  = /data/users/[wplacroix]/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
-error                   = /data/users/[wplacroix]/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
-log                     = /data/users/[wplacroix]/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+initialdir              = /nethome/wplacroix
+executable              = /nethome/wplacroix/[SCRIPT_NAME]
+output                  = /data/users/wplacroix/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+error                   = /data/users/wplacroix/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+log                     = /data/users/wplacroix/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 request_CPUs            = 1
 request_memory          = 10G
 request_GPUs            = 1
