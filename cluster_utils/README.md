@@ -13,6 +13,8 @@ there. Instead, we need to connect to the submit-node
 ssh submit
 ```
 
+Don't forget to clone the repo to your directory on the server.
+
 ### HTCondor
 
 From this node jobs can be submitted to the queue and HTCondor will assign the requested resources once they are available. In order to specify which resources the job requires a .sub needs to be provided. An example file is run_interactive.sub. Before you can run this file you will need to replace all instances of [USER_NAME] with your username. Then you can submit the job via
@@ -63,6 +65,11 @@ A100 GPU clusters:
 - cl17lx
 - cl18lx
 
+
+To view current cluster usage, run this command:
+```
+condor_q -all -run
+```
 
 ### Docker
 
