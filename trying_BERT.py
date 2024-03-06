@@ -161,5 +161,5 @@ def main():
 
 
 if __name__ == "__main__":
-    os.environ['HF_HOME'] = '/data/users/wplacroix/cache/'
+    os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
     main()
