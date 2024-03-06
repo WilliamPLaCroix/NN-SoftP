@@ -8,6 +8,7 @@ import torch.nn as nn
 import pandas as pd
 from tqdm import tqdm
 from transformers import pipeline
+import os
 
 # custom NN model with BERT embeddings
 
@@ -160,4 +161,5 @@ def main():
 
 
 if __name__ == "__main__":
+    os.environ['TRANSFORMERS_CACHE'] = '/data/users/wplacroix/cache/'
     main()
