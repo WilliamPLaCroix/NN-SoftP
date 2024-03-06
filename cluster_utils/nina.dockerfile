@@ -6,7 +6,7 @@
 FROM nvcr.io/nvidia/pytorch:24.01-py3
 
 # for LSV V100 server
-# FROM nvcr.io/nvidia/pytorch:21.07-py3
+#FROM nvcr.io/nvidia/pytorch:21.07-py3
 
 # SSH tunnel
 #EXPOSE 8888
@@ -17,7 +17,6 @@ ENV CUDA_HOME=/usr/local/cuda
 # Install additional programs
 RUN apt update && \
     apt install -y build-essential \
-    net-tools \
     htop \
     gnupg \
     curl \
@@ -53,12 +52,14 @@ ARG USER_UID
 ARG USER_NAME
 ENV USER_GID=$USER_UID
 ENV USER_GROUP="users"
+ENV HF_HOME="/data/users/$USER_NAME/cache/"
+#ENV TRANSFORMERS_CACHE="/data/users/$USER_NAME/cache/"
 
 # Create the user
 RUN mkdir /home/$USER_NAME
 RUN useradd -l -d /home/$USER_NAME -u $USER_UID -g $USER_GROUP $USER_NAME
 # this will fix a wandb issue
-RUN mkdir /home/$USER_NAME/.local 
+RUN mkdir /home/$USER_NAME/.local
 
 # Change owner of home dir (Note: this is not the lsv nethome)
 RUN chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
@@ -66,9 +67,8 @@ RUN chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
 RUN pip install transformers
 
 # set huggingface home directory
-RUN export HF_HOME=/data/users/$USER_NAME/cache
-RUN export HF_DATASETS_CACHE=/data/users/$USER_NAME/cache
-RUN export TRANSFORMERS_CACHE=/data/users/$USER_NAME/cache
-
+#RUN export HF_HOME="/data/users/$USER_NAME/cache/"
+#RUN export HF_DATASETS_CACHE=/data/users/$USER_NAME/cache/
+#RUN export TRANSFORMERS_CACHE="/data/users/$USER_NAME/cache/"
 
 CMD ["/bin/bash"]
