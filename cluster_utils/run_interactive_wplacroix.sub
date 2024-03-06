@@ -2,7 +2,7 @@
 # Everything with a leading # is a comment
 
 universe                = docker
-docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.1
+docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.2
 initialdir              = /nethome/wplacroix
 output                  = /data/users/wplacroix/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 error                   = /data/users/wplacroix/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
