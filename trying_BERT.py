@@ -11,19 +11,21 @@ import pandas as pd
 from tqdm import tqdm
 
 class BERTClassifier(torch.nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self, num_classes, input_size):
         super(BERTClassifier, self).__init__()
         self.requires_grad_(False)
         self.bert = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
         self.proj_size = 20
         self.hidden_size = 100
+        self.input_size = input_size
         self.lstm = torch.nn.LSTM(input_size=768, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
-        self.classifier = torch.nn.Linear(self.proj_size+3, num_classes)
+        self.classifier = torch.nn.Linear(self.input_size+3, num_classes)
 
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
         outputs = self.bert(input_ids, attention_mask).last_hidden_state
-        outputs = self.lstm(outputs)[0][:,-1]
+        outputs = torch.mean(outputs, dim=1)
+
         # insert classification layers here
         # surprisal, sentiment, etc.
         outputs = self.classifier(torch.cat((outputs, sentiment), dim=1))
@@ -79,7 +81,7 @@ def main():
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
 
     def tokenize(data):
-        return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)  
+        return tokenizer(data["statement"], truncation=True, max_length=512)  
 
     batch_size = 32
 
@@ -107,7 +109,7 @@ def main():
     print(train)
 
 
-    tokenized_dataset = train.map(tokenize, batch_size=batch_size, batched=True)
+    tokenized_dataset = train.map(tokenize)
     tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'])
 
 
@@ -119,8 +121,10 @@ def main():
     # simple training loop
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    # input_size based on max length of dataloader
+    input_size = next(iter(train_dataloader))["input_ids"].shape[1]
     loss_fn = nn.CrossEntropyLoss()
-    model = BERTClassifier(6).to(device)
+    model = BERTClassifier(6, input_size).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.001)
 
     for i in range(100):
