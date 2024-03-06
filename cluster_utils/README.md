@@ -15,6 +15,8 @@ ssh submit
 
 Don't forget to clone the repo to your directory on the server.
 
+To actually save any data, you will need to make username and data directories in /data/users/ (/users/USERNAME/data/)
+
 ### HTCondor
 
 From this node jobs can be submitted to the queue and HTCondor will assign the requested resources once they are available. In order to specify which resources the job requires a .sub needs to be provided. An example file is run_interactive.sub. Before you can run this file you will need to replace all instances of [USER_NAME] with your username. Then you can submit the job via
