@@ -1,6 +1,6 @@
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
-from transformers import BertTokenizer, BertModel, DataCollatorWithPadding, pipeline
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, DataCollatorWithPadding, pipeline
 import torch
 from huggingface_hub import login
 import numpy as np
@@ -10,14 +10,11 @@ import torch.nn as nn
 import pandas as pd
 from tqdm import tqdm
 
-
-# custom NN model with BERT embeddings
-
 class BERTClassifier(torch.nn.Module):
     def __init__(self, num_classes):
         super(BERTClassifier, self).__init__()
         self.requires_grad_(False)
-        self.bert = BertModel.from_pretrained('bert-base-uncased')
+        self.bert = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
         self.proj_size = 20
         self.hidden_size = 100
         self.lstm = torch.nn.LSTM(input_size=768, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
@@ -79,7 +76,7 @@ def main():
     API_TOKEN = "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"
     login(token=API_TOKEN)
 
-    tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
 
     def tokenize(data):
         return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)  
