@@ -9,5 +9,5 @@ error                   = /data/users/wplacroix/logs/error_$(ClusterId).$(Year)_
 log                     = /data/users/wplacroix/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 request_CPUs            = 1
 request_memory          = 4G
-requirements            = (machine == "cl8lx.lsv.uni-saarland.de")
+requirements            = (machine == "cl18lx.lsv.uni-saarland.de")
 queue 1
