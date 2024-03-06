@@ -1,3 +1,5 @@
+import os
+os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
 from transformers import BertTokenizer, BertModel, DataCollatorWithPadding
 import torch
 from huggingface_hub import login
@@ -8,7 +10,7 @@ import torch.nn as nn
 import pandas as pd
 from tqdm import tqdm
 from transformers import pipeline
-import os
+
 
 # custom NN model with BERT embeddings
 
@@ -161,5 +163,5 @@ def main():
 
 
 if __name__ == "__main__":
-    os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+
     main()
