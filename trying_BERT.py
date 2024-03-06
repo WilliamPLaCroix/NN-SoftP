@@ -93,7 +93,7 @@ def main():
         model="lxyuan/distilbert-base-multilingual-cased-sentiments-student",
         top_k=None)
 
-    train = dataset["validation"]
+    train = dataset["train"]
 
     sentiments_list = []
 
