@@ -146,15 +146,15 @@ def main():
             optimizer.step()
             losses.append(loss.item())
 
-            predictions.extend(outputs.detach().argmax(dim=1))
-            targets.extend(labels)
-            # for sample in zip(batch["labels"], outputs.detach().argmax(dim=1)):
-            #     total += 1
-            #     if sample[0] == sample[1]:
-            #         correct += 1
+            # predictions.extend(outputs.detach().argmax(dim=1))
+            # targets.extend(labels)
+            for sample in zip(batch["labels"], outputs.detach().argmax(dim=1)):
+                total += 1
+                if sample[0] == sample[1]:
+                    correct += 1
             batch.to('cpu')
-        total = len(targets)
-        correct = np.sum(np.array(predictions.to('cpu')) == np.array(targets.to('cpu')))
+        #total = len(targets)
+        #correct = np.sum(np.array(predictions.to('cpu')) == np.array(targets.to('cpu')))
         print(correct/total*100, np.mean(losses))
         print(predictions)
     model.to('cpu')
