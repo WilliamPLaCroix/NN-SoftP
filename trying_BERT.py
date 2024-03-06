@@ -70,8 +70,7 @@ class CustomDataset(Dataset):
         """
         return len(self.features)
 
-def tokenize(data):
-    return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
+
 
 def main():
 
@@ -80,7 +79,9 @@ def main():
     login(token=API_TOKEN)
 
     tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-    BERT = BertModel.from_pretrained('bert-base-uncased')
+
+    def tokenize(data):
+        return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)  
 
     batch_size = 32
 
@@ -90,8 +91,7 @@ def main():
 
     distilled_student_sentiment_classifier = pipeline(
         model="lxyuan/distilbert-base-multilingual-cased-sentiments-student",
-        return_all_scores=True
-    )
+        return_all_scores=True)
 
     train = dataset["validation"]
 
