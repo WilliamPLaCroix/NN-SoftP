@@ -1,6 +1,6 @@
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
-from transformers import BertTokenizer, BertModel, DataCollatorWithPadding
+from transformers import BertTokenizer, BertModel, DataCollatorWithPadding, pipeline
 import torch
 from huggingface_hub import login
 import numpy as np
@@ -9,7 +9,6 @@ from torch.utils.data import DataLoader, Dataset
 import torch.nn as nn
 import pandas as pd
 from tqdm import tqdm
-from transformers import pipeline
 
 
 # custom NN model with BERT embeddings
@@ -93,7 +92,7 @@ def main():
 
     distilled_student_sentiment_classifier = pipeline(
         model="lxyuan/distilbert-base-multilingual-cased-sentiments-student",
-        return_all_scores=True)
+        top_k=None)
 
     train = dataset["validation"]
 
