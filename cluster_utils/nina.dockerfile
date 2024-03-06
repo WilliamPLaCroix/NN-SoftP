@@ -52,7 +52,7 @@ ARG USER_UID
 ARG USER_NAME
 ENV USER_GID=$USER_UID
 ENV USER_GROUP="users"
-ENV HF_HOME="/data/users/$USER_NAME/cache/"
+ENV HF_HOME="/data/users/$USER_NAME/.cache/"
 #ENV TRANSFORMERS_CACHE="/data/users/$USER_NAME/cache/"
 
 # Create the user
@@ -65,10 +65,5 @@ RUN mkdir /home/$USER_NAME/.local
 RUN chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
 
 RUN pip install transformers
-
-# set huggingface home directory
-#RUN export HF_HOME="/data/users/$USER_NAME/cache/"
-#RUN export HF_DATASETS_CACHE=/data/users/$USER_NAME/cache/
-#RUN export TRANSFORMERS_CACHE="/data/users/$USER_NAME/cache/"
 
 CMD ["/bin/bash"]
