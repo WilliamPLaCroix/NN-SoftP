@@ -17,13 +17,13 @@ class BERTClassifier(torch.nn.Module):
         self.bert = AutoModelForSequenceClassification.from_pretrained('bert-base-uncased')
         self.proj_size = 20
         self.hidden_size = 100
-        self.input_size = input_size
+        self.input_size = 768
         self.lstm = torch.nn.LSTM(input_size=768, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
         self.classifier = torch.nn.Linear(self.input_size+3, num_classes)
 
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
-        outputs = self.bert(input_ids, attention_mask).last_hidden_state
+        outputs = self.bert(input_ids, attention_mask)
         outputs = torch.mean(outputs, dim=1)
 
         # insert classification layers here
