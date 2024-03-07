@@ -14,8 +14,9 @@ from transformers import pipeline
 class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
         super(Classifier, self).__init__()
-        self.requires_grad_(False)
         self.lm = AutoModel.from_pretrained(language_model, quantization_config=bnb_config)
+        for param in self.lm.features.parameters():
+            param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
         self.hidden_size = 100
