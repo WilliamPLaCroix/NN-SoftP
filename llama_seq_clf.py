@@ -11,7 +11,6 @@ from huggingface_hub import login
 login()
 
 
-dataset, model_size = sys.argv[1], sys.argv[2]
 epochs = 10
 batch_size = 8
 learning_rate = 5e-5
