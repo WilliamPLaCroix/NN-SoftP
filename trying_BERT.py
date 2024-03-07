@@ -126,7 +126,7 @@ def main():
     test_dataloader = dataloader_from_pickle("test")
 
 
-    loss_fn = nn.CrossEntropyLoss(reduction="mean")
+    loss_fn = nn.CrossEntropyLoss()
     model = Classifier(6, language_model).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
     model.train()
