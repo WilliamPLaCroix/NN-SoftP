@@ -14,7 +14,8 @@ from transformers import pipeline
 class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
         super(Classifier, self).__init__()
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)
+        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, 
+                                                       device_map='auto', dtype=bnb_config.bnb_4bit_compute_dtype)
         for param in self.lm.base_model.parameters():
             param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
@@ -94,11 +95,11 @@ def main():
 
     global bnb_config
     bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True)
-    #     bnb_4bit_use_double_quant=True,
-    #     bnb_4bit_quant_type="nf4",
-    #     bnb_4bit_compute_dtype=torch.bfloat16,
-    # )
+        load_in_4bit=True,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.bfloat16,
+    )
     
     batch_size = 32
     learning_rate = 0.01
