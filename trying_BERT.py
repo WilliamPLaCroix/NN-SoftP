@@ -34,22 +34,22 @@ class Classifier(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, input_ids, attention_mask, sentiment):
-        print("input_ids", input_ids.shape, input_ids.dtype)
-        print(input_ids)
+        # print("input_ids", input_ids.shape, input_ids.dtype)
+        # print(input_ids)
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
-        print("lm output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("lm output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         # outputs = self.lstm(outputs)[0][:,-1]
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-        print("mean output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("mean output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         outputs = self.condenser(outputs)
-        print("condensed output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("condensed output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         outputs = self.activation(outputs)
-        print("activation output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("activation output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         # outputs = self.extra_linear_1(outputs)
         # print("linear 1 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
@@ -69,19 +69,19 @@ class Classifier(torch.nn.Module):
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.reducer(outputs)
-        print("reducer output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("reducer output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         outputs = self.activation(outputs)
-        print("activation output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("activation output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
         outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype)), dim=1))
-        print("classifier output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("classifier output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         outputs = self.activation(outputs)
-        print("classifier output", outputs.shape, outputs.dtype)
-        print("outputs", outputs)
+        # print("classifier output", outputs.shape, outputs.dtype)
+        # print("outputs", outputs)
         return outputs
 
 
@@ -133,8 +133,6 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(val_dataloader):
-            if batch_number > 2:
-                return
             batch.to(device)
     
             input_ids = batch["input_ids"]
