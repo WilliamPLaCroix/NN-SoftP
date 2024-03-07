@@ -25,7 +25,7 @@ class Classifier(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=torch.bfloat16)
         #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
         self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=torch.bfloat16)
-        self.activation = torch.nn.LeakyReLU().bfloat16()
+        self.activation = torch.nn.LeakyReLU(dtype=torch.bfloat16)
         self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=torch.bfloat16)
         self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=torch.bfloat16)
         self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=torch.bfloat16)
@@ -35,7 +35,7 @@ class Classifier(torch.nn.Module):
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
         print(outputs.shape, outputs.dtype)
         # outputs = self.lstm(outputs)[0][:,-1]
-        outputs = torch.mean(outputs, dim=1)
+        outputs = torch.mean(outputs, dim=1, dtype=torch.bfloat16)
         print(outputs.shape, outputs.dtype)
         outputs = self.condenser(outputs)
         print(outputs.shape, outputs.dtype)
