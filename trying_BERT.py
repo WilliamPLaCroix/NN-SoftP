@@ -15,7 +15,7 @@ class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
         super(Classifier, self).__init__()
         self.requires_grad_(False)
-        self.lm = AutoModel.from_pretrained(language_model)#.eval()
+        self.lm = AutoModel.from_pretrained(language_model).eval()
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
         self.hidden_size = 1000
@@ -51,7 +51,7 @@ class Classifier(torch.nn.Module):
 def main():
 
     
-    batch_size = 256
+    batch_size = 32
     learning_rate = 0.001
 
     API_TOKEN = "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"
@@ -88,7 +88,7 @@ def main():
         targets = []
         total = 0
         correct = 0
-        for i, batch in tqdm(enumerate(val_dataloader)):
+        for i, batch in enumerate(val_dataloader):
             batch.to(device)
             input_ids = batch["input_ids"]
             attention_mask = batch["attention_mask"]
