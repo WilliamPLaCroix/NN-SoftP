@@ -51,7 +51,7 @@ class Classifier(torch.nn.Module):
 def main():
 
     
-    batch_size = 32
+    batch_size = 16
     learning_rate = 0.001
 
     API_TOKEN = "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"
