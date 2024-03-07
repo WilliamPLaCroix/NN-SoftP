@@ -21,8 +21,7 @@ class Classifier(torch.nn.Module):
         self.proj_size = 20
         self.hidden_size = 100
         self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
-                                  num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size,
-                                  dtype=torch.bfloat16)
+                                  num_layers=2, batch_first=True, bidirectional=False, dtype=torch.bfloat16)#, proj_size=self.proj_size,)
         
         #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
         self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -40,14 +39,16 @@ class Classifier(torch.nn.Module):
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        # outputs = self.lstm(outputs)[0][:,-1]
-        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        outputs = self.lstm(outputs)[0][:,-1]
+        # outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         # print("mean output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.condenser(outputs)
+        #outputs = self.condenser(outputs)
         # print("condensed output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.activation(outputs)
+
+        
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.extra_linear_1(outputs)
@@ -56,13 +57,13 @@ class Classifier(torch.nn.Module):
         outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.extra_linear_2(outputs)
+        #outputs = self.extra_linear_2(outputs)
         # print("linaer 2 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.extra_linear_3(outputs)
+        #outputs = self.extra_linear_3(outputs)
         # print("linear 3 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.activation(outputs)
