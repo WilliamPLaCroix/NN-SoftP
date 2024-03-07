@@ -32,7 +32,7 @@ class Classifier(torch.nn.Module):
 
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
-        outputs = self.lm(input_ids, attention_mask).last_hidden_state.float()
+        outputs = self.lm(input_ids, attention_mask).last_hidden_state
         print(outputs.shape, outputs.dtype)
         # outputs = self.lstm(outputs)[0][:,-1]
         outputs = torch.mean(outputs, dim=1)
