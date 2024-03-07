@@ -1,5 +1,5 @@
 import os
-os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+#os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
 from transformers import AutoModel, DataCollatorWithPadding, AutoTokenizer
 import torch
 from huggingface_hub import login
@@ -56,7 +56,7 @@ def main():
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-    language_model = 'google/gemma-2b'
+    language_model = 'bert-base-uncased'
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -80,20 +80,21 @@ def main():
     loss_fn = nn.CrossEntropyLoss()
     model = Classifier(6, language_model).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+    model.train()
 
-    for i in range(100):
-        model.train()
+    for epoch in range(10):
         losses = []
         predictions = []
         targets = []
-        total = 0
-        correct = 0
-        for i, batch in enumerate(val_dataloader):
+        for batch_number, batch in enumerate(val_dataloader):
+            
             batch.to(device)
+            
             input_ids = batch["input_ids"]
             attention_mask = batch["attention_mask"]
             labels = batch["labels"]
             sentiment = batch["sentiment"]
+            
             optimizer.zero_grad()
             outputs = model(input_ids, attention_mask, sentiment)
             loss = loss_fn(outputs, labels)
@@ -102,6 +103,8 @@ def main():
             losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(labels.to('cpu').tolist())
+        print("max memory allocated:", torch.cuda.max_memory_allocated())
+        print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
         print("acc:", correct/total*100, "loss:", np.mean(losses))
