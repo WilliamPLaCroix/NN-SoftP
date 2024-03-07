@@ -141,7 +141,7 @@ def main():
         losses = []
         predictions = []
         targets = []
-        for batch_number, batch in enumerate(test_dataloader):
+        for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
     
             input_ids = batch["input_ids"]
