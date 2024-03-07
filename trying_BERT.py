@@ -104,6 +104,9 @@ def main():
             
             optimizer.zero_grad()
             outputs = model(input_ids, attention_mask, sentiment)
+            print(outputs.shape, labels.shape)
+            print(outputs)
+            print(labels)
             loss = loss_fn(outputs, labels)
             print(loss.item())
             loss.backward() # this is not working
