@@ -16,7 +16,7 @@ epochs = 10
 batch_size = 8
 learning_rate = 5e-5
 lora_r = 12
-max_length = 64
+max_length = 512
 
 checkpoint = "meta-llama/Llama-2-7b-hf"
 
@@ -71,10 +71,11 @@ def compute_metrics(eval_pred):
 
 tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 tokenizer.pad_token=tokenizer.eos_token
+tokenizer.model_max_len=512
 
 
 def tokenize(batch):
-    return tokenizer(batch["statement"], padding='longest', max_length=max_length, truncation=True)
+    return tokenizer(batch["statement"], max_length=max_length, truncation=True)
 
 
 tokenized_ds = dataset.map(tokenize, batched=True)
