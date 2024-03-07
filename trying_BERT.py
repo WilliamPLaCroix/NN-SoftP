@@ -136,7 +136,7 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(val_dataloader):
-            model.float16()
+            model.bfloat16()
             if batch_number > 2:
                 return
             batch.to(device)
