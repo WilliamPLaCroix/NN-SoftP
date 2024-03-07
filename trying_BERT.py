@@ -33,12 +33,7 @@ class Classifier(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, input_ids, attention_mask, sentiment):
-        print("sentiment", sentiment.shape, sentiment.dtype)
-        print("sentiment", sentiment)
 
-        sentiment = torch.Tensor(sentiment.to(bnb_config.bnb_4bit_compute_dtype), dtype=bnb_config.bnb_4bit_compute_dtype)
-        print("sentiment", sentiment.shape, sentiment.dtype)
-        print("sentiment", sentiment)
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
         print("lm output", outputs.shape, outputs.dtype)
@@ -79,7 +74,7 @@ class Classifier(torch.nn.Module):
         print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        outputs = self.classifier(torch.cat((outputs, sentiment), dim=1))
+        outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype)), dim=1))
         print("classifier output", outputs.shape, outputs.dtype)
         print("outputs", outputs)
         outputs = self.activation(outputs)
