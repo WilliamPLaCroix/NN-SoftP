@@ -18,13 +18,15 @@ class Classifier(torch.nn.Module):
         self.lm = AutoModel.from_pretrained(language_model)
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
-        self.hidden_size = 100
+        self.hidden_size = 1000
         self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes)
         #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
         self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size)
         self.activation = torch.nn.LeakyReLU()
-        self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.proj_size)
+        self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size)
+        self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size)
+        self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.proj_size)
 
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
@@ -34,6 +36,10 @@ class Classifier(torch.nn.Module):
         outputs = self.condenser(outputs)
         outputs = self.activation(outputs)
         outputs = self.extra_linear_1(outputs)
+        outputs = self.activation(outputs)
+        outputs = self.extra_linear_2(outputs)
+        outputs = self.activation(outputs)
+        outputs = self.extra_linear_3(outputs)
         outputs = self.activation(outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
