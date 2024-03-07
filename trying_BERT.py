@@ -22,13 +22,13 @@ class Classifier(torch.nn.Module):
         self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size,
                                   dtype=torch.bfloat16)
-        self.classifier = torch.nn.Linear(self.proj_size+3, num_classes).bfloat16()
+        self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=torch.bfloat16)
         #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
-        self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size).bfloat16()
-        self.activation = torch.nn.LeakyReLU()
-        self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size).bfloat16()
-        self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size).bfloat16()
-        self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.proj_size).bfloat16()
+        self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=torch.bfloat16)
+        self.activation = torch.nn.LeakyReLU().bfloat16()
+        self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=torch.bfloat16)
+        self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=torch.bfloat16)
+        self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=torch.bfloat16)
 
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
