@@ -100,7 +100,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
     
-    batch_size = 32
+    batch_size = 128
     learning_rate = 0.01
 
     API_TOKEN = "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"
@@ -131,7 +131,7 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
     model.train()
 
-    for epoch in range(100):
+    for epoch in range(1000):
         losses = []
         predictions = []
         targets = []
