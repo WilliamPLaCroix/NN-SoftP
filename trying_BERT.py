@@ -31,19 +31,30 @@ class Classifier(torch.nn.Module):
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
+        print(outputs.shape, outputs.dtype)
         # outputs = self.lstm(outputs)[0][:,-1]
-        outputs = torch.mean(outputs, dim=1).float()
+        outputs = torch.mean(outputs, dim=1)
+        print(outputs.shape, outputs.dtype)
         outputs = self.condenser(outputs)
+        print(outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
+        print(outputs.shape, outputs.dtype)
         outputs = self.extra_linear_1(outputs)
+        print(outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
+        print(outputs.shape, outputs.dtype)
         outputs = self.extra_linear_2(outputs)
+        print(outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
+        print(outputs.shape, outputs.dtype)
         outputs = self.extra_linear_3(outputs)
+        print(outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
+        print(outputs.shape, outputs.dtype)
         # insert classification layers here
         # surprisal, sentiment, etc.
         outputs = self.classifier(torch.cat((outputs, sentiment), dim=1))
+        print(outputs.shape, outputs.dtype)
         return outputs
 
 
@@ -114,11 +125,13 @@ def main():
             losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(labels.to('cpu').tolist())
+            break
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
         print("acc:", correct/total*100, "loss:", np.mean(losses))
+        return
     return
 
 
