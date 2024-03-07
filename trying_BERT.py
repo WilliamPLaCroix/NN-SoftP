@@ -82,9 +82,9 @@ class Classifier(torch.nn.Module):
         outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype)), dim=1))
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         # print("classifier output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
+        print("outputs", outputs)
         return outputs
 
 
@@ -136,6 +136,8 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(val_dataloader):
+            if batch > 2:
+                return
             batch.to(device)
     
             input_ids = batch["input_ids"]
