@@ -33,7 +33,8 @@ class Classifier(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, input_ids, attention_mask, sentiment):
-
+        print("input_ids", input_ids.shape, input_ids.dtype)
+        print(input_ids)
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
         print("lm output", outputs.shape, outputs.dtype)
@@ -85,6 +86,7 @@ class Classifier(torch.nn.Module):
 
 
 def main():
+
 
     global bnb_config
     bnb_config = BitsAndBytesConfig(
