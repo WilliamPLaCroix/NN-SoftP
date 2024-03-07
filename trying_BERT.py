@@ -33,6 +33,8 @@ class Classifier(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, input_ids, attention_mask, sentiment):
+        print("sentiment", sentiment.shape, sentiment.dtype)
+        print("sentiment", sentiment)
         sentiment = torch.Tensor(sentiment, dtype=bnb_config.bnb_4bit_compute_dtype)
         print("sentiment", sentiment.shape, sentiment.dtype)
         print("sentiment", sentiment)
