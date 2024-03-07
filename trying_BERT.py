@@ -25,7 +25,7 @@ class Classifier(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=torch.bfloat16)
         #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
         self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=torch.bfloat16)
-        self.activation = torch.nn.LeakyReLU()
+        self.activation = torch.nn.ReLU()
         self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=torch.bfloat16)
         self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=torch.bfloat16)
         self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=torch.bfloat16)
@@ -56,6 +56,7 @@ class Classifier(torch.nn.Module):
         # insert classification layers here
         # surprisal, sentiment, etc.
         outputs = self.classifier(torch.cat((outputs, sentiment.bfloat16()), dim=1))
+        outputs = self.activation(outputs)
         print("classifier output", outputs.shape, outputs.dtype)
         print(outputs)
         return outputs
@@ -98,7 +99,7 @@ def main():
     test_dataloader = dataloader_from_pickle("test")
 
 
-    loss_fn = nn.CrossEntropyLoss()
+    loss_fn = nn.CrossEntropyLoss(reduction="mean")
     model = Classifier(6, language_model).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
     model.train()
