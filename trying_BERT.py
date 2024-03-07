@@ -33,30 +33,30 @@ class Classifier(torch.nn.Module):
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
-        print("lm output", outputs.shape, outputs.dtype)
+        #print("lm output", outputs.shape, outputs.dtype)
         # outputs = self.lstm(outputs)[0][:,-1]
         outputs = torch.mean(outputs, dim=1, dtype=torch.bfloat16)
-        print("mean output", outputs.shape, outputs.dtype)
+        #print("mean output", outputs.shape, outputs.dtype)
         outputs = self.condenser(outputs)
-        print("condensed output", outputs.shape, outputs.dtype)
+        #print("condensed output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print("activation output", outputs.shape, outputs.dtype)
+        #print("activation output", outputs.shape, outputs.dtype)
         outputs = self.extra_linear_1(outputs)
-        print("linear 1 output", outputs.shape, outputs.dtype)
+        #print("linear 1 output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print("activation output", outputs.shape, outputs.dtype)
+        #print("activation output", outputs.shape, outputs.dtype)
         outputs = self.extra_linear_2(outputs)
-        print("linaer 2 output", outputs.shape, outputs.dtype)
+        #print("linaer 2 output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print("activation output", outputs.shape, outputs.dtype)
+        #print("activation output", outputs.shape, outputs.dtype)
         outputs = self.extra_linear_3(outputs)
-        print("linear 3 output", outputs.shape, outputs.dtype)
+        #print("linear 3 output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print("activation output", outputs.shape, outputs.dtype)
+        #print("activation output", outputs.shape, outputs.dtype)
         # insert classification layers here
         # surprisal, sentiment, etc.
         outputs = self.classifier(torch.cat((outputs, sentiment.bfloat16()), dim=1))
-        print("classifier output", outputs.shape, outputs.dtype)
+        #print("classifier output", outputs.shape, outputs.dtype)
         return outputs
 
 
@@ -109,7 +109,7 @@ def main():
         for batch_number, batch in enumerate(val_dataloader):
             
             batch.to(device)
-            
+    
             input_ids = batch["input_ids"]
             attention_mask = batch["attention_mask"]
             labels = batch["labels"]
@@ -117,23 +117,17 @@ def main():
             
             optimizer.zero_grad()
             outputs = model(input_ids, attention_mask, sentiment)
-            print(outputs.shape, labels.shape)
-            print(outputs)
-            print(labels)
             loss = loss_fn(outputs, labels)
-            print(loss.item())
             loss.backward() # this is not working
             optimizer.step()
             losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(labels.to('cpu').tolist())
-            break
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
         print("acc:", correct/total*100, "loss:", np.mean(losses))
-        return
     return
 
 
