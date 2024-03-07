@@ -9,8 +9,8 @@ import numpy as np
 import torch
 from huggingface_hub import login
 
-login("/data/users/jguertler/.cache/token")
 
+login()
 
 epochs = 10
 batch_size = 8
