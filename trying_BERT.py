@@ -23,13 +23,14 @@ class Classifier(torch.nn.Module):
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   #num_layers=2, batch_first=True, bidirectional=False, dtype=torch.bfloat16)#, proj_size=self.proj_size,)
         
-        self.activation = torch.nn.Sigmoid()
+        self.activation = torch.nn.Tanh()
         self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.reducer = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.batch_norm = torch.nn.BatchNorm1d(self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, input_ids, attention_mask, sentiment):
         # print("input_ids", input_ids.shape, input_ids.dtype)
@@ -40,6 +41,7 @@ class Classifier(torch.nn.Module):
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        outputs = self.batch_norm(outputs)
         # print("mean output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.condenser(outputs)
@@ -102,7 +104,7 @@ def main():
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-    language_model = 'xlm-roberta-base'
+    language_model = 'google/gemma-2b'
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
