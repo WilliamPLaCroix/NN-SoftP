@@ -22,8 +22,9 @@ class Classifier(torch.nn.Module):
         self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes)
         #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
-        self.condenser = torch.nn.Linear(self.lm_out_size, self.proj_size)
+        self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size)
         self.activation = torch.nn.LeakyReLU()
+        self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.proj_size)
 
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
@@ -31,6 +32,8 @@ class Classifier(torch.nn.Module):
         # outputs = self.lstm(outputs)[0][:,-1]
         outputs = torch.mean(outputs, dim=1)
         outputs = self.condenser(outputs)
+        outputs = self.activation(outputs)
+        outputs = self.extra_linear_1(outputs)
         outputs = self.activation(outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
@@ -42,13 +45,13 @@ class Classifier(torch.nn.Module):
 def main():
 
     
-    batch_size = 32
-    learning_rate = 0.01
+    batch_size = 256
+    learning_rate = 0.11
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
     language_model = "bert-base-uncased"
-    tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
+    tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
