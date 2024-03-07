@@ -51,7 +51,7 @@ def main():
         return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
 
     def dataloader_from_pickle(split):
-        dataframe = pd.read_pickle(f"./picklefiles/{split}.pkl")
+        dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'])
