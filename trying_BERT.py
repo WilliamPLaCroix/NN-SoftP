@@ -1,6 +1,6 @@
 import os
 #os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
-from transformers import AutoModel, DataCollatorWithPadding, AutoTokenizer
+from transformers import AutoModel, DataCollatorWithPadding, AutoTokenizer, BitsAndBytesConfig
 import torch
 from huggingface_hub import login
 import numpy as np
@@ -15,7 +15,7 @@ class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
         super(Classifier, self).__init__()
         self.requires_grad_(False)
-        self.lm = AutoModel.from_pretrained(language_model)
+        self.lm = AutoModel.from_pretrained(language_model, quantization_config=bnb_config)
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
         self.hidden_size = 100
@@ -50,6 +50,13 @@ class Classifier(torch.nn.Module):
 
 def main():
 
+    global bnb_config
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4",
+        bnb_4bit_compute_dtype=torch.bfloat16,
+    )
     
     batch_size = 16
     learning_rate = 0.001
