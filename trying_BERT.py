@@ -38,6 +38,10 @@ class BERTClassifier(torch.nn.Module):
 
 def main():
 
+    
+    batch_size = 32
+    learning_rate = 0.01
+
     API_TOKEN = "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"
     login(token=API_TOKEN)
 
@@ -60,8 +64,6 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
-    batch_size = 32
-    learning_rate = 0.01
 
     loss_fn = nn.CrossEntropyLoss()
     model = BERTClassifier(6).to(device)
