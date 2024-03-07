@@ -1,5 +1,5 @@
 import os
-#os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
 from transformers import AutoModel, DataCollatorWithPadding, AutoTokenizer, BitsAndBytesConfig
 import torch
 from huggingface_hub import login
