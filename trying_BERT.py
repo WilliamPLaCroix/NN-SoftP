@@ -72,7 +72,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
     
-    batch_size = 16
+    batch_size = 32
     learning_rate = 0.001
 
     API_TOKEN = "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"
@@ -108,7 +108,7 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(val_dataloader):
-            if batch_number > 2:
+            if batch_number > 10:
                 return
             batch.to(device)
     
