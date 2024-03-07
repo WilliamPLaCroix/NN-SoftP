@@ -9,7 +9,7 @@ import numpy as np
 import torch
 from huggingface_hub import login
 
-login()
+login("/data/users/jguertler/.cache/token")
 
 
 epochs = 10
