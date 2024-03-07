@@ -37,7 +37,7 @@ class Classifier(torch.nn.Module):
         # print("input_ids", input_ids.shape, input_ids.dtype)
         # print(input_ids)
         # dummy forward pass, not real architecture
-        outputs = self.lm(input_ids, attention_mask).last_hidden_state
+        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
