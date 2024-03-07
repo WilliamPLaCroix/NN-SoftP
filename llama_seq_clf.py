@@ -6,12 +6,12 @@ from transformers import AutoTokenizer, TrainingArguments, Trainer, LlamaForSequ
 from peft import get_peft_model, LoraConfig, TaskType
 import evaluate
 import numpy as np
+import torch
 from huggingface_hub import login
 
-login()
+login("/data/users/jguertler/.cache/token")
 
 
-dataset, model_size = sys.argv[1], sys.argv[2]
 epochs = 10
 batch_size = 8
 learning_rate = 5e-5
