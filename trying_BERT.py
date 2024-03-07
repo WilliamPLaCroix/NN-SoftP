@@ -129,9 +129,10 @@ def main():
     loss_fn = nn.CrossEntropyLoss()
     model = Classifier(6, language_model).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
-    model.train()
+    
 
     for epoch in range(1000):
+        model.train()
         losses = []
         predictions = []
         targets = []
@@ -159,6 +160,7 @@ def main():
         print("train acc:", correct/total*100, "train loss:", np.mean(losses))
 
         with torch.no_grad():
+            model.eval()
             losses = []
             predictions = []
             targets = []
