@@ -18,7 +18,7 @@ class Classifier(torch.nn.Module):
         self.lm = AutoModel.from_pretrained(language_model)
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
-        self.hidden_size = 1000
+        self.hidden_size = 100
         self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes)
         #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
