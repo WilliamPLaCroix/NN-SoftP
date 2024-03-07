@@ -50,22 +50,22 @@ class Classifier(torch.nn.Module):
         outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        # outputs = self.extra_linear_1(outputs)
+        outputs = self.extra_linear_1(outputs)
         # print("linear 1 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        # outputs = self.activation(outputs)
+        outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        # outputs = self.extra_linear_2(outputs)
+        outputs = self.extra_linear_2(outputs)
         # print("linaer 2 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        # outputs = self.activation(outputs)
+        outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        # outputs = self.extra_linear_3(outputs)
+        outputs = self.extra_linear_3(outputs)
         # print("linear 3 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        # outputs = self.activation(outputs)
+        outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.reducer(outputs)
@@ -97,8 +97,8 @@ def main():
         bnb_4bit_compute_dtype=torch.float32,
     )
     
-    batch_size = 32
-    learning_rate = 0.001
+    batch_size = 256
+    learning_rate = 0.01
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
@@ -128,7 +128,7 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
     model.train()
 
-    for epoch in range(10):
+    for epoch in range(100):
         losses = []
         predictions = []
         targets = []
@@ -152,7 +152,6 @@ def main():
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
-        print(losses)
         print("acc:", correct/total*100, "loss:", np.mean(losses))
     return
 
