@@ -56,7 +56,7 @@ class Classifier(torch.nn.Module):
         # insert classification layers here
         # surprisal, sentiment, etc.
         outputs = self.classifier(torch.cat((outputs, sentiment.bfloat16()), dim=1))
-        #print("classifier output", outputs.shape, outputs.dtype)
+        print("classifier output", outputs.shape, outputs.dtype)
         return outputs
 
 
@@ -118,6 +118,7 @@ def main():
             optimizer.zero_grad()
             outputs = model(input_ids, attention_mask, sentiment)
             loss = loss_fn(outputs, labels)
+            print(loss)
             loss.backward() # this is not working
             optimizer.step()
             losses.append(loss.item())
