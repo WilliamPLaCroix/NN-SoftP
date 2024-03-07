@@ -102,7 +102,7 @@ def main():
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-    language_model = 'bert-base-uncased'
+    language_model = 'xlm-roberta-base'
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
