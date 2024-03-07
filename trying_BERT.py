@@ -130,7 +130,7 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(val_dataloader):
-            if batch_number > 10:
+            if batch_number > 2:
                 return
             batch.to(device)
     
