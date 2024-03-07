@@ -7,9 +7,9 @@ from peft import get_peft_model, LoraConfig, TaskType
 import evaluate
 import numpy as np
 import torch
-from huggingface_hub import login
+from huggingface_hub import HfFolder
 
-login("/data/users/jguertler/.cache/token")
+HfFolder("/data/users/jguertler/.cache")
 
 
 epochs = 10
