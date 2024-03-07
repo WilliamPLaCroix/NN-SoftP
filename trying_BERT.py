@@ -136,7 +136,7 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(val_dataloader):
-            model.bfloat16()
+            model.float()
             if batch_number > 2:
                 return
             batch.to(device)
@@ -151,7 +151,7 @@ def main():
             loss = loss_fn(outputs, labels)
             losses.append(loss.item())
             loss.backward()
-            model.float()
+
             optimizer.step()
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(labels.to('cpu').tolist())
