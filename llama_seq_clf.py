@@ -69,7 +69,7 @@ def compute_metrics(eval_pred):
     return accuracy.compute(predictions=predictions, references=labels)
 
 
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+tokenizer = AutoTokenizer.from_pretrained(checkpoint, pad_token="<PAD>")
 tokenizer.pad_token=tokenizer.eos_token
 tokenizer.model_max_len=512
 
