@@ -15,7 +15,7 @@ class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
         super(Classifier, self).__init__()
         self.requires_grad_(False)
-        self.lm = AutoModel.from_pretrained(language_model)
+        self.lm = AutoModel.from_pretrained(language_model)#.eval()
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
         self.hidden_size = 1000
@@ -56,7 +56,7 @@ def main():
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-    language_model = 'google/gemma-7b'
+    language_model = 'google/gemma-2b'
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
