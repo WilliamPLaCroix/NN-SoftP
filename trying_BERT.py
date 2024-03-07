@@ -11,24 +11,27 @@ import pandas as pd
 from tqdm import tqdm
 from transformers import pipeline
 
-class BERTClassifier(torch.nn.Module):
-    def __init__(self, num_classes):
-        super(BERTClassifier, self).__init__()
+class Classifier(torch.nn.Module):
+    def __init__(self, num_classes, language_model):
+        super(Classifier, self).__init__()
         self.requires_grad_(False)
-        self.bert = AutoModel.from_pretrained('bert-base-uncased')
+        self.lm = AutoModel.from_pretrained(language_model)
+        self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
         self.hidden_size = 100
-        #self.lstm = torch.nn.LSTM(input_size=768, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
+        self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, num_layers=2, batch_first=True, bidirectional=False, proj_size=self.proj_size)
         self.classifier = torch.nn.Linear(self.proj_size+3, num_classes)
-        #self.classifier = torch.nn.Linear(768+3, num_classes)
-        self.condenser = torch.nn.Linear(768, self.proj_size)
+        #self.classifier = torch.nn.Linear(self.lm_out_size+3, num_classes)
+        self.condenser = torch.nn.Linear(self.lm_out_size, self.proj_size)
+        self.activation = torch.nn.LeakyReLU()
 
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
-        outputs = self.bert(input_ids, attention_mask).last_hidden_state
+        outputs = self.lm(input_ids, attention_mask).last_hidden_state
+        # outputs = self.lstm(outputs)[0][:,-1]
         outputs = torch.mean(outputs, dim=1)
         outputs = self.condenser(outputs)
-        #outputs = self.lstm(outputs)[0][:,-1]
+        outputs = self.activation(outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
         outputs = self.classifier(torch.cat((outputs, sentiment), dim=1))
@@ -44,7 +47,7 @@ def main():
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-
+    language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained('bert-base-uncased')
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -66,7 +69,7 @@ def main():
 
 
     loss_fn = nn.CrossEntropyLoss()
-    model = BERTClassifier(6).to(device)
+    model = Classifier(6, language_model).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
 
     for i in range(100):
