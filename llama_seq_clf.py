@@ -36,7 +36,6 @@ lab2id = {v: k for k, v in id2lab.items()}
 
 
 accuracy = evaluate.load("accuracy")
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
 
 bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
@@ -70,8 +69,12 @@ def compute_metrics(eval_pred):
     return accuracy.compute(predictions=predictions, references=labels)
 
 
+tokenizer = AutoTokenizer.from_pretrained(checkpoint)
+tokenizer.pad_token=tokenizer.eos_token
+
+
 def tokenize(batch):
-    return tokenizer(batch, padding='longest', max_length=max_length, truncation=True)
+    return tokenizer(batch["statement"], padding='longest', max_length=max_length, truncation=True)
 
 
 tokenized_ds = dataset.map(tokenize, batched=True)
