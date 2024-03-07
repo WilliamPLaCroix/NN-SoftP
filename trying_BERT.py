@@ -123,10 +123,12 @@ def main():
             losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(labels.to('cpu').tolist())
+            print(loss.item())
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
+        print(losses)
         print("acc:", correct/total*100, "loss:", np.mean(losses))
     return
 
