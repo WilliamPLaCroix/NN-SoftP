@@ -46,6 +46,7 @@ RUN python3 -m pip install accelerate
 RUN python3 -m pip install peft
 RUN python3 -m pip install trl
 RUN python3 -m pip install bitsandbytes
+RUN python3 -m pip install evaluate
 
 # Specify a new user (USER_NAME and USER_UID are specified via --build-arg)
 ARG USER_UID
@@ -65,6 +66,7 @@ RUN chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
 RUN pip install transformers
 
 ENV HF_HOME="/data/users/$USER_NAME/.cache/"
+ENV XDG_CACHE_HOME
 RUN echo $HF_HOME
 
 CMD ["/bin/bash"]

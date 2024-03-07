@@ -7,10 +7,10 @@ from peft import get_peft_model, LoraConfig, TaskType
 import evaluate
 import numpy as np
 import torch
-from huggingface_hub import HfFolder
+from huggingface_hub import login
 
-HfFolder("/data/users/jguertler/.cache")
 
+login()
 
 epochs = 10
 batch_size = 8
