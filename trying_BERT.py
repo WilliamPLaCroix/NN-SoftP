@@ -97,7 +97,7 @@ def main():
         load_in_4bit=True,
         bnb_4bit_use_double_quant=True,
         bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_compute_dtype=torch.float32,
     )
     
     batch_size = 32
@@ -136,7 +136,6 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(val_dataloader):
-            model.float()
             if batch_number > 2:
                 return
             batch.to(device)
