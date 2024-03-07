@@ -33,30 +33,30 @@ class Classifier(torch.nn.Module):
     def forward(self, input_ids, attention_mask, sentiment):
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask).last_hidden_state
-        print(outputs.shape, outputs.dtype)
+        print("lm output", outputs.shape, outputs.dtype)
         # outputs = self.lstm(outputs)[0][:,-1]
         outputs = torch.mean(outputs, dim=1, dtype=torch.bfloat16)
-        print(outputs.shape, outputs.dtype)
+        print("mean output", outputs.shape, outputs.dtype)
         outputs = self.condenser(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("condensed output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("activation output", outputs.shape, outputs.dtype)
         outputs = self.extra_linear_1(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("linear 1 output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("activation output", outputs.shape, outputs.dtype)
         outputs = self.extra_linear_2(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("linaer 2 output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("activation output", outputs.shape, outputs.dtype)
         outputs = self.extra_linear_3(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("linear 3 output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
-        print(outputs.shape, outputs.dtype)
+        print("activation output", outputs.shape, outputs.dtype)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        outputs = self.classifier(torch.cat((outputs, sentiment), dim=1))
-        print(outputs.shape, outputs.dtype)
+        outputs = self.classifier(torch.cat((outputs, sentiment.bfloat16()), dim=1))
+        print("classifier output", outputs.shape, outputs.dtype)
         return outputs
 
 
