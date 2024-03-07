@@ -23,7 +23,7 @@ class Classifier(torch.nn.Module):
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   #num_layers=2, batch_first=True, bidirectional=False, dtype=torch.bfloat16)#, proj_size=self.proj_size,)
         
-        self.activation = torch.nn.Tanh()
+        self.activation = torch.nn.LeakyReLU()
         self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.condenser = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -59,13 +59,13 @@ class Classifier(torch.nn.Module):
         outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        #outputs = self.extra_linear_2(outputs)
+        outputs = self.extra_linear_2(outputs)
         # print("linaer 2 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        #outputs = self.activation(outputs)
+        outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        #outputs = self.extra_linear_3(outputs)
+        outputs = self.extra_linear_3(outputs)
         # print("linear 3 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.activation(outputs)
@@ -135,7 +135,7 @@ def main():
         losses = []
         predictions = []
         targets = []
-        for batch_number, batch in enumerate(val_dataloader):
+        for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
     
             input_ids = batch["input_ids"]
@@ -156,7 +156,27 @@ def main():
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
-        print("acc:", correct/total*100, "loss:", np.mean(losses))
+        print("train acc:", correct/total*100, "train loss:", np.mean(losses))
+
+        with torch.no_grad():
+            losses = []
+            predictions = []
+            targets = []
+            for batch_number, batch in enumerate(val_dataloader):
+                batch.to(device)
+        
+                input_ids = batch["input_ids"]
+                attention_mask = batch["attention_mask"]
+                labels = batch["labels"]
+                sentiment = batch["sentiment"]
+                outputs = model(input_ids, attention_mask, sentiment)
+                loss = loss_fn(outputs, labels)
+                losses.append(loss.item())
+                predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
+                targets.extend(labels.to('cpu').tolist())
+            total = len(targets)
+            correct = np.sum(np.array(predictions) == np.array(targets))
+            print("val acc:", correct/total*100, "val loss:", np.mean(losses))
     return
 
 
