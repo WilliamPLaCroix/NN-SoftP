@@ -48,7 +48,8 @@ model = LlamaForSequenceClassification.from_pretrained(
     num_labels=num_labels,
     id2label=id2lab,
     label2id=lab2id,
-    quantization_config = bnb_config
+    quantization_config = bnb_config,
+    pad_token_id=0
     )
 
 
