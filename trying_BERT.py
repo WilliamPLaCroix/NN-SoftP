@@ -119,14 +119,11 @@ def main():
             optimizer.zero_grad()
             outputs = model(input_ids, attention_mask, sentiment)
             loss = loss_fn(outputs, labels)
-            print(loss)
-            return
+            losses.append(loss.item())
             loss.backward() # this is not working
             optimizer.step()
-            losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(labels.to('cpu').tolist())
-            print(loss.item())
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
