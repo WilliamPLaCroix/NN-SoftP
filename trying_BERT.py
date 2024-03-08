@@ -133,8 +133,8 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
     
-    batch_size = 64
-    learning_rate = 0.01
+    batch_size = 32
+    learning_rate = 0.001
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
@@ -162,7 +162,7 @@ def main():
 
     loss_fn = nn.CrossEntropyLoss()
     model = Classifier(6, language_model).to(device)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
 
     for epoch in range(1000):
