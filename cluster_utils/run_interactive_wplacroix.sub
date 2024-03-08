@@ -8,7 +8,7 @@ output                  = /data/users/wplacroix/logs/output_$(ClusterId).$(Year)
 error                   = /data/users/wplacroix/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 log                     = /data/users/wplacroix/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 request_CPUs            = 1
-request_memory          = 10G
+request_memory          = 20G
 request_GPUs            = 1
-requirements            = (GPUs_GlobalMemoryMb >= 16000) && (machine == "cl18lx.lsv.uni-saarland.de")
+requirements            = (GPUs_GlobalMemoryMb >= 32000) && (machine == "cl18lx.lsv.uni-saarland.de")
 queue 1
