@@ -6,46 +6,36 @@ from huggingface_hub import login
 
 login()
 
-epochs = 10
-batch_size = 8
-learning_rate = 2e-5
-max_length = 512
+EPOCHS = 10
+BATCH_SIZE = 8
+LR = 2e-5
+MAX_LENGTH = 512
 
-checkpoint = "xlm-roberta-base"
+CHECKPOINT = "xlm-roberta-base"
 
-dataset = load_dataset("liar")
+DATASET = "liar"
+NUM_LABELS = 6
 
-num_labels = 6
+METRIC = "f1"
 
-id2lab = {
-    "true":0,
-    "mostly-true":1,
-    "half-true":2,
-    "barely-true":3,
-    "false":4,
-    "pants-fire":5
-    }
-lab2id = {v: k for k, v in id2lab.items()}
+dataset = load_dataset(DATASET)
 
+accuracy = evaluate.load(METRIC)
 
-accuracy = evaluate.load("accuracy")
-
-tokenizer = XLMRobertaTokenizerFast.from_pretrained(checkpoint, padding=True, truncation=True)
+tokenizer = XLMRobertaTokenizerFast.from_pretrained(CHECKPOINT, padding=True, truncation=True)
 tokenizer.pad_token=tokenizer.eos_token
-tokenizer.model_max_len=512
+tokenizer.model_max_len=MAX_LENGTH
 
 
 def tokenize(batch):
-    return tokenizer(batch["statement"], padding="longest", truncation=True, max_length=512)
+    return tokenizer(batch["statement"], padding="longest", truncation=True, max_length=MAX_LENGTH)
 
 tokenized_ds = dataset.map(tokenize, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 model = XLMRobertaForSequenceClassification.from_pretrained(
-    checkpoint,
-    num_labels=num_labels,
-    id2label=id2lab,
-    label2id=lab2id,
+    CHECKPOINT,
+    num_labels=NUM_LABELS,
     classifier_dropout=0.1)
 
 def compute_metrics(eval_pred):
@@ -56,10 +46,10 @@ def compute_metrics(eval_pred):
 
 training_args = TrainingArguments(
     output_dir="clf",
-    learning_rate=learning_rate,
-    per_device_train_batch_size=batch_size,
-    per_device_eval_batch_size=batch_size,
-    num_train_epochs=epochs,
+    learning_rate=LR,
+    per_device_train_batch_size=BATCH_SIZE,
+    per_device_eval_batch_size=BATCH_SIZE,
+    num_train_epochs=EPOCHS,
     weight_decay=0.01,
     evaluation_strategy="epoch",
     save_strategy="no",
