@@ -36,8 +36,8 @@ class Classifier(torch.nn.Module):
 
 
     def forward(self, input_ids, attention_mask, sentiment):
-        # print("input_ids", input_ids.shape, input_ids.dtype)
-        # print(input_ids)
+        print("input_ids", input_ids.shape, input_ids.dtype)
+        print(input_ids)
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask, output_hidden_states=True)
         print("loss", outputs.loss["logits"].shape, outputs.loss["logits"].dtype)
