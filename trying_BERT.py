@@ -60,7 +60,7 @@ class Classifier(torch.nn.Module):
                                     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 dim=1)
         outputs = self.batch_norm(outputs)
-        outputs = self.classifier()
+        outputs = self.classifier(outputs)
         
         print("outputs", outputs)
         outputs = self.activation(outputs)
