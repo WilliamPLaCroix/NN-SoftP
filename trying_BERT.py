@@ -132,7 +132,7 @@ def main():
     )
     
     batch_size = 32
-    learning_rate = 0.1
+    learning_rate = 0.01
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
