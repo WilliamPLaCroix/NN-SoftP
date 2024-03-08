@@ -43,6 +43,7 @@ class Classifier(torch.nn.Module):
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
+        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         outputs = self.classifier(torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
@@ -52,7 +53,7 @@ class Classifier(torch.nn.Module):
                                                 #   sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                                 #   perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                                 #   dim=1))
-        #outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        
         # outputs = self.batch_norm(outputs)
         # print("mean output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
