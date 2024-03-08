@@ -38,15 +38,16 @@ class Classifier(torch.nn.Module):
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         #print("input_ids", input_ids.shape, input_ids.dtype)
         # dummy forward pass, not real architecture
-        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
+        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True)
+        outputs = lm_out.hidden_states[-1]
         #print(outputs)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
-        logits = torch.nn.functional.softmax(outputs.logits, dim=-1)
+        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
-        mean_surprisal = torch.mean(subword_surp.nonzero(), dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        mean_surprisal = torch.mean(subword_surp.nonzero(), dim=1)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         outputs = self.classifier(torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
