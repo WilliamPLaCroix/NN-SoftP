@@ -36,10 +36,10 @@ class Classifier(torch.nn.Module):
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
-        print("input_ids", input_ids.shape, input_ids.dtype)
+        #print("input_ids", input_ids.shape, input_ids.dtype)
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
-        print(outputs)
+        #print(outputs)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
@@ -84,6 +84,9 @@ class Classifier(torch.nn.Module):
         # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
+        print("outputs", outputs.shape, outputs.dtype)
+        print("sentiment", sentiment.shape, sentiment.dtype)
+        print("perplexity", perplexity.shape, perplexity.dtype)
         outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype), perplexity), dim=1))
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
@@ -105,7 +108,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
     
-    batch_size = 1
+    batch_size = 32
     learning_rate = 0.01
 
     API_TOKEN = "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"
