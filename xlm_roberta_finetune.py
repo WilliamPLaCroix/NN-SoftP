@@ -39,7 +39,7 @@ tokenizer.model_max_len=512
 
 
 def tokenize(batch):
-    return tokenizer(batch["text"], padding="longest", truncation=True, max_length=512)
+    return tokenizer(batch["statement"], padding="longest", truncation=True, max_length=512)
 
 tokenized_ds = dataset.map(tokenize, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
