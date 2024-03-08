@@ -19,7 +19,7 @@ class Classifier(torch.nn.Module):
             param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 100
-        self.intermediate_size = 100
+        self.intermediate_size = 6
         self.hidden_size = 100
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   #num_layers=2, batch_first=True, bidirectional=False, dtype=torch.bfloat16)#, proj_size=self.proj_size,)
@@ -82,12 +82,12 @@ class Classifier(torch.nn.Module):
         #outputs = self.reducer(outputs)
         # print("reducer output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        outputs = self.classifier(outputs)
+        #outputs = self.classifier(outputs)
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # outputs = self.activation(outputs)
@@ -109,11 +109,11 @@ def main():
     )
     
     batch_size = 32
-    learning_rate = 0.00001
+    learning_rate = 0.01
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-    language_model = 'google/gemma-2b'
+    language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
