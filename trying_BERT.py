@@ -32,18 +32,19 @@ class Classifier(torch.nn.Module):
         self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.reducer = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.proj_size+3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.proj_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
     def forward(self, input_ids, attention_mask, sentiment):
         # print("input_ids", input_ids.shape, input_ids.dtype)
         # print(input_ids)
         # dummy forward pass, not real architecture
-        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
+        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True, loss=True)
+        surprisal = torch.mean(outputs.loss, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
-        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        outputs = torch.mean(outputs.hidden_states[-1], dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         outputs = self.batch_norm(outputs)
         # print("mean output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
@@ -84,7 +85,7 @@ class Classifier(torch.nn.Module):
         # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype)), dim=1))
+        outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype), surprisal), dim=1))
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # outputs = self.activation(outputs)
@@ -110,7 +111,7 @@ def main():
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-    language_model = "meta-llama/Llama-2-7b-hf"
+    language_model = 'bert-base-uncased'
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
