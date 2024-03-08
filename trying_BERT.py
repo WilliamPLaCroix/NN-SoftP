@@ -115,6 +115,7 @@ def main():
     login(token=API_TOKEN)
     language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
+    tokenizer.pad_token = tokenizer.eos_token
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
