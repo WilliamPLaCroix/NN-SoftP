@@ -109,7 +109,7 @@ def main():
     )
     
     batch_size = 32
-    learning_rate = 0.001
+    learning_rate = 0.0001
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
@@ -144,7 +144,7 @@ def main():
         losses = []
         predictions = []
         targets = []
-        for batch_number, batch in enumerate(test_dataloader):
+        for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
             
             optimizer.zero_grad()
