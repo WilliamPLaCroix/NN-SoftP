@@ -1,15 +1,13 @@
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
-from transformers import AutoModel, AutoModelForCausalLM, DataCollatorWithPadding, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, DataCollatorWithPadding, AutoTokenizer, BitsAndBytesConfig
 import torch
 from huggingface_hub import login
 import numpy as np
-from datasets import load_dataset, Dataset
+from datasets import Dataset
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import pandas as pd
-from tqdm import tqdm
-from transformers import pipeline
 
 class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
@@ -36,94 +34,26 @@ class Classifier(torch.nn.Module):
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
-        #print("input_ids", input_ids.shape, input_ids.dtype)
-        # dummy forward pass, not real architecture
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True)
         outputs = lm_out.hidden_states[-1]
-        #print(outputs)
-        # print("lm output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
         #logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
-        #print("logits", logits.shape, logits.dtype)
         #probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
-        #print("probs", probs.shape, probs.dtype)
         #subword_surp = -1 * torch.log2(probs) * attention_mask
-        #print("subword_surp", subword_surp.shape, subword_surp.dtype)
-        #print("subword_surp", subword_surp.shape, subword_surp.dtype)
         #mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
-        #print("mean_surprisal", mean_surprisal.shape, mean_surprisal.dtype)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         #outputs = torch.cat((outputs, 
                                 #     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                 #     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
                                 #     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 # dim=1)
-        #print("concatenated output", outputs.shape, outputs.dtype)
+
         outputs = self.batch_norm(outputs)
         outputs = self.condenser_1(outputs)
         outputs = self.activation(outputs)
         outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
-        #print("batch norm output", outputs.shape, outputs.dtype)
         outputs = self.classifier(outputs)
-        #print("classifier output", outputs.shape, outputs.dtype)
-        #outputs = self.activation(outputs)
-        #print("activation output", outputs.shape, outputs.dtype)
-        #outputs = self.lstm_classifier(torch.cat((outputs, 
-                                                #   sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                                #   perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                                #   dim=1))
-        
-        # outputs = self.batch_norm(outputs)
-        # print("mean output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.condenser_1(torch.cat((outputs, 
-                                            #  sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                            #  perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                            #     dim=1))
-        # print("condensed output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.activation(outputs)
-
-        #outputs = self.condenser_2(outputs)
-
-        #outputs = self.activation(outputs)
-        
-        # print("activation output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.extra_linear_1(outputs)
-        # print("linear 1 output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.activation(outputs)
-        # print("activation output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.extra_linear_2(outputs)
-        # print("linaer 2 output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.activation(outputs)
-        # print("activation output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.extra_linear_3(outputs)
-        # print("linear 3 output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.activation(outputs)
-        # print("activation output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.reducer(outputs)
-        # print("reducer output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        #outputs = self.activation(outputs)
-        # print("activation output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        # insert classification layers here
-        # surprisal, sentiment, etc.
-        #outputs = self.classifier(outputs)
-        # print("classifier output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
-        # outputs = self.activation(outputs)
-        # print("classifier output", outputs.shape, outputs.dtype)
-        # print("outputs", outputs)
         return outputs
 
 
