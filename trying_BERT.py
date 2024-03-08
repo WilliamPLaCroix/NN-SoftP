@@ -131,7 +131,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
     
-    batch_size = 32
+    batch_size = 64
     learning_rate = 0.01
 
     API_TOKEN = "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"
