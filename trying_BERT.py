@@ -24,8 +24,8 @@ class Classifier(torch.nn.Module):
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   #num_layers=1, batch_first=True, bidirectional=False, dtype=bnb_config.bnb_4bit_compute_dtype)#, proj_size=self.proj_size,)
         #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.activation = torch.nn.Sigmoid()
-        self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size+5, dtype=bnb_config.bnb_4bit_compute_dtype)
+        #self.activation = torch.nn.Sigmoid()
+        #self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size+5, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.condenser_1 = torch.nn.Linear(self.lm_out_size+4, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.condenser_2 = torch.nn.Linear(self.intermediate_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -44,27 +44,27 @@ class Classifier(torch.nn.Module):
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
-        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
+        #logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
         #print("logits", logits.shape, logits.dtype)
-        probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
+        #probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         #print("probs", probs.shape, probs.dtype)
-        subword_surp = -1 * torch.log2(probs) * attention_mask
+        #subword_surp = -1 * torch.log2(probs) * attention_mask
         #print("subword_surp", subword_surp.shape, subword_surp.dtype)
         #print("subword_surp", subword_surp.shape, subword_surp.dtype)
-        mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
+        #mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
         #print("mean_surprisal", mean_surprisal.shape, mean_surprisal.dtype)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-        outputs = torch.cat((outputs, 
-                                    sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
-                                    mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                dim=1)
+        #outputs = torch.cat((outputs, 
+                                #     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                                #     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
+                                #     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                # dim=1)
         #print("concatenated output", outputs.shape, outputs.dtype)
-        outputs = self.batch_norm(outputs)
+        #outputs = self.batch_norm(outputs)
         #print("batch norm output", outputs.shape, outputs.dtype)
         outputs = self.classifier(outputs)
         #print("classifier output", outputs.shape, outputs.dtype)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         #print("activation output", outputs.shape, outputs.dtype)
         #outputs = self.lstm_classifier(torch.cat((outputs, 
                                                 #   sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
