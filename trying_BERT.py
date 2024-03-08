@@ -32,7 +32,7 @@ class Classifier(torch.nn.Module):
         # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.reducer = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.lm_out_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.lm_out_size+5, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
@@ -45,14 +45,14 @@ class Classifier(torch.nn.Module):
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
-        print("logits", logits.shape, logits.dtype)
+        #print("logits", logits.shape, logits.dtype)
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
-        print("probs", probs.shape, probs.dtype)
+        #print("probs", probs.shape, probs.dtype)
         subword_surp = -1 * torch.log2(probs) * attention_mask
-        print("subword_surp", subword_surp.shape, subword_surp.dtype)
-        print("subword_surp", subword_surp.shape, subword_surp.dtype)
+        #print("subword_surp", subword_surp.shape, subword_surp.dtype)
+        #print("subword_surp", subword_surp.shape, subword_surp.dtype)
         mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
-        print("mean_surprisal", mean_surprisal.shape, mean_surprisal.dtype)
+        #print("mean_surprisal", mean_surprisal.shape, mean_surprisal.dtype)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         outputs = self.classifier(torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
