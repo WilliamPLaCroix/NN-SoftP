@@ -1,16 +1,14 @@
 from datasets import load_dataset
-from transformers.data import  *
-from transformers import AutoTokenizer, TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, BitsAndBytesConfig, DataCollatorWithPadding
+from transformers import TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, DataCollatorWithPadding
 import evaluate
 import numpy as np
-import torch
 from huggingface_hub import login
 
 login()
 
 epochs = 10
 batch_size = 8
-learning_rate = 5e-5
+learning_rate = 2e-5
 max_length = 512
 
 checkpoint = "xlm-roberta-base"
@@ -43,7 +41,12 @@ def tokenize(batch):
 tokenized_ds = dataset.map(tokenize, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-model = XLMRobertaForSequenceClassification.from_pretrained(checkpoint, num_labels=num_labels)
+model = XLMRobertaForSequenceClassification.from_pretrained(
+    checkpoint,
+    num_labels=num_labels,
+    id2label=id2lab,
+    label2id=lab2id,
+    classifier_dropout=0.1)
 
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
