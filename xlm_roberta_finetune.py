@@ -5,7 +5,10 @@ from sklearn.metrics import precision_recall_fscore_support
 import numpy as np
 from huggingface_hub import login
 
-login()
+TOK_PATH = "/data/users/jguertler/.cache/token"
+
+with open(TOK_PATH) as file:
+    login(file.readlines())
 
 EPOCHS = 10
 BATCH_SIZE = 8
