@@ -59,10 +59,13 @@ class Classifier(torch.nn.Module):
                                     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
                                     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 dim=1)
+        print("concatenated output", outputs.shape, outputs.dtype)
         outputs = self.batch_norm(outputs)
+        print("batch norm output", outputs.shape, outputs.dtype)
         outputs = self.classifier(outputs)
-        
+        print("classifier output", outputs.shape, outputs.dtype)
         outputs = self.activation(outputs)
+        print("activation output", outputs.shape, outputs.dtype)
         #outputs = self.lstm_classifier(torch.cat((outputs, 
                                                 #   sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                                 #   perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
