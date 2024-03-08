@@ -1,6 +1,7 @@
 from datasets import load_dataset
 from transformers import TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, DataCollatorWithPadding
 import evaluate
+from sklearn.metrics import precision_recall_fscore_support
 import numpy as np
 from huggingface_hub import login
 
@@ -16,11 +17,7 @@ CHECKPOINT = "xlm-roberta-base"
 DATASET = "liar"
 NUM_LABELS = 6
 
-METRIC = "f1"
-
 dataset = load_dataset(DATASET)
-
-accuracy = evaluate.load(METRIC)
 
 tokenizer = XLMRobertaTokenizerFast.from_pretrained(CHECKPOINT, padding=True, truncation=True)
 tokenizer.pad_token=tokenizer.eos_token
@@ -38,10 +35,16 @@ model = XLMRobertaForSequenceClassification.from_pretrained(
     num_labels=NUM_LABELS,
     classifier_dropout=0.1)
 
-def compute_metrics(eval_pred):
-    predictions, labels = eval_pred
-    predictions = np.argmax(predictions, axis=1)
-    return accuracy.compute(predictions=predictions, references=labels)
+
+def compute_metrics(pred):
+    labels = pred.label_ids
+    preds = pred.predictions.argmax(-1)
+    precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average='weighted')
+    return {
+        'precision': precision,
+        'recall': recall,
+        'f1': f1,
+    }
 
 
 training_args = TrainingArguments(
