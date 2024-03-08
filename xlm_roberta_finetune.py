@@ -1,7 +1,6 @@
 from datasets import load_dataset
 from transformers.data import  *
 from transformers import AutoTokenizer, TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, BitsAndBytesConfig, DataCollatorWithPadding
-from peft import get_peft_model, LoraConfig, TaskType
 import evaluate
 import numpy as np
 import torch
