@@ -35,18 +35,16 @@ class Classifier(torch.nn.Module):
         self.classifier = torch.nn.Linear(self.proj_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
-    def forward(self, input_ids, attention_mask, sentiment):
+    def forward(self, input_ids, attention_mask, sentiment, perplexity):
         print("input_ids", input_ids.shape, input_ids.dtype)
         # dummy forward pass, not real architecture
-        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
-        print("loss", outputs.loss.shape, outputs.loss.item())
-        return
-        #surprisal = torch.mean(outputs.loss, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
+        print(outputs)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
-        outputs = torch.mean(outputs.hidden_states[-1], dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-        outputs = self.batch_norm(outputs)
+        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        # outputs = self.batch_norm(outputs)
         # print("mean output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.condenser_1(outputs)
@@ -60,10 +58,10 @@ class Classifier(torch.nn.Module):
         
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.extra_linear_1(outputs)
+        #outputs = self.extra_linear_1(outputs)
         # print("linear 1 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.extra_linear_2(outputs)
@@ -86,7 +84,7 @@ class Classifier(torch.nn.Module):
         # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype), surprisal), dim=1))
+        outputs = self.classifier(torch.cat((outputs, sentiment.to(bnb_config.bnb_4bit_compute_dtype), perplexity), dim=1))
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # outputs = self.activation(outputs)
@@ -124,7 +122,7 @@ def main():
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
-        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'])
+        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
@@ -145,21 +143,16 @@ def main():
         targets = []
         for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
-    
-            input_ids = batch["input_ids"]
-            attention_mask = batch["attention_mask"]
-            labels = batch["labels"]
-            sentiment = batch["sentiment"]
             
             optimizer.zero_grad()
-            outputs = model(input_ids, attention_mask, sentiment)
-            loss = loss_fn(outputs, labels)
+            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+            loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
             loss.backward()
 
             optimizer.step()
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-            targets.extend(labels.to('cpu').tolist())
+            targets.extend(batch["labels"].to('cpu').tolist())
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
@@ -174,16 +167,11 @@ def main():
             targets = []
             for batch_number, batch in enumerate(val_dataloader):
                 batch.to(device)
-        
-                input_ids = batch["input_ids"]
-                attention_mask = batch["attention_mask"]
-                labels = batch["labels"]
-                sentiment = batch["sentiment"]
-                outputs = model(input_ids, attention_mask, sentiment)
-                loss = loss_fn(outputs, labels)
+                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                loss = loss_fn(outputs, batch["labels"])
                 losses.append(loss.item())
                 predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-                targets.extend(labels.to('cpu').tolist())
+                targets.extend(batch["labels"].to('cpu').tolist())
             total = len(targets)
             correct = np.sum(np.array(predictions) == np.array(targets))
             print("val acc:", correct/total*100, "val loss:", np.mean(losses))
