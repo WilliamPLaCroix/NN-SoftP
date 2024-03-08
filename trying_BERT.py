@@ -169,6 +169,7 @@ def main():
         predictions = []
         targets = []
         for batch_number, batch in enumerate(train_dataloader):
+            model.to(bnb_config.bnb_4bit_compute_dtype)
             batch.to(device)
             
             optimizer.zero_grad()
@@ -176,7 +177,7 @@ def main():
             loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
             loss.backward()
-
+            model.float()
             optimizer.step()
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(batch["labels"].to('cpu').tolist())
