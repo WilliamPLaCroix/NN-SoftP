@@ -37,11 +37,11 @@ class Classifier(torch.nn.Module):
 
     def forward(self, input_ids, attention_mask, sentiment):
         print("input_ids", input_ids.shape, input_ids.dtype)
-        print(input_ids)
         # dummy forward pass, not real architecture
-        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True)
+        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
+        print("loss", outputs.keys(), outputs.loss.keys())
         print("loss", outputs.loss["logits"].shape, outputs.loss["logits"].dtype)
-        word_logits = outputs.loss["logits"][input_ids]
+        word_logits = outputs.loss["logits"][:,input_ids[:,]]
         print("word_logits", word_logits.shape, word_logits.dtype)
         surprisal = torch.mean(outputs.loss, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         # print("lm output", outputs.shape, outputs.dtype)
