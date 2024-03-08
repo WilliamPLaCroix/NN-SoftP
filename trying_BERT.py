@@ -25,7 +25,7 @@ class Classifier(torch.nn.Module):
                                   #num_layers=1, batch_first=True, bidirectional=False, dtype=bnb_config.bnb_4bit_compute_dtype)#, proj_size=self.proj_size,)
         #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = torch.nn.Sigmoid()
-        self.batch_norm = torch.nn.BatchNorm1d(6, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size+5, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.condenser_1 = torch.nn.Linear(self.lm_out_size+4, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.condenser_2 = torch.nn.Linear(self.intermediate_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -54,12 +54,14 @@ class Classifier(torch.nn.Module):
         mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
         #print("mean_surprisal", mean_surprisal.shape, mean_surprisal.dtype)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-        outputs = self.classifier(torch.cat((outputs, 
+        outputs = torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
                                     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                dim=1))
+                                dim=1)
         outputs = self.batch_norm(outputs)
+        outputs = self.classifier()
+        
         print("outputs", outputs)
         outputs = self.activation(outputs)
         #outputs = self.lstm_classifier(torch.cat((outputs, 
