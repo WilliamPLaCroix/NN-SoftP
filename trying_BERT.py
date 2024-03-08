@@ -21,9 +21,9 @@ class Classifier(torch.nn.Module):
         self.proj_size = 6
         self.intermediate_size = 10
         self.hidden_size = 100
-        self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
-                                  num_layers=1, batch_first=True, bidirectional=False, dtype=bnb_config.bnb_4bit_compute_dtype)#, proj_size=self.proj_size,)
-        self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
+                                  #num_layers=1, batch_first=True, bidirectional=False, dtype=bnb_config.bnb_4bit_compute_dtype)#, proj_size=self.proj_size,)
+        #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = torch.nn.Sigmoid()
         # self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.condenser_1 = torch.nn.Linear(self.lm_out_size+4, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -32,22 +32,26 @@ class Classifier(torch.nn.Module):
         # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.reducer = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        # self.classifier = torch.nn.Linear(self.proj_size, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.proj_size, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         #print("input_ids", input_ids.shape, input_ids.dtype)
         # dummy forward pass, not real architecture
-        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
+        #outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
         #print(outputs)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         outputs = self.lstm(outputs)[0][:,-1]
-        outputs = self.activation(outputs)
-        outputs = self.lstm_classifier(torch.cat((outputs, 
-                                                  sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                                  perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                                  dim=1))
+        outputs = self.classifier(torch.cat((outputs, 
+                                    sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                dim=1))
+        #outputs = self.activation(outputs)
+        #outputs = self.lstm_classifier(torch.cat((outputs, 
+                                                #   sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                                                #   perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                                #   dim=1))
         #outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         # outputs = self.batch_norm(outputs)
         # print("mean output", outputs.shape, outputs.dtype)
@@ -113,8 +117,8 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
     
-    batch_size = 16
-    learning_rate = 0.0001
+    batch_size = 32
+    learning_rate = 0.01
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
@@ -150,7 +154,7 @@ def main():
         losses = []
         predictions = []
         targets = []
-        for batch_number, batch in enumerate(test_dataloader):
+        for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
             
             optimizer.zero_grad()
