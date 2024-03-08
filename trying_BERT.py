@@ -43,10 +43,15 @@ class Classifier(torch.nn.Module):
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.lstm(outputs)[0][:,-1]
+        logits = torch.nn.functional.softmax(outputs.logits, dim=-1)
+        probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
+        subword_surp = -1 * torch.log2(probs) * attention_mask
+        mean_surprisal = torch.mean(subword_surp.nonzero(), dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         outputs = self.classifier(torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
+                                    mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 dim=1))
         #outputs = self.activation(outputs)
         #outputs = self.lstm_classifier(torch.cat((outputs, 
