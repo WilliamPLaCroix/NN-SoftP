@@ -11,7 +11,6 @@ login()
 epochs = 10
 batch_size = 8
 learning_rate = 5e-5
-lora_r = 12
 max_length = 512
 
 checkpoint = "xlm-roberta-base"
@@ -44,7 +43,7 @@ def tokenize(batch):
 tokenized_ds = dataset.map(tokenize, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-model = XLMRobertaForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+model = XLMRobertaForSequenceClassification.from_pretrained(checkpoint, num_labels=num_labels)
 
 def compute_metrics(eval_pred):
     predictions, labels = eval_pred
