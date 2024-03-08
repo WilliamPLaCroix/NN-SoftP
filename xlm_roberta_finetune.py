@@ -1,74 +1,77 @@
-from datasets import Dataset, DatasetDict
-import pandas as pd
-from transformers import XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, TrainingArguments, Trainer
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from datasets import load_dataset
+from transformers.data import  *
+from transformers import AutoTokenizer, TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, BitsAndBytesConfig, DataCollatorWithPadding
+import evaluate
+import numpy as np
+import torch
+from huggingface_hub import login
 
+login()
 
-train_df = pd.read_csv("/data/users/jguertler/datasets/liar/train.tsv", sep="\t", usecols=[1,2], names=["label", "text"])
-valid_df = pd.read_csv("/data/users/jguertler/datasets/liar/valid.tsv", sep="\t", usecols=[1,2], names=["label", "text"])
+epochs = 10
+batch_size = 8
+learning_rate = 5e-5
+lora_r = 12
+max_length = 512
 
-label_dict = {
+checkpoint = "xlm-roberta-base"
+
+dataset = load_dataset("liar")
+
+num_labels = 6
+
+id2lab = {
     "true":0,
-    "mostly-true":0,
-    "half-true":0,
-    "barely-true":1,
-    "false":1,
-    "pants-fire":1
+    "mostly-true":1,
+    "half-true":2,
+    "barely-true":3,
+    "false":4,
+    "pants-fire":5
     }
+lab2id = {v: k for k, v in id2lab.items()}
 
-train_df["label"] = [label_dict[lab] for lab in train_df.label]
-valid_df["label"] = [label_dict[lab] for lab in valid_df.label]
 
-tokenizer = XLMRobertaTokenizerFast.from_pretrained("xlm-roberta-base", padding=True, truncation=True)
+accuracy = evaluate.load("accuracy")
 
-def encode(batch):
-    return tokenizer(batch["text"], padding="max_length", truncation=True, max_length=512)
+tokenizer = XLMRobertaTokenizerFast.from_pretrained(checkpoint, padding=True, truncation=True)
+tokenizer.pad_token=tokenizer.eos_token
+tokenizer.model_max_len=512
 
-liar_train = Dataset.from_pandas(train_df)
-liar_valid = Dataset.from_pandas(valid_df)
-liar_train = liar_train.map(encode, batched=True)
-liar_valid = liar_valid.map(encode, batched=True)
-data_dict = DatasetDict({"train":liar_train, "valid":liar_valid})
 
-roberta_clf = XLMRobertaForSequenceClassification.from_pretrained("xlm-roberta-base", num_labels=2)
+def tokenize(batch):
+    return tokenizer(batch["text"], padding="longest", truncation=True, max_length=512)
+
+tokenized_ds = dataset.map(tokenize, batched=True)
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+
+model = XLMRobertaForSequenceClassification.from_pretrained(checkpoint, num_labels=2)
+
+def compute_metrics(eval_pred):
+    predictions, labels = eval_pred
+    predictions = np.argmax(predictions, axis=1)
+    return accuracy.compute(predictions=predictions, references=labels)
+
 
 train_args = TrainingArguments(
-    evaluation_strategy="epoch",
-    save_strategy="epoch",
-    logging_strategy="epoch",
-    learning_rate=2e-5,
-    per_device_train_batch_size=16,
-    per_device_eval_batch_size=16,
-    num_train_epochs=5,
+    output_dir="clf",
+    learning_rate=learning_rate,
+    per_device_train_batch_size=batch_size,
+    per_device_eval_batch_size=batch_size,
+    num_train_epochs=epochs,
     weight_decay=0.01,
-    output_dir="./outputs/"
+    evaluation_strategy="epoch",
+    save_strategy="no",
+    load_best_model_at_end=False,
+    push_to_hub=False,
 )
 
-def compute_metrics(pred):
-    labels = pred.label_ids
-    preds = pred.predictions.argmax(-1)
-
-    # Calculate accuracy
-    accuracy = accuracy_score(labels, preds)
-
-   # Calculate precision, recall, and F1-score
-    precision = precision_score(labels, preds, average='weighted', zero_division=1)
-    recall = recall_score(labels, preds, average='weighted')
-    f1 = f1_score(labels, preds, average='weighted')
-
-    return {
-        'accuracy': accuracy,
-        'precision': precision,
-        'recall': recall,
-        'f1': f1
-    }
-
 trainer = Trainer(
-    roberta_clf,
-    train_args,
-    train_dataset=data_dict["train"],
-    eval_dataset=data_dict["valid"],
+    model=model,
+    args=training_args,
+    train_dataset=tokenized_ds["train"],
+    eval_dataset=tokenized_ds["test"],
     tokenizer=tokenizer,
+    data_collator=data_collator,
     compute_metrics=compute_metrics
 )
 
