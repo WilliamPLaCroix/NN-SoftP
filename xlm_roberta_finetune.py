@@ -39,7 +39,7 @@ tokenizer.model_max_len=512
 
 
 def tokenize(batch):
-    return tokenizer(batch["text"], padding="longest", truncation=True, max_length=512)
+    return tokenizer(batch["statement"], padding="longest", truncation=True, max_length=512)
 
 tokenized_ds = dataset.map(tokenize, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
@@ -52,7 +52,7 @@ def compute_metrics(eval_pred):
     return accuracy.compute(predictions=predictions, references=labels)
 
 
-train_args = TrainingArguments(
+training_args = TrainingArguments(
     output_dir="clf",
     learning_rate=learning_rate,
     per_device_train_batch_size=batch_size,
