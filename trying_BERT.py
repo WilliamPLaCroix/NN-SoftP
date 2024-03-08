@@ -144,7 +144,7 @@ def main():
         losses = []
         predictions = []
         targets = []
-        for batch_number, batch in enumerate(train_dataloader):
+        for batch_number, batch in enumerate(test_dataloader):
             batch.to(device)
             
             optimizer.zero_grad()
