@@ -40,8 +40,7 @@ class Classifier(torch.nn.Module):
         # print(input_ids)
         # dummy forward pass, not real architecture
         outputs = self.lm(input_ids, attention_mask, output_hidden_states=True)
-        print("loss", outputs.loss.shape, outputs.loss.dtype)
-        print(outputs.loss)
+        print("loss", outputs.loss)
         surprisal = torch.mean(outputs.loss, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
