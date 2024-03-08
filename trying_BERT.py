@@ -52,8 +52,6 @@ class Classifier(torch.nn.Module):
         #print("subword_surp", subword_surp.shape, subword_surp.dtype)
         #print("subword_surp", subword_surp.shape, subword_surp.dtype)
         mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
-        print(mean_surprisal[0].item())
-        return
         #print("mean_surprisal", mean_surprisal.shape, mean_surprisal.dtype)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         outputs = self.classifier(torch.cat((outputs, 
@@ -61,6 +59,8 @@ class Classifier(torch.nn.Module):
                                     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
                                     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 dim=1))
+        print("classifier output", outputs.shape, outputs.dtype)
+        print("outputs", outputs)
         outputs = self.activation(outputs)
         #outputs = self.lstm_classifier(torch.cat((outputs, 
                                                 #   sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
