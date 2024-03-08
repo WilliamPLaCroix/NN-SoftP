@@ -18,8 +18,8 @@ class Classifier(torch.nn.Module):
         for param in self.lm.base_model.parameters():
             param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
-        self.proj_size = 20
-        self.intermediate_size = 6
+        self.proj_size = 100
+        self.intermediate_size = 100
         self.hidden_size = 100
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   #num_layers=2, batch_first=True, bidirectional=False, dtype=torch.bfloat16)#, proj_size=self.proj_size,)
@@ -82,12 +82,12 @@ class Classifier(torch.nn.Module):
         #outputs = self.reducer(outputs)
         # print("reducer output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        #outputs = self.activation(outputs)
+        outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        #outputs = self.classifier(outputs)
+        outputs = self.classifier(outputs)
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # outputs = self.activation(outputs)
@@ -109,7 +109,7 @@ def main():
     )
     
     batch_size = 32
-    learning_rate = 0.0001
+    learning_rate = 0.00001
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
