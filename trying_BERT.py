@@ -19,11 +19,11 @@ class Classifier(torch.nn.Module):
             param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 6
-        self.intermediate_size = 1000
-        self.hidden_size = 100
-        #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
-                                  #num_layers=2, batch_first=True, bidirectional=False, dtype=torch.bfloat16)#, proj_size=self.proj_size,)
-        
+        self.intermediate_size = 100
+        self.hidden_size = 1000
+        self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
+                                  num_layers=2, batch_first=True, bidirectional=False, dtype=bnb_config.bnb_4bit_compute_dtype)#, proj_size=self.proj_size,)
+        self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = torch.nn.Sigmoid()
         self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.condenser_1 = torch.nn.Linear(self.lm_out_size+4, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -42,20 +42,24 @@ class Classifier(torch.nn.Module):
         #print(outputs)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        #outputs = self.lstm(outputs)[0][:,-1]
-        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        outputs = self.lstm(outputs)[0][:,-1]
+        outputs = self.lstm_classifier(torch.cat((outputs, 
+                                                  sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                                                  perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                                  dim=1))
+        #outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         # outputs = self.batch_norm(outputs)
         # print("mean output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.condenser_1(torch.cat((outputs, 
-                                             sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                             perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                                dim=1))
+        #outputs = self.condenser_1(torch.cat((outputs, 
+                                            #  sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                                            #  perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                            #     dim=1))
         # print("condensed output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
 
-        outputs = self.condenser_2(outputs)
+        #outputs = self.condenser_2(outputs)
 
         #outputs = self.activation(outputs)
         
@@ -76,10 +80,10 @@ class Classifier(torch.nn.Module):
         #outputs = self.extra_linear_3(outputs)
         # print("linear 3 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.reducer(outputs)
+        #outputs = self.reducer(outputs)
         # print("reducer output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.activation(outputs)
