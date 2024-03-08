@@ -38,11 +38,11 @@ class Classifier(torch.nn.Module):
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         #print("input_ids", input_ids.shape, input_ids.dtype)
         # dummy forward pass, not real architecture
-        #outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
+        outputs = self.lm(input_ids, attention_mask, output_hidden_states=True).hidden_states[-1]
         #print(outputs)
         # print("lm output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.lstm(outputs)[0][:,-1]
+        #outputs = self.lstm(outputs)[0][:,-1]
         outputs = self.classifier(torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
