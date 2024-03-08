@@ -19,7 +19,7 @@ class Classifier(torch.nn.Module):
             param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 20
-        self.intermediate_size = 500
+        self.intermediate_size = 6
         self.hidden_size = 100
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   #num_layers=2, batch_first=True, bidirectional=False, dtype=torch.bfloat16)#, proj_size=self.proj_size,)
@@ -53,18 +53,18 @@ class Classifier(torch.nn.Module):
                                                 dim=1))
         # print("condensed output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
 
-        outputs = self.condenser_2(outputs)
+        #outputs = self.condenser_2(outputs)
 
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.extra_linear_1(outputs)
+        #outputs = self.extra_linear_1(outputs)
         # print("linear 1 output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         #outputs = self.extra_linear_2(outputs)
@@ -79,15 +79,15 @@ class Classifier(torch.nn.Module):
         #outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.reducer(outputs)
+        #outputs = self.reducer(outputs)
         # print("reducer output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
-        outputs = self.activation(outputs)
+        #outputs = self.activation(outputs)
         # print("activation output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        outputs = self.classifier(outputs)
+        #outputs = self.classifier(outputs)
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # outputs = self.activation(outputs)
