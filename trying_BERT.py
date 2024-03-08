@@ -62,7 +62,6 @@ class Classifier(torch.nn.Module):
         outputs = self.batch_norm(outputs)
         outputs = self.classifier(outputs)
         
-        print("outputs", outputs)
         outputs = self.activation(outputs)
         #outputs = self.lstm_classifier(torch.cat((outputs, 
                                                 #   sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
