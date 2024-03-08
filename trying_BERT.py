@@ -18,21 +18,21 @@ class Classifier(torch.nn.Module):
         for param in self.lm.base_model.parameters():
             param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
-        self.proj_size = 6
-        self.intermediate_size = 10
+        self.proj_size = 40
+        self.intermediate_size = 400
         self.hidden_size = 100
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
                                   #num_layers=1, batch_first=True, bidirectional=False, dtype=bnb_config.bnb_4bit_compute_dtype)#, proj_size=self.proj_size,)
         #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
-        #self.activation = torch.nn.Sigmoid()
-        #self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size+5, dtype=bnb_config.bnb_4bit_compute_dtype)
-        # self.condenser_1 = torch.nn.Linear(self.lm_out_size+4, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.activation = torch.nn.ReLU()
+        self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.condenser_1 = torch.nn.Linear(self.lm_out_size, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.condenser_2 = torch.nn.Linear(self.intermediate_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        # self.reducer = torch.nn.Linear(self.hidden_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.lm_out_size, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.reducer = torch.nn.Linear(self.intermediate_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.proj_size, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
@@ -60,7 +60,11 @@ class Classifier(torch.nn.Module):
                                 #     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 # dim=1)
         #print("concatenated output", outputs.shape, outputs.dtype)
-        #outputs = self.batch_norm(outputs)
+        outputs = self.batch_norm(outputs)
+        outputs = self.condenser_1(outputs)
+        outputs = self.activation(outputs)
+        outputs = self.reducer(outputs)
+        outputs = self.activation(outputs)
         #print("batch norm output", outputs.shape, outputs.dtype)
         outputs = self.classifier(outputs)
         #print("classifier output", outputs.shape, outputs.dtype)
