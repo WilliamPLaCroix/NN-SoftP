@@ -84,13 +84,10 @@ class Classifier(torch.nn.Module):
         # print("outputs", outputs)
         # insert classification layers here
         # surprisal, sentiment, etc.
-        print("outputs", outputs.shape, outputs.dtype)
-        print("sentiment", sentiment.shape, sentiment.dtype)
-        print("perplexity", perplexity.shape, perplexity.dtype)
         outputs = self.classifier(torch.cat((outputs, 
                                              sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                              perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                                dim=1), )
+                                                dim=1))
         # print("classifier output", outputs.shape, outputs.dtype)
         # print("outputs", outputs)
         # outputs = self.activation(outputs)
@@ -116,7 +113,7 @@ def main():
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
-    language_model = 'bert-base-uncased'
+    language_model = 'google/gemma-2b'
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
