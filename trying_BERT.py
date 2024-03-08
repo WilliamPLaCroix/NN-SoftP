@@ -15,8 +15,8 @@ class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
         super(Classifier, self).__init__()
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
-        for param in self.lm.base_model.parameters():
-            param.requires_grad = False
+        # for param in self.lm.base_model.parameters():
+        #     param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 100
         self.intermediate_size = 6
@@ -109,7 +109,7 @@ def main():
     )
     
     batch_size = 32
-    learning_rate = 0.01
+    learning_rate = 0.001
 
     API_TOKEN = "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"
     login(token=API_TOKEN)
@@ -145,7 +145,7 @@ def main():
         losses = []
         predictions = []
         targets = []
-        for batch_number, batch in enumerate(train_dataloader):
+        for batch_number, batch in enumerate(test_dataloader):
             batch.to(device)
             
             optimizer.zero_grad()
