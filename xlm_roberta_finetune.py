@@ -14,24 +14,23 @@ with open(TOK_PATH, "r", encoding="utf8") as f:
 login(token)
 
 EPOCHS = 10
-BATCH_SIZE = 8
+BATCH_SIZE = 16
 LR = 2e-5
 MAX_LENGTH = 512
 
 CHECKPOINT = "xlm-roberta-base"
 
-DATASET = "liar"
-NUM_LABELS = 6
+DATASET = "imdb"
+NUM_LABELS = 2
 
 dataset = load_dataset(DATASET)
 
-tokenizer = XLMRobertaTokenizerFast.from_pretrained(CHECKPOINT, padding=True, truncation=True)
-tokenizer.pad_token=tokenizer.eos_token
-tokenizer.model_max_len=MAX_LENGTH
+tokenizer = XLMRobertaTokenizerFast.from_pretrained(CHECKPOINT)
 
 
 def tokenize(batch):
-    return tokenizer(batch["statement"], padding="longest", truncation=True, max_length=MAX_LENGTH)
+    return tokenizer(batch["text"], truncation=True)
+
 
 tokenized_ds = dataset.map(tokenize, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
