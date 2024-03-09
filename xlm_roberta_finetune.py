@@ -5,8 +5,7 @@ from sklearn.metrics import precision_recall_fscore_support
 import numpy as np
 from huggingface_hub import login
 
-TOK_PATH = "/data/users/jguertler/.cache/token"
-#TOK_PATH = "/home/wolfingten/.cache/huggingface/token"
+TOK_PATH = "/projects/misinfo_sp/.cache/token"
 
 with open(TOK_PATH, "r", encoding="utf8") as f:
     token = f.read().strip()
