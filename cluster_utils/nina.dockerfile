@@ -64,10 +64,8 @@ RUN mkdir /home/$USER_NAME/.local
 # Change owner of home dir (Note: this is not the lsv nethome)
 RUN chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
 
-#RUN pip install transformers
-
 ENV HF_HOME="/projects/misinfo_sp/.cache/"
-#ENV XDG_CACHE_HOME="/projects/misinfo_sp/.cache/"
+ENV XDG_CACHE_HOME="/projects/misinfo_sp/.cache/"
 RUN echo $HF_HOME
 
 CMD ["/bin/bash"]
