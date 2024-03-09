@@ -10,7 +10,7 @@ TOK_PATH = "/projects/misinfo_sp/.cache/token"
 with open(TOK_PATH, "r", encoding="utf8") as f:
     token = f.read().strip()
 
-login(token)
+#login(token)
 
 EPOCHS = 10
 BATCH_SIZE = 16
@@ -19,7 +19,7 @@ MAX_LENGTH = 512
 
 CHECKPOINT = "xlm-roberta-base"
 
-DATASET = "imdb"
+DATASET = "liar"
 NUM_LABELS = 2
 
 dataset = load_dataset(DATASET)
@@ -28,7 +28,17 @@ tokenizer = XLMRobertaTokenizerFast.from_pretrained(CHECKPOINT)
 
 
 def tokenize(batch):
-    return tokenizer(batch["text"], truncation=True)
+    tokens = tokenizer(batch["statement"], truncation=True)
+    label_mapping = {
+        1: 1,
+        2: 1,
+        3: 1,
+        4: 0,
+        5: 0,
+        0: 0}  # Map positive class labels
+    binary_labels = [label_mapping[label] for label in batch["label"]]
+    tokens["label"] = binary_labels
+    return tokens
 
 
 tokenized_ds = dataset.map(tokenize, batched=True)
