@@ -22,7 +22,6 @@ RUN apt update && \
     curl \
     ca-certificates \
     wget \
-    git\
     vim \
     tmux && \
     rm -rf /var/lib/apt/lists
