@@ -65,8 +65,8 @@ RUN chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
 
 RUN pip install transformers
 
-ENV HF_HOME="/data/users/$USER_NAME/.cache/"
-ENV XDG_CACHE_HOME="/data/users/$USER_NAME/.cache/"
+#ENV HF_HOME="/data/users/$USER_NAME/.cache/"
+#ENV XDG_CACHE_HOME="/data/users/$USER_NAME/.cache/"
 RUN echo $HF_HOME
 
 CMD ["/bin/bash"]
