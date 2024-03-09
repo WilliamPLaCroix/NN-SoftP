@@ -1,3 +1,6 @@
+import os
+
+import wandb
 from datasets import load_dataset
 from transformers import TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, DataCollatorWithPadding
 import evaluate
@@ -5,12 +8,19 @@ from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 import numpy as np
 from huggingface_hub import login
 
-#TOK_PATH = "/projects/misinfo_sp/.cache/token"
+#HF_PATH = "/projects/misinfo_sp/.cache/token"
 #
-#with open(TOK_PATH, "r", encoding="utf8") as f:
-#    token = f.read().strip()
+#with open(HF_PATH, "r", encoding="UTF-8") as f:
+#    hf_tok = f.read().strip()
 #
-#login(token)
+#login(hf_tok)
+
+WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
+
+with open(WANDB_PATH, "r", encoding="UTF-8") as f:
+    wandb_tok = f.read().strip()
+
+wandb.login(wandb_tok)
 
 EPOCHS = 10
 BATCH_SIZE = 16
@@ -62,9 +72,18 @@ def compute_metrics(pred):
         'f1': f1
     }
 
+# set the wandb project where this run will be logged
+os.environ["WANDB_PROJECT"]="roberta_clf"
+
+# save your trained model checkpoint to wandb
+os.environ["WANDB_LOG_MODEL"]="true"
+
+# turn off watch to log faster
+os.environ["WANDB_WATCH"]="false"
 
 training_args = TrainingArguments(
-    output_dir="clf",
+    output_dir="roberta_clf",
+    report_to="wandb",
     learning_rate=LR,
     per_device_train_batch_size=BATCH_SIZE,
     per_device_eval_batch_size=BATCH_SIZE,
