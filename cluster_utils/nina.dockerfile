@@ -21,6 +21,8 @@ RUN apt update && \
     gnupg \
     curl \
     ca-certificates \
+    wget \
+    git\
     vim \
     tmux && \
     rm -rf /var/lib/apt/lists
