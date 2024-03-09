@@ -35,6 +35,7 @@ ENV LANG C.UTF-8
 
 # Install dependencies (this is not necessary when using an *external* mini conda environment)
 RUN python3 -m pip install transformers
+RUN python3 -m pip install wandb
 RUN python3 -m pip install nltk
 RUN python3 -m pip install numpy
 RUN python3 -m pip install pandas

@@ -1,15 +1,15 @@
 from datasets import load_dataset
 from transformers import TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, DataCollatorWithPadding
 import evaluate
-from sklearn.metrics import precision_recall_fscore_support
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 import numpy as np
 from huggingface_hub import login
 
-TOK_PATH = "/projects/misinfo_sp/.cache/token"
-
-with open(TOK_PATH, "r", encoding="utf8") as f:
-    token = f.read().strip()
-
+#TOK_PATH = "/projects/misinfo_sp/.cache/token"
+#
+#with open(TOK_PATH, "r", encoding="utf8") as f:
+#    token = f.read().strip()
+#
 #login(token)
 
 EPOCHS = 10
@@ -53,11 +53,13 @@ model = XLMRobertaForSequenceClassification.from_pretrained(
 def compute_metrics(pred):
     labels = pred.label_ids
     preds = pred.predictions.argmax(-1)
+    accuracy = accuracy_score(labels, preds)
     precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average='weighted')
     return {
+        'accuracy': accuracy,
         'precision': precision,
         'recall': recall,
-        'f1': f1,
+        'f1': f1
     }
 
 
