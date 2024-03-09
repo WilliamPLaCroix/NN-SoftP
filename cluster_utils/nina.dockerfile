@@ -33,9 +33,9 @@ RUN python3 -m pip install --upgrade pip
 ENV LANG C.UTF-8
 
 # Install dependencies (this is not necessary when using an *external* mini conda environment)
-RUN pip install transformers
+RUN python3 -m pip install transformers
+RUN python3 -m pip install nltk
 RUN python3 -m pip install numpy
-RUN python3 -m pip install autopep8
 RUN python3 -m pip install pandas
 RUN python3 -m pip install scikit-learn
 RUN python3 -m pip install datasets
@@ -63,10 +63,10 @@ RUN mkdir /home/$USER_NAME/.local
 # Change owner of home dir (Note: this is not the lsv nethome)
 RUN chown -R ${USER_UID}:${USER_GID} /home/$USER_NAME/
 
-RUN pip install transformers
+#RUN pip install transformers
 
-#ENV HF_HOME="/data/users/$USER_NAME/.cache/"
-#ENV XDG_CACHE_HOME="/data/users/$USER_NAME/.cache/"
+ENV HF_HOME="/projects/misinfo_sp/.cache/"
+#ENV XDG_CACHE_HOME="/projects/misinfo_sp/.cache/"
 RUN echo $HF_HOME
 
 CMD ["/bin/bash"]
