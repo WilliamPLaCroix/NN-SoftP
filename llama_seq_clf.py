@@ -2,8 +2,8 @@ import os
 
 import wandb
 from datasets import load_dataset
-from transformers import AutoTokenizer, TrainingArguments, Trainer, LlamaForSequenceClassification, BitsAndBytesConfig, DataCollatorWithPadding
-from peft import get_peft_model, LoraConfig, TaskType
+from transformers import AutoTokenizer, TrainingArguments, Trainer, AutoModelForSequenceClassification, BitsAndBytesConfig, DataCollatorWithPadding
+from peft import get_peft_model, LoraConfig, TaskType, prepare_model_for_kbit_training
 import torch
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 
@@ -45,7 +45,7 @@ tokenizer.pad_token=tokenizer.eos_token
 
 
 def tokenize(batch):
-    tokens = tokenizer(batch["text"], max_length=MAX_LENGTH, truncation=True)
+    tokens = tokenizer(batch["text"], padding="longest", max_length=MAX_LENGTH, truncation=True)
     return tokens
 
 
@@ -64,11 +64,12 @@ bnb_config = BitsAndBytesConfig(
         bnb_4bit_compute_dtype=torch.bfloat16
     )
 
-model = LlamaForSequenceClassification.from_pretrained(
+model = AutoModelForSequenceClassification.from_pretrained(
     CHECKPOINT,
     num_labels=NUM_LABELS,
+    device_map="auto",
     quantization_config = bnb_config,
-    pad_token_id=2 # same as eos token
+    pad_token_id=tokenizer.pad_token_id # same as eos token
     ).bfloat16()
 
 peft_config = LoraConfig(
@@ -76,9 +77,15 @@ peft_config = LoraConfig(
     inference_mode=False,
     r=LORA_R,
     lora_alpha=32,
-    lora_dropout=0.1
+    lora_dropout=0.1,
+    bias="none",
+        target_modules=[
+        "q_proj",
+        "v_proj"
+        ]
     )
 
+model = prepare_model_for_kbit_training(model)
 model = get_peft_model(model, peft_config)
 model.print_trainable_parameters()
 
