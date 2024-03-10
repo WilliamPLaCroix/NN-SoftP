@@ -16,7 +16,7 @@ from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 ###################
 
 # dataset params
-DATASET = "liar"
+DATASET = "FNHQ/cofacts"
 NUM_LABELS = 2
 
 # model params
@@ -46,7 +46,7 @@ tokenizer.model_max_len=MAX_LENGTH
 
 
 def tokenize(batch):
-    tokens = tokenizer(batch["statement"], truncation=True)
+    tokens = tokenizer(batch["text"], truncation=True)
     label_mapping = {
         1: 1,
         2: 1,
@@ -147,7 +147,7 @@ trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_ds["train"],
-    eval_dataset=tokenized_ds["test"],
+    eval_dataset=tokenized_ds["validation"],
     tokenizer=tokenizer,
     data_collator=data_collator,
     compute_metrics=compute_metrics,
