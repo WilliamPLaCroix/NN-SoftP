@@ -16,14 +16,14 @@ import pickle
 #import matplotlib.pyplot as plt
 
 from huggingface_hub import login
-
+"""
 TOK_PATH = "/projects/misinfo_sp/.cache/token"
 
 with open(TOK_PATH, "r", encoding="utf8") as f:
     token = f.read().strip()
 
 login(token)
-
+"""
 access_token = "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"
 
 ################################################
@@ -31,10 +31,14 @@ access_token = "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"
 ################################################
 
 
-raw_liar_dataset = load_dataset("liar")
-raw_liar_dataset_train = raw_liar_dataset["train"]
-raw_liar_dataset_validation = raw_liar_dataset["validation"]
-raw_liar_dataset_test = raw_liar_dataset["test"]
+#raw_liar_dataset = load_dataset("liar")
+#raw_liar_dataset_train = raw_liar_dataset["train"]
+#raw_liar_dataset_validation = raw_liar_dataset["validation"]
+#raw_liar_dataset_test = raw_liar_dataset["test"]
+
+raw_liar_dataset_train = pd.read_csv("pickle_files/liar_train.csv")
+raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
+raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
 
 
 # open a file, where you stored the pickled data
