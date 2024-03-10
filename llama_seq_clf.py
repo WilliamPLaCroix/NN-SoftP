@@ -26,8 +26,8 @@ CHECKPOINT = "meta-llama/Llama-2-7b-hf"
 EPOCHS = 10
 BATCH_SIZE = 2
 LR = 5e-5
-LORA_R = 12
-MAX_LENGTH = 2000
+LORA_R = 8
+MAX_LENGTH = 500
 
 # logging params
 WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
@@ -47,15 +47,6 @@ tokenizer.model_max_len=MAX_LENGTH
 
 def tokenize(batch):
     tokens = tokenizer(batch["text"], truncation=True)
-    label_mapping = {
-        1: 1,
-        2: 1,
-        3: 1,
-        4: 0,
-        5: 0,
-        0: 0}  # Map positive class labels
-    binary_labels = [label_mapping[label] for label in batch["label"]]
-    tokens["label"] = binary_labels
     return tokens
 
 
