@@ -72,7 +72,7 @@ def main():
 
     batch_size = 32
     learning_rate = 0.01
-    alpha = 0.6
+    alpha = 1
 
     global bnb_config
     bnb_config = BitsAndBytesConfig(
@@ -97,7 +97,7 @@ def main():
             2: 1,
             3: 1,
             4: 1,
-            5: 1,
+            5: 0,
             0: 0}  # Map positive class labels
         binary_labels = [label_mapping[label] for label in data["label"]]
         tokens["label"] = binary_labels
