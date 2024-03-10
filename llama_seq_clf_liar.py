@@ -55,7 +55,7 @@ def tokenize(batch):
         3: 0,
         4: 1,
         5: 1}  # Map positive class labels
-    binary_labels = [label_mapping[label] for label in data["label"]]
+    binary_labels = [label_mapping[label] for label in batch["label"]]
     tokens["label"] = binary_labels
     return tokens
 
