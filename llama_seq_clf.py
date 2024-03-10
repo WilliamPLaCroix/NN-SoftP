@@ -69,7 +69,7 @@ model = LlamaForSequenceClassification.from_pretrained(
     num_labels=NUM_LABELS,
     quantization_config = bnb_config,
     pad_token_id=2 # same as eos token
-    )
+    ).bfloat16()
 
 peft_config = LoraConfig(
     task_type=TaskType.SEQ_CLS,
