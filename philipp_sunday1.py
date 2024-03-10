@@ -11,8 +11,10 @@ from torch.utils.data import DataLoader, Dataset
 from transformers import AutoTokenizer, AutoModel, BitsAndBytesConfig
 from datasets import load_dataset
 
-#import matplotlib.pyplot as plt
+import pickle
 
+#import matplotlib.pyplot as plt
+"""
 from huggingface_hub import login
 
 TOK_PATH = "/projects/misinfo_sp/.cache/token"
@@ -21,14 +23,29 @@ with open(TOK_PATH, "r", encoding="utf8") as f:
     token = f.read().strip()
 
 login(token)
-
+"""
 access_token = "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"
 
 ################################################
 # LOAD LIAR DATASET & SPLIT & TURN INTO PANDAS #
 ################################################
 
+"""
 raw_liar_dataset = load_dataset("liar")
+raw_liar_dataset_train = raw_liar_dataset["train"]
+raw_liar_dataset_validation = raw_liar_dataset["validation"]
+raw_liar_dataset_test = raw_liar_dataset["test"]
+"""
+
+# open a file, where you stored the pickled data
+file = open('pickle_files/liar.pkl', 'rb')
+
+# dump information to that file
+raw_liar_dataset = pickle.load(file)
+
+# close the file
+file.close()
+
 raw_liar_dataset_train = raw_liar_dataset["train"]
 raw_liar_dataset_validation = raw_liar_dataset["validation"]
 raw_liar_dataset_test = raw_liar_dataset["test"]
