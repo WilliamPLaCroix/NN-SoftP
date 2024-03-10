@@ -1,9 +1,11 @@
 import os
+import subprocess
 
+subprocess.run(["pip", "install", "wandb"])
 import wandb
 from datasets import load_dataset
-from transformers import AutoTokenizer, TrainingArguments, Trainer, LlamaForSequenceClassification, BitsAndBytesConfig, DataCollatorWithPadding
-from peft import get_peft_model, LoraConfig, TaskType
+from transformers import AutoTokenizer, TrainingArguments, Trainer, AutoModelForSequenceClassification, BitsAndBytesConfig, DataCollatorWithPadding
+from peft import get_peft_model, LoraConfig, TaskType, prepare_model_for_kbit_training
 import torch
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 
@@ -16,7 +18,7 @@ from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 ###################
 
 # dataset params
-DATASET = "liar"
+DATASET = "FNHQ/cofacts"
 NUM_LABELS = 2
 
 # model params
@@ -24,10 +26,10 @@ CHECKPOINT = "meta-llama/Llama-2-7b-hf"
 
 # train params
 EPOCHS = 10
-BATCH_SIZE = 16
+BATCH_SIZE = 2
 LR = 5e-5
-LORA_R = 12
-MAX_LENGTH = 4096
+LORA_R = 8
+MAX_LENGTH = 500
 
 # logging params
 WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
@@ -42,20 +44,10 @@ dataset = load_dataset(DATASET)
 
 tokenizer = AutoTokenizer.from_pretrained(CHECKPOINT)
 tokenizer.pad_token=tokenizer.eos_token
-tokenizer.model_max_len=MAX_LENGTH
 
 
 def tokenize(batch):
-    tokens = tokenizer(batch["statement"], truncation=True)
-    label_mapping = {
-        1: 1,
-        2: 1,
-        3: 1,
-        4: 0,
-        5: 0,
-        0: 0}  # Map positive class labels
-    binary_labels = [label_mapping[label] for label in batch["label"]]
-    tokens["label"] = binary_labels
+    tokens = tokenizer(batch["text"], padding="longest", max_length=MAX_LENGTH, truncation=True)
     return tokens
 
 
@@ -74,21 +66,28 @@ bnb_config = BitsAndBytesConfig(
         bnb_4bit_compute_dtype=torch.bfloat16
     )
 
-model = LlamaForSequenceClassification.from_pretrained(
+model = AutoModelForSequenceClassification.from_pretrained(
     CHECKPOINT,
     num_labels=NUM_LABELS,
+    device_map="auto",
     quantization_config = bnb_config,
-    pad_token_id=0
-    )
+    pad_token_id=tokenizer.pad_token_id # same as eos token
+    ).bfloat16()
 
 peft_config = LoraConfig(
     task_type=TaskType.SEQ_CLS,
     inference_mode=False,
     r=LORA_R,
     lora_alpha=32,
-    lora_dropout=0.1
+    lora_dropout=0.1,
+    bias="none",
+        target_modules=[
+        "q_proj",
+        "v_proj"
+        ]
     )
 
+model = prepare_model_for_kbit_training(model)
 model = get_peft_model(model, peft_config)
 model.print_trainable_parameters()
 
@@ -147,7 +146,7 @@ trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_ds["train"],
-    eval_dataset=tokenized_ds["test"],
+    eval_dataset=tokenized_ds["validation"],
     tokenizer=tokenizer,
     data_collator=data_collator,
     compute_metrics=compute_metrics,
