@@ -42,11 +42,10 @@ dataset = load_dataset(DATASET)
 
 tokenizer = AutoTokenizer.from_pretrained(CHECKPOINT)
 tokenizer.pad_token=tokenizer.eos_token
-tokenizer.model_max_len=MAX_LENGTH
 
 
 def tokenize(batch):
-    tokens = tokenizer(batch["text"], truncation=True)
+    tokens = tokenizer(batch["text"], max_length=MAX_LENGTH, truncation=True)
     return tokens
 
 
