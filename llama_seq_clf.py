@@ -20,7 +20,7 @@ DATASET = "liar"
 NUM_LABELS = 2
 
 # model params
-CHECKPOINT = "xlm-roberta-base"
+CHECKPOINT = "meta-llama/Llama-2-7b-hf"
 
 # train params
 EPOCHS = 10
