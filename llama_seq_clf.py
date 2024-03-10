@@ -1,38 +1,71 @@
+import os
+
+import wandb
 from datasets import load_dataset
 from transformers import AutoTokenizer, TrainingArguments, Trainer, LlamaForSequenceClassification, BitsAndBytesConfig, DataCollatorWithPadding
 from peft import get_peft_model, LoraConfig, TaskType
-import evaluate
-import numpy as np
 import torch
-from huggingface_hub import login
+from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 
 
-login()
+#from huggingface_hub import login
+#login()
 
-epochs = 10
-batch_size = 8
-learning_rate = 5e-5
-lora_r = 12
-max_length = 512
+###################
+# variables to set
+###################
 
-checkpoint = "meta-llama/Llama-2-7b-hf"
+# dataset params
+DATASET = "liar"
+NUM_LABELS = 2
 
-dataset = load_dataset("liar")
+# model params
+CHECKPOINT = "xlm-roberta-base"
 
-num_labels = 6
+# train params
+EPOCHS = 10
+BATCH_SIZE = 16
+LR = 5e-5
+LORA_R = 12
+MAX_LENGTH = 4096
 
-id2lab = {
-    "true":0,
-    "mostly-true":1,
-    "half-true":2,
-    "barely-true":3,
-    "false":4,
-    "pants-fire":5
-    }
-lab2id = {v: k for k, v in id2lab.items()}
+# logging params
+WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
+WANDB_PROJECT = "llama_clf"
 
 
-accuracy = evaluate.load("accuracy")
+##################
+# dataset
+##################
+
+dataset = load_dataset(DATASET)
+
+tokenizer = AutoTokenizer.from_pretrained(CHECKPOINT)
+tokenizer.pad_token=tokenizer.eos_token
+tokenizer.model_max_len=MAX_LENGTH
+
+
+def tokenize(batch):
+    tokens = tokenizer(batch["statement"], truncation=True)
+    label_mapping = {
+        1: 1,
+        2: 1,
+        3: 1,
+        4: 0,
+        5: 0,
+        0: 0}  # Map positive class labels
+    binary_labels = [label_mapping[label] for label in batch["label"]]
+    tokens["label"] = binary_labels
+    return tokens
+
+
+tokenized_ds = dataset.map(tokenize, batched=True)
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+
+
+#############
+# model
+#############
 
 bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
@@ -40,51 +73,69 @@ bnb_config = BitsAndBytesConfig(
         bnb_4bit_quant_type="nf4",
         bnb_4bit_compute_dtype=torch.bfloat16
     )
+
 model = LlamaForSequenceClassification.from_pretrained(
-    checkpoint,
-    num_labels=num_labels,
-    id2label=id2lab,
-    label2id=lab2id,
+    CHECKPOINT,
+    num_labels=NUM_LABELS,
     quantization_config = bnb_config,
     pad_token_id=0
     )
 
-
 peft_config = LoraConfig(
     task_type=TaskType.SEQ_CLS,
     inference_mode=False,
-    r=lora_r,
+    r=LORA_R,
     lora_alpha=32,
     lora_dropout=0.1
     )
+
 model = get_peft_model(model, peft_config)
 model.print_trainable_parameters()
 
 
-def compute_metrics(eval_pred):
-    predictions, labels = eval_pred
-    predictions = np.argmax(predictions, axis=1)
-    return accuracy.compute(predictions=predictions, references=labels)
+#############
+# logging
+#############
+
+with open(WANDB_PATH, "r", encoding="UTF-8") as f:
+    wandb_tok = f.read().strip()
+
+wandb.login(key=wandb_tok)
+
+# set the wandb project where this run will be logged
+os.environ["WANDB_PROJECT"]=WANDB_PROJECT
+
+# save your trained model checkpoint to wandb
+os.environ["WANDB_LOG_MODEL"]="true"
+
+# turn off watch to log faster
+os.environ["WANDB_WATCH"]="false"
 
 
-tokenizer = AutoTokenizer.from_pretrained(checkpoint)
-tokenizer.pad_token=tokenizer.eos_token
-tokenizer.model_max_len=512
+##############
+# training
+##############
 
+def compute_metrics(pred):
+    labels = pred.label_ids
+    preds = pred.predictions.argmax(-1)
+    accuracy = accuracy_score(labels, preds)
+    precision, recall, f1, _ = precision_recall_fscore_support(labels, preds, average='weighted')
+    return {
+        'accuracy': accuracy,
+        'precision': precision,
+        'recall': recall,
+        'f1': f1
+    }
 
-def tokenize(batch):
-    return tokenizer(batch["statement"], padding="longest", max_length=max_length, truncation=True)
-
-
-tokenized_ds = dataset.map(tokenize, batched=True)
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
 training_args = TrainingArguments(
     output_dir="clf",
-    learning_rate=learning_rate,
-    per_device_train_batch_size=batch_size,
-    per_device_eval_batch_size=batch_size,
-    num_train_epochs=epochs,
+    report_to="wandb",
+    learning_rate=LR,
+    per_device_train_batch_size=BATCH_SIZE,
+    per_device_eval_batch_size=BATCH_SIZE,
+    num_train_epochs=EPOCHS,
     weight_decay=0.01,
     evaluation_strategy="epoch",
     save_strategy="no",
