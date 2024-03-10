@@ -69,6 +69,9 @@ def main():
 
     login(token)
 
+    batch_size = 32
+    learning_rate = 0.0001
+
     global bnb_config
     bnb_config = BitsAndBytesConfig(
         load_in_4bit=True,
@@ -111,9 +114,6 @@ def main():
     train_dataloader = dataloader_from_pickle("train")
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
-
-    batch_size = 32
-    learning_rate = 0.0001
 
     loss_fn = nn.CrossEntropyLoss()
     model = Classifier(language_model).to(device)
