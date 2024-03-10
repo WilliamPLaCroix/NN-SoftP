@@ -8,6 +8,9 @@ from datasets import Dataset
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import pandas as pd
+from huggingface_hub import login
+
+
 
 class Classifier(torch.nn.Module):
     def __init__(self, num_classes, language_model):
@@ -60,6 +63,12 @@ class Classifier(torch.nn.Module):
 
 def main():
 
+    TOK_PATH = "/projects/misinfo_sp/.cache/token"
+
+    with open(TOK_PATH, "r", encoding="utf8") as f:
+        token = f.read().strip()
+
+    login(token)
 
     global bnb_config
     bnb_config = BitsAndBytesConfig(
@@ -72,16 +81,26 @@ def main():
     batch_size = 32
     learning_rate = 0.001
 
-    API_TOKEN = "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"
-    login(token=API_TOKEN)
     language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     tokenizer.pad_token = tokenizer.eos_token
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+    # def tokenize(data):
+    #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
     def tokenize(data):
-        return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
+        tokens = tokenizer(data["statement"], truncation=True)
+        label_mapping = {
+            1: 1,
+            2: 1,
+            3: 1,
+            4: 0,
+            5: 0,
+            0: 0}  # Map positive class labels
+        binary_labels = [label_mapping[label] for label in data["label"]]
+        tokens["label"] = binary_labels
+        return tokens
 
     def dataloader_from_pickle(split):
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
