@@ -166,9 +166,9 @@ def main():
                 targets.extend(batch["labels"].to('cpu').tolist())
             total = len(targets)
             correct = np.sum(np.array(predictions) == np.array(targets))
-            print("val loss:", np.mean(losses), "val acc:", correct/total*100)
-            # print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, "val f1:", 
-            #       f1_score(targets, predictions)*100, "val conf:\n", confusion_matrix(targets, predictions))
+            #print("val loss:", np.mean(losses), "val acc:", correct/total*100)
+            print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, "val f1:", 
+                  "val conf:\n", confusion_matrix(targets, predictions)) #f1_score(targets, predictions)*100,
 
     return
 
