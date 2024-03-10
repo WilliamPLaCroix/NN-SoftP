@@ -8,6 +8,7 @@ from datasets import Dataset
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import pandas as pd
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
 
 
@@ -115,7 +116,9 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
-    loss_fn = nn.CrossEntropyLoss()
+    class_weights = torch.tensor([0.8, 0.2]).to(device)
+
+    loss_fn = nn.CrossEntropyLoss(weight=class_weights)
     model = Classifier(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
@@ -140,7 +143,8 @@ def main():
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
-        print("train acc:", correct/total*100, "train loss:", np.mean(losses))
+        print("train acc:", accuracy_score(targets, predictions)*100, "train loss:", np.mean(losses))
+        
 
         model.eval()
         with torch.no_grad():
@@ -157,7 +161,9 @@ def main():
                 targets.extend(batch["labels"].to('cpu').tolist())
             total = len(targets)
             correct = np.sum(np.array(predictions) == np.array(targets))
-            print("val acc:", correct/total*100, "val loss:", np.mean(losses))
+            print("val loss:", np.mean(losses))
+            print("val acc:", accuracy_score(targets, predictions)*100, "val f1:", f1_score(targets, predictions)*100, "val conf:", confusion_matrix(targets, predictions))
+
     return
 
 if __name__ == "__main__":
