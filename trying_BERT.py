@@ -143,10 +143,11 @@ def main():
             targets.extend(batch["labels"].to('cpu').tolist())
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
-        # total = len(targets)
-        # correct = np.sum(np.array(predictions) == np.array(targets))
-        print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100, "train f1:", 
-              f1_score(targets, predictions)*100, "train conf:\n", confusion_matrix(targets, predictions))
+        total = len(targets)
+        correct = np.sum(np.array(predictions) == np.array(targets))
+        print("train loss:", np.mean(losses), "train acc:", correct/total*100)
+        # print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100, "train f1:", 
+        #       f1_score(targets, predictions)*100, "train conf:\n", confusion_matrix(targets, predictions))
         
 
         model.eval()
