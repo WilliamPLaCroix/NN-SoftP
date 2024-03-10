@@ -88,10 +88,10 @@ def main():
     def tokenize(data):
         tokens = tokenizer(data["statement"], truncation=True)
         label_mapping = {
-            1: 1,
+            1: 2,
             2: 1,
             3: 1,
-            4: 0,
+            4: 2,
             5: 0,
             0: 0}  # Map positive class labels
         binary_labels = [label_mapping[label] for label in data["label"]]
@@ -113,7 +113,7 @@ def main():
     test_dataloader = dataloader_from_pickle("test")
 
     batch_size = 32
-    learning_rate = 0.001
+    learning_rate = 0.0001
 
     loss_fn = nn.CrossEntropyLoss()
     model = Classifier(language_model).to(device)
@@ -159,7 +159,6 @@ def main():
             correct = np.sum(np.array(predictions) == np.array(targets))
             print("val acc:", correct/total*100, "val loss:", np.mean(losses))
     return
-
 
 if __name__ == "__main__":
 
