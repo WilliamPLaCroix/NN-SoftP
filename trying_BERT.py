@@ -70,7 +70,7 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.0001
+    learning_rate = 0.001
 
     global bnb_config
     bnb_config = BitsAndBytesConfig(
@@ -91,11 +91,11 @@ def main():
     def tokenize(data):
         tokens = tokenizer(data["statement"], truncation=True)
         label_mapping = {
-            1: 2,
+            1: 1,
             2: 1,
             3: 1,
             4: 2,
-            5: 0,
+            5: 1,
             0: 0}  # Map positive class labels
         binary_labels = [label_mapping[label] for label in data["label"]]
         tokens["label"] = binary_labels
