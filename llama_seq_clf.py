@@ -24,10 +24,10 @@ CHECKPOINT = "meta-llama/Llama-2-7b-hf"
 
 # train params
 EPOCHS = 10
-BATCH_SIZE = 4
+BATCH_SIZE = 2
 LR = 5e-5
 LORA_R = 12
-MAX_LENGTH = 4096
+MAX_LENGTH = 2000
 
 # logging params
 WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
