@@ -3,34 +3,34 @@ import os
 import wandb
 from datasets import load_dataset
 from transformers import TrainingArguments, Trainer, XLMRobertaForSequenceClassification, XLMRobertaTokenizerFast, DataCollatorWithPadding
-import evaluate
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score
-import numpy as np
-from huggingface_hub import login
 
-#HF_PATH = "/projects/misinfo_sp/.cache/token"
-#
-#with open(HF_PATH, "r", encoding="UTF-8") as f:
-#    hf_tok = f.read().strip()
-#
-#login(hf_tok)
 
-WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
+###################
+# variables to set
+###################
 
-with open(WANDB_PATH, "r", encoding="UTF-8") as f:
-    wandb_tok = f.read().strip()
+# dataset params
+DATASET = "liar"
+NUM_LABELS = 2
 
-wandb.login(key=wandb_tok)
+# model params
+CHECKPOINT = "xlm-roberta-base"
 
+# train params
 EPOCHS = 10
 BATCH_SIZE = 16
 LR = 2e-5
 MAX_LENGTH = 512
 
-CHECKPOINT = "xlm-roberta-base"
+# logging params
+WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
+WANDB_PROJECT = "roberta_clf"
 
-DATASET = "liar"
-NUM_LABELS = 2
+
+##################
+# dataset
+##################
 
 dataset = load_dataset(DATASET)
 
@@ -54,11 +54,28 @@ def tokenize(batch):
 tokenized_ds = dataset.map(tokenize, batched=True)
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
+
+#############
+# model
+#############
+
 model = XLMRobertaForSequenceClassification.from_pretrained(
     CHECKPOINT,
     num_labels=NUM_LABELS,
-    classifier_dropout=0.1)# set the wandb project where this run will be logged
-os.environ["WANDB_PROJECT"]="my-awesome-project"
+    classifier_dropout=0.1)
+
+
+#############
+# logging
+#############
+
+with open(WANDB_PATH, "r", encoding="UTF-8") as f:
+    wandb_tok = f.read().strip()
+
+wandb.login(key=wandb_tok)
+
+# set the wandb project where this run will be logged
+os.environ["WANDB_PROJECT"]=WANDB_PROJECT
 
 # save your trained model checkpoint to wandb
 os.environ["WANDB_LOG_MODEL"]="true"
@@ -66,6 +83,10 @@ os.environ["WANDB_LOG_MODEL"]="true"
 # turn off watch to log faster
 os.environ["WANDB_WATCH"]="false"
 
+
+##############
+# training
+##############
 
 def compute_metrics(pred):
     labels = pred.label_ids
@@ -79,14 +100,6 @@ def compute_metrics(pred):
         'f1': f1
     }
 
-# set the wandb project where this run will be logged
-os.environ["WANDB_PROJECT"]="roberta_clf"
-
-# save your trained model checkpoint to wandb
-os.environ["WANDB_LOG_MODEL"]="true"
-
-# turn off watch to log faster
-os.environ["WANDB_WATCH"]="false"
 
 training_args = TrainingArguments(
     output_dir="roberta_clf",
