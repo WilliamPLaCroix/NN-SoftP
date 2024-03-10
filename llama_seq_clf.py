@@ -24,7 +24,7 @@ CHECKPOINT = "meta-llama/Llama-2-7b-hf"
 
 # train params
 EPOCHS = 10
-BATCH_SIZE = 16
+BATCH_SIZE = 4
 LR = 5e-5
 LORA_R = 12
 MAX_LENGTH = 4096
