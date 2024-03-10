@@ -33,7 +33,7 @@ class Classifier(torch.nn.Module):
         # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.reducer = torch.nn.Linear(self.intermediate_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.proj_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.lm_out_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
@@ -51,11 +51,11 @@ class Classifier(torch.nn.Module):
                                 #     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 # dim=1)
 
-        outputs = self.batch_norm(outputs)
-        outputs = self.condenser_1(outputs)
-        outputs = self.activation(outputs)
-        outputs = self.reducer(outputs)
-        outputs = self.activation(outputs)
+        # outputs = self.batch_norm(outputs)
+        # outputs = self.condenser_1(outputs)
+        # outputs = self.activation(outputs)
+        # outputs = self.reducer(outputs)
+        # outputs = self.activation(outputs)
         outputs = self.classifier(outputs)
         return outputs
 
@@ -72,6 +72,7 @@ def main():
 
     batch_size = 32
     learning_rate = 0.01
+    alpha = 0.6
 
     global bnb_config
     bnb_config = BitsAndBytesConfig(
@@ -119,7 +120,7 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
-    loss_fn = nn.CrossEntropyLoss(weight=class_weights)
+    loss_fn = nn.CrossEntropyLoss(weight=class_weights*alpha)
     model = Classifier(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
