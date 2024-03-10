@@ -116,7 +116,7 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
-    class_weights = torch.tensor([0.8, 0.2]).to(device)
+    class_weights = torch.tensor([0.8, 0.2], dtype=bnb_config.bnb_4bit_compute_dtype).to(device)
 
     loss_fn = nn.CrossEntropyLoss(weight=class_weights)
     model = Classifier(language_model).to(device)
