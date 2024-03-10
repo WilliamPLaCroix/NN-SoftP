@@ -41,6 +41,7 @@ WANDB_PROJECT = "llama_clf_liar"
 ##################
 
 dataset = load_dataset(DATASET)
+dataset = dataset.select_columns(["statement", "label"])
 
 tokenizer = AutoTokenizer.from_pretrained(CHECKPOINT)
 tokenizer.pad_token=tokenizer.eos_token
