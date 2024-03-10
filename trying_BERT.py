@@ -119,8 +119,6 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
-    class_weights = [0.8, 0.2]
-
     loss_fn = nn.CrossEntropyLoss(weight=class_weights)
     model = Classifier(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
