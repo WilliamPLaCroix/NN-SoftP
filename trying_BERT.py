@@ -8,12 +8,11 @@ from datasets import Dataset
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import pandas as pd
-from huggingface_hub import login
 
 
 
 class Classifier(torch.nn.Module):
-    def __init__(self, num_classes, language_model):
+    def __init__(self, language_model):
         super(Classifier, self).__init__()
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
         for param in self.lm.base_model.parameters():
@@ -33,7 +32,7 @@ class Classifier(torch.nn.Module):
         # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.reducer = torch.nn.Linear(self.intermediate_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.proj_size, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.proj_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
@@ -77,9 +76,6 @@ def main():
         bnb_4bit_quant_type="nf4",
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
-    
-    batch_size = 32
-    learning_rate = 0.001
 
     language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
@@ -106,6 +102,8 @@ def main():
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
+        global number_of_labels
+        number_of_labels = len(set(tokenized_dataset["label"]))
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -114,9 +112,11 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
+    batch_size = 32
+    learning_rate = 0.001
 
     loss_fn = nn.CrossEntropyLoss()
-    model = Classifier(6, language_model).to(device)
+    model = Classifier(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
 
