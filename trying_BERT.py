@@ -40,16 +40,16 @@ class Classifier(torch.nn.Module):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True)
         outputs = lm_out.hidden_states[-1]
         #outputs = self.lstm(outputs)[0][:,-1]
-        #logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
-        #probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
-        #subword_surp = -1 * torch.log2(probs) * attention_mask
-        #mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
+        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
+        probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
+        subword_surp = -1 * torch.log2(probs) * attention_mask
+        mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-        #outputs = torch.cat((outputs, 
-                                #     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                #     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
-                                #     mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                # dim=1)
+        outputs = torch.cat((outputs, 
+                                    sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
+                                    mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                dim=1)
 
         # outputs = self.batch_norm(outputs)
         # outputs = self.condenser_1(outputs)
@@ -71,7 +71,7 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.01
+    learning_rate = 0.001
     alpha = 1
 
     global bnb_config
@@ -93,12 +93,12 @@ def main():
     def tokenize(data):
         tokens = tokenizer(data["statement"])
         label_mapping = {
+            0: 0,
             1: 1,
-            2: 1,
-            3: 1,
-            4: 1,
-            5: 0,
-            0: 0}  # Map positive class labels
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5}  # Map positive class labels
         binary_labels = [label_mapping[label] for label in data["label"]]
         tokens["label"] = binary_labels
         return tokens
@@ -162,10 +162,11 @@ def main():
                 losses.append(loss.item())
                 predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets.extend(batch["labels"].to('cpu').tolist())
-            # total = len(targets)
-            # correct = np.sum(np.array(predictions) == np.array(targets))
-            print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, "val f1:", 
-                  f1_score(targets, predictions)*100, "val conf:\n", confusion_matrix(targets, predictions))
+            total = len(targets)
+            correct = np.sum(np.array(predictions) == np.array(targets))
+            print("val loss:", np.mean(losses), "val acc:", correct/total*100)
+            # print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, "val f1:", 
+            #       f1_score(targets, predictions)*100, "val conf:\n", confusion_matrix(targets, predictions))
 
     return
 
