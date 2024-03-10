@@ -12,7 +12,7 @@ from transformers import AutoTokenizer, AutoModel, BitsAndBytesConfig
 from datasets import load_dataset
 
 #import matplotlib.pyplot as plt
-"""
+
 from huggingface_hub import login
 
 TOK_PATH = "/projects/misinfo_sp/.cache/token"
@@ -21,7 +21,7 @@ with open(TOK_PATH, "r", encoding="utf8") as f:
     token = f.read().strip()
 
 login(token)
-"""
+
 access_token = "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"
 
 ################################################
