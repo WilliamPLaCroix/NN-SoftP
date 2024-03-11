@@ -148,6 +148,8 @@ def main():
             optimizer.step()
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(batch["labels"].to('cpu').tolist())
+            for name, param in model.named_parameters():
+                  print("Model Parameters",name, torch.isfinite(param.grad).all())
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
