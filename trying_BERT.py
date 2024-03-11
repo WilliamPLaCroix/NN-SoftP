@@ -48,8 +48,8 @@ class Classifier(torch.nn.Module):
         outputs = self.batch_norm(outputs)
         outputs = torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)),
-                                    # mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
+                                    mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                                 dim=1)
 
         # outputs = self.batch_norm(outputs)
