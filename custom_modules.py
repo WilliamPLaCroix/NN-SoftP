@@ -88,7 +88,8 @@ class LlamaClfCnn(LlamaPreTrainedModel):
         )
 
         hidden_states = transformer_outputs[0]
-        x = self.conv1(hidden_states)
+        x = hidden_states.transpose(1,2)
+        x = self.conv1(x)
         x = self.relu(x)
         x = self.pool(x)
         x = x.flatten(start_dim=1)
