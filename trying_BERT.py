@@ -58,6 +58,7 @@ class Classifier(torch.nn.Module):
         outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
         outputs = self.classifier(outputs)
+        print(outputs)
         return outputs
 
 
