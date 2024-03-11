@@ -111,12 +111,12 @@ def main():
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
-        weights = torch.tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-        class_proportions = torch.tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
+        weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
+        class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
                                      dtype=bnb_config.bnb_4bit_compute_dtype)
         global class_weights
         class_weights = weights / class_proportions
-        class_weights.to(device)
+        class_weights
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -125,7 +125,7 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
-    loss_fn = nn.CrossEntropyLoss(weight=class_weights*alpha)
+    loss_fn = nn.CrossEntropyLoss(weight=class_weights.to(device))#*alpha)
     model = Classifier(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
