@@ -45,7 +45,7 @@ class Classifier(torch.nn.Module):
         subword_surp = -1 * torch.log2(probs) * attention_mask
         mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-        outputs = self.batch_norm(outputs)
+        #outputs = self.batch_norm(outputs)
         outputs = torch.cat((outputs, 
                                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                                     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
