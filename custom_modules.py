@@ -1,9 +1,9 @@
 from typing import List, Optional, Tuple, Union
 
-from transformers import Trainer, LlamaPreTrainedModel, LlamaModel, LlamaConfig
+from transformers import Trainer, LlamaPreTrainedModel, LlamaModel
 from transformers.modeling_outputs import SequenceClassifierOutputWithPast
 from torch import nn
-from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
+from torch.nn import CrossEntropyLoss
 import torch
 
 
@@ -86,7 +86,7 @@ class LlamaClfCnn(LlamaPreTrainedModel):
             output_hidden_states=output_hidden_states,
             return_dict=return_dict,
         )
-        
+
         hidden_states = transformer_outputs[0]
         x = self.conv1(hidden_states)
         x = self.relu(x)
@@ -95,56 +95,56 @@ class LlamaClfCnn(LlamaPreTrainedModel):
         x = self.reduce(x)
         logits = self.score(x)
 
-        if input_ids is not None:
-            batch_size = input_ids.shape[0]
-        else:
-            batch_size = inputs_embeds.shape[0]
-
-        if self.config.pad_token_id is None and batch_size != 1:
-            raise ValueError("Cannot handle batch sizes > 1 if no padding token is defined.")
-        if self.config.pad_token_id is None:
-            sequence_lengths = -1
-        else:
-            if input_ids is not None:
-                # if no pad token found, use modulo instead of reverse indexing for ONNX compatibility
-                sequence_lengths = torch.eq(input_ids, self.config.pad_token_id).int().argmax(-1) - 1
-                sequence_lengths = sequence_lengths % input_ids.shape[-1]
-                sequence_lengths = sequence_lengths.to(logits.device)
-            else:
-                sequence_lengths = -1
-
-        pooled_logits = logits[torch.arange(batch_size, device=logits.device), sequence_lengths]
+#        if input_ids is not None:
+#            batch_size = input_ids.shape[0]
+#        else:
+#            batch_size = inputs_embeds.shape[0]
+#
+#        if self.config.pad_token_id is None and batch_size != 1:
+#            raise ValueError("Cannot handle batch sizes > 1 if no padding token is defined.")
+#        if self.config.pad_token_id is None:
+#            sequence_lengths = -1
+#        else:
+#            if input_ids is not None:
+#                # if no pad token found, use modulo instead of reverse indexing for ONNX compatibility
+#                sequence_lengths = torch.eq(input_ids, self.config.pad_token_id).int().argmax(-1) - 1
+#                sequence_lengths = sequence_lengths % input_ids.shape[-1]
+#                sequence_lengths = sequence_lengths.to(logits.device)
+#            else:
+#                sequence_lengths = -1
+#
+#        pooled_logits = logits[torch.arange(batch_size, device=logits.device), sequence_lengths]
 
         loss = None
         if labels is not None:
             labels = labels.to(logits.device)
-            if self.config.problem_type is None:
-                if self.num_labels == 1:
-                    self.config.problem_type = "regression"
-                elif self.num_labels > 1 and (labels.dtype == torch.long or labels.dtype == torch.int):
-                    self.config.problem_type = "single_label_classification"
-                else:
-                    self.config.problem_type = "multi_label_classification"
-
-            if self.config.problem_type == "regression":
-                loss_fct = MSELoss()
-                if self.num_labels == 1:
-                    loss = loss_fct(pooled_logits.squeeze(), labels.squeeze())
-                else:
-                    loss = loss_fct(pooled_logits, labels)
-            elif self.config.problem_type == "single_label_classification":
-                loss_fct = CrossEntropyLoss()
-                loss = loss_fct(pooled_logits.view(-1, self.num_labels), labels.view(-1))
-            elif self.config.problem_type == "multi_label_classification":
-                loss_fct = BCEWithLogitsLoss()
-                loss = loss_fct(pooled_logits, labels)
+#            if self.config.problem_type is None:
+#                if self.num_labels == 1:
+#                    self.config.problem_type = "regression"
+#                elif self.num_labels > 1 and (labels.dtype == torch.long or labels.dtype == torch.int):
+#                    self.config.problem_type = "single_label_classification"
+#                else:
+#                    self.config.problem_type = "multi_label_classification"
+#
+#            if self.config.problem_type == "regression":
+#                loss_fct = MSELoss()
+#                if self.num_labels == 1:
+#                    loss = loss_fct(pooled_logits.squeeze(), labels.squeeze())
+#                else:
+#                    loss = loss_fct(pooled_logits, labels)
+#            elif self.config.problem_type == "single_label_classification":
+            loss_fct = CrossEntropyLoss()
+            loss = loss_fct(logits.view(-1, self.num_labels), labels.view(-1))
+#            elif self.config.problem_type == "multi_label_classification":
+#                loss_fct = BCEWithLogitsLoss()
+#                loss = loss_fct(pooled_logits, labels)
         if not return_dict:
-            output = (pooled_logits,) + transformer_outputs[1:]
+            output = (logits,) + transformer_outputs[1:]
             return ((loss,) + output) if loss is not None else output
 
         return SequenceClassifierOutputWithPast(
             loss=loss,
-            logits=pooled_logits,
+            logits=logits,
             past_key_values=transformer_outputs.past_key_values,
             hidden_states=transformer_outputs.hidden_states,
             attentions=transformer_outputs.attentions,
