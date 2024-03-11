@@ -150,7 +150,7 @@ def main():
             targets.extend(batch["labels"].to('cpu').tolist())
             for name, param in model.named_parameters():
                 try:
-                    print("Model Parameters",name, torch.isfinite(param.grad).all(), "max param.grad", torch.max(abs(param.grad)))
+                    print("Model Parameters",name, torch.isfinite(param.grad).all(), "max param.grad", torch.max(abs(param.grad)), "dtype=", param.grad)
                 except TypeError:
                     print("Model Parameters",name, "NoneType")
         print("max memory allocated:", torch.cuda.max_memory_allocated())
