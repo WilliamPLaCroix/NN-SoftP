@@ -111,7 +111,7 @@ def main():
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
-        weights = torch.Tensor([dataset_length for _ in range(dataset_length)], 
+        weights = torch.Tensor([dataset_length for _ in range(number_of_labels)], 
                                      dtype=bnb_config.bnb_4bit_compute_dtype)
         class_proportions = torch.tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
                                      dtype=bnb_config.bnb_4bit_compute_dtype)
