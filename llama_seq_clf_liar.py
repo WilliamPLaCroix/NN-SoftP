@@ -1,7 +1,5 @@
 import os
-import subprocess
 
-subprocess.run(["pip", "install", "wandb"])
 import wandb
 from datasets import load_dataset
 from transformers import AutoTokenizer, TrainingArguments, Trainer, AutoModelForSequenceClassification, BitsAndBytesConfig, DataCollatorWithPadding
@@ -9,6 +7,7 @@ from peft import get_peft_model, LoraConfig, TaskType, prepare_model_for_kbit_tr
 import torch
 from sklearn.metrics import precision_recall_fscore_support, accuracy_score
 
+from custom_modules import WeightedCELossTrainer
 
 #from huggingface_hub import login
 #login()
@@ -29,7 +28,7 @@ EPOCHS = 10
 BATCH_SIZE = 2
 LR = 5e-5
 LORA_R = 8
-MAX_LENGTH = 500
+MAX_LENGTH = 2000
 
 # logging params
 WANDB_PATH = "/data/users/jguertler/.cache/wandb.tok"
@@ -41,6 +40,7 @@ WANDB_PROJECT = "llama_clf_liar"
 ##################
 
 dataset = load_dataset(DATASET)
+dataset = dataset.select_columns(["statement", "label"])
 
 tokenizer = AutoTokenizer.from_pretrained(CHECKPOINT)
 tokenizer.pad_token=tokenizer.eos_token
@@ -90,9 +90,10 @@ peft_config = LoraConfig(
     lora_alpha=32,
     lora_dropout=0.1,
     bias="none",
-        target_modules=[
-        "q_proj",
-        "v_proj"
+    target_modules=[
+#        "q_proj",
+#        "v_proj" # q, v most effective for whole model ()
+        "score"
         ]
     )
 
@@ -151,7 +152,17 @@ training_args = TrainingArguments(
     push_to_hub=False,
 )
 
-trainer = Trainer(
+#trainer = Trainer(
+#    model=model,
+#    args=training_args,
+#    train_dataset=tokenized_ds["train"],
+#    eval_dataset=tokenized_ds["validation"],
+#    tokenizer=tokenizer,
+#    data_collator=data_collator,
+#    compute_metrics=compute_metrics,
+#)
+
+trainer = WeightedCELossTrainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_ds["train"],
