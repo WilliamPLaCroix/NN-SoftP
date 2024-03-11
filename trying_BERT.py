@@ -81,7 +81,7 @@ def main():
         load_in_4bit=True,
         bnb_4bit_use_double_quant=True,
         bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.bfloat16,
+        bnb_4bit_compute_dtype=torch.float32,
     )
 
     language_model = "meta-llama/Llama-2-7b-hf"
@@ -150,7 +150,7 @@ def main():
             targets.extend(batch["labels"].to('cpu').tolist())
             for name, param in model.named_parameters():
                 try:
-                    print("Model Parameters",name, torch.isfinite(param.grad).all())
+                    print("Model Parameters",name, torch.isfinite(param.grad).all(), "max param.grad", torch.max(abs(param.grad)))
                 except TypeError:
                     print("Model Parameters",name, "NoneType")
         print("max memory allocated:", torch.cuda.max_memory_allocated())
