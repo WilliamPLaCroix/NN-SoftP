@@ -1,7 +1,5 @@
 import os
-import subprocess
 
-subprocess.run(["pip", "install", "wandb"])
 import wandb
 from datasets import load_dataset
 from transformers import AutoTokenizer, TrainingArguments, Trainer, AutoModelForSequenceClassification, BitsAndBytesConfig, DataCollatorWithPadding
