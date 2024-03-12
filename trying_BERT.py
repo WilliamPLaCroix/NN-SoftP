@@ -85,7 +85,7 @@ class CNN(nn.Module):
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids).hidden_states[-1]
         print(f"Input shape: {lm_out.shape}")
-        outputs = outputs.permute(0,2,1)
+        outputs = lm_out.permute(0,2,1)
         outputs = self.conv1(outputs)
         print(f"After conv1 shape: {outputs.shape}")
         outputs = self.relu(outputs)
