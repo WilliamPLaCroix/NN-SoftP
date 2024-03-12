@@ -22,7 +22,7 @@ class Classifier(torch.nn.Module):
         self.intermediate_size = 100
         self.hidden_size = 10
         self.lstm = torch.nn.LSTM(input_size=self.intermediate_size, hidden_size=self.hidden_size, 
-                                  num_layers=1, batch_first=True, bidirectional=False), #proj_size=self.proj_size,)
+                                  num_layers=1, batch_first=True, bidirectional=False) #proj_size=self.proj_size,)
         #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = torch.nn.LeakyReLU()
         self.batch_norm = torch.nn.BatchNorm1d(self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -41,11 +41,7 @@ class Classifier(torch.nn.Module):
         outputs = lm_out.hidden_states[-1]
         outputs = self.reducer(outputs.to(bnb_config.bnb_4bit_compute_dtype))
         outputs = self.activation(outputs).to(torch.float32)
-        print(outputs.dtype, "outputs.dtype", outputs.shape, "outputs.shape")
-        print(outputs)
-        outputs = self.lstm(outputs)#[0][:,-1]
-        print(outputs)
-        print(outputs[0].dtype, "outputs[0].dtype", outputs[0].shape, "outputs[0].shape")
+        outputs = self.lstm(outputs)[0][:,-1]
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
