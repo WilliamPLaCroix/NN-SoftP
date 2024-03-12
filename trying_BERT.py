@@ -41,6 +41,7 @@ class Classifier(torch.nn.Module):
         outputs = lm_out.hidden_states[-1]
         outputs = self.reducer(outputs.to(bnb_config.bnb_4bit_compute_dtype))
         outputs = self.activation(outputs).to(torch.float32)
+        print(outputs.dtype, "outputs.dtype", outputs.shape, "outputs.shape")
         outputs = self.lstm(outputs)[0][:,-1]
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
