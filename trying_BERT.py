@@ -80,17 +80,17 @@ class CNN(nn.Module):
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
         self.flattened_size = self.out_channels * pooled_seq_length  # 128 is the out_channels from conv1
-        self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2)
-        self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels)
+        self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         #print(f"Input shape: {lm_out.shape}")
-        outputs = lm_out.hidden_states[-1].permute(0,2,1)
+        outputs = lm_out.hidden_states[-1].permute(0,2,1).to(torch.float)
         outputs = self.conv1(outputs)
         #print(f"After conv1 shape: {outputs.shape}")
         outputs = self.relu(outputs)
-        outputs = self.pool(outputs)
+        outputs = self.pool(outputs).to(bnb_config.bnb_4bit_compute_dtype)
         #print(f"After pooling shape: {outputs.shape}")
 
         outputs = outputs.view(outputs.size(0), -1)
@@ -119,7 +119,7 @@ def main():
         load_in_4bit=True,
         bnb_4bit_use_double_quant=True,
         bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.float32,
+        bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
     global max_sequence_length
