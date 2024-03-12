@@ -40,7 +40,7 @@ class Classifier(torch.nn.Module):
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
-        outputs = self.reducer(outputs)
+        outputs = self.reducer(outputs.to(bnb_config.bnb_4bit_compute_dtype))
         outputs = self.activation(outputs)
         outputs = self.lstm(outputs)[0][:,-1]
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
