@@ -16,8 +16,7 @@ class Classifier(torch.nn.Module):
     def __init__(self, language_model):
         super(Classifier, self).__init__()
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
-        for param in self.lm.named_parameters():
-            param.requires_grad = False
+        self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.proj_size = 40
         self.intermediate_size = 100
