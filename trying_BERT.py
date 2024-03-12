@@ -74,7 +74,7 @@ class CNN(nn.Module):
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
 
         # Calculate the size after conv and pooling
-        sequence_length = 42  # Adjusted based on the input shape 
+        sequence_length = 100  # Adjusted based on the input shape 
         conv_seq_length = sequence_length - 4  # kernel_size - 1 for Conv1d
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
@@ -82,7 +82,7 @@ class CNN(nn.Module):
         self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2)
         self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels)
 
-    def forward(self, input_ids, attention_mask):
+    def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         print(f"Input shape: {lm_out.shape}")
         outputs = self.conv1(lm_out)
