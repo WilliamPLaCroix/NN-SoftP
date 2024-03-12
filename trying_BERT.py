@@ -111,7 +111,7 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.001
+    learning_rate = 0.1
     alpha = 1
 
     global bnb_config
@@ -124,7 +124,7 @@ def main():
 
     max_sequence_length = 100
 
-    language_model = "bert-base-uncased"
+    language_model = "google/gemma-2b"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
