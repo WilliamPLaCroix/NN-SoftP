@@ -125,10 +125,10 @@ def main():
     max_sequence_length = 100
 
     language_model = "google/gemma-2b"
-    tokenizer = AutoTokenizer.from_pretrained(language_model)
+    tokenizer = AutoTokenizer.from_pretrained(language_model, truncation=True)
     tokenizer.pad_token = tokenizer.eos_token
     #tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-    data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length, truncation=True)
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # def tokenize(data):
