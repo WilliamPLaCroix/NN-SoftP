@@ -21,7 +21,7 @@ class Classifier(torch.nn.Module):
         self.proj_size = 10
         self.intermediate_size = 100
         self.hidden_size = 10
-        self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
+        self.lstm = torch.nn.LSTM(input_size=self.intermediate_size, hidden_size=self.hidden_size, 
                                   num_layers=1, batch_first=True, bidirectional=False, dtype=bnb_config.bnb_4bit_compute_dtype)#), 
                                   #proj_size=self.proj_size,)
         #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
