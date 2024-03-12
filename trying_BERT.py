@@ -69,7 +69,7 @@ class CNN(nn.Module):
         self.out_channels = 128
         self.kernel_size = 5
         self.in_channels = self.lm_out_size  # word embeddings + 1 for surprisal value
-        self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5)
+        self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5, batch_first=True)
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
 
