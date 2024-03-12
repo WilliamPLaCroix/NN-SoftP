@@ -87,6 +87,13 @@ class CNN(nn.Module):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         #print(f"Input shape: {lm_out.shape}")
         outputs = lm_out.hidden_states[-1].permute(0,2,1).to(torch.float)
+        
+        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
+        probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
+        subword_surp = -1 * torch.log2(probs) * attention_mask
+
+        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=2)
+
         outputs = self.conv1(outputs)
         #print(f"After conv1 shape: {outputs.shape}")
         outputs = self.relu(outputs)
@@ -111,7 +118,7 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.1
+    learning_rate = 0.01
     alpha = 1
 
     global bnb_config
@@ -125,7 +132,7 @@ def main():
     global max_sequence_length
     max_sequence_length = 128
 
-    language_model = "google/gemma-2b"
+    language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     tokenizer.pad_token = tokenizer.eos_token
     #tokenizer.add_special_tokens({'pad_token': '[PAD]'})
