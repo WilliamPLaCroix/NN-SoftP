@@ -9,6 +9,7 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix
+from tqdm import tqdm
 
 
 
@@ -84,20 +85,20 @@ class CNN(nn.Module):
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids).hidden_states[-1]
-        print(f"Input shape: {lm_out.shape}")
+        #print(f"Input shape: {lm_out.shape}")
         outputs = lm_out.permute(0,2,1)
         outputs = self.conv1(outputs)
-        print(f"After conv1 shape: {outputs.shape}")
+        #print(f"After conv1 shape: {outputs.shape}")
         outputs = self.relu(outputs)
         outputs = self.pool(outputs)
-        print(f"After pooling shape: {outputs.shape}")
+        #print(f"After pooling shape: {outputs.shape}")
 
         outputs = outputs.view(outputs.size(0), -1)
-        print(f"After flattening shape: {outputs.shape}")
+        #print(f"After flattening shape: {outputs.shape}")
         outputs = self.fc1(outputs)
-        print(f"After fc1 shape: {outputs.shape}")
+        #print(f"After fc1 shape: {outputs.shape}")
         outputs = self.fc2(outputs)
-        print(f"Output shape: {outputs.shape}")
+        #print(f"Output shape: {outputs.shape}")
         return outputs
 
 def main():
@@ -177,7 +178,7 @@ def main():
         losses = []
         predictions = []
         targets = []
-        for batch_number, batch in enumerate(train_dataloader):
+        for batch_number, batch in tqdm(enumerate(train_dataloader)):
             batch.to(device)
             
             optimizer.zero_grad()
