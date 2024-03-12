@@ -89,6 +89,7 @@ def main():
     language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     tokenizer.pad_token = tokenizer.eos_token
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
