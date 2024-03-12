@@ -32,7 +32,7 @@ class Classifier(torch.nn.Module):
         # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.reducer = torch.nn.Linear(self.lm_out_size, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.proj_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = torch.nn.Dropout(0.1)
 
 
