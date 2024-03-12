@@ -74,7 +74,7 @@ def main():
 
     login(token)
 
-    batch_size = 8
+    batch_size = 4
     learning_rate = 0.01
     alpha = 1
 
