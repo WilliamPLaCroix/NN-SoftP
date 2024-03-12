@@ -8,7 +8,7 @@ from datasets import Dataset
 from torch.utils.data import DataLoader
 import torch.nn as nn
 import pandas as pd
-from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 
 
@@ -18,53 +18,86 @@ class Classifier(torch.nn.Module):
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
-        self.proj_size = 10
-        self.intermediate_size = 100
-        self.hidden_size = 20
-        self.lstm = torch.nn.LSTM(input_size=self.intermediate_size, hidden_size=self.hidden_size, 
-                                  num_layers=2, batch_first=True, bidirectional=False) #proj_size=self.proj_size,)
-        #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.hidden_size = 100
         self.activation = torch.nn.LeakyReLU()
-        self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.condenser_1 = torch.nn.Linear(self.lm_out_size, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        # self.condenser_2 = torch.nn.Linear(self.intermediate_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        # self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.reducer = torch.nn.Linear(self.lm_out_size, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.dropout = torch.nn.Dropout(0.1)
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
+        # lm_out is the foundation of the model output, while hidden_states[-1] gives us word embeddings
+        # we do mean pooling to get a single consistently sized vector for the entire sequence
+        """
+        # TODO : move lm_out and self.lm outside of class declaration
+        """
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
-        outputs = self.reducer(outputs.to(bnb_config.bnb_4bit_compute_dtype))
-        outputs = self.activation(outputs).to(torch.float32)
-        outputs = self.lstm(outputs)[0][:,-1]
-        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1)
+        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+
+        # calculates perplexity as mean subword suprisal from LM output logits
+        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
         mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
-        #outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-        #outputs = self.batch_norm(outputs)
-        #outputs = self.dropout(outputs)
-        #outputs = self.condenser_1(outputs)
-        # outputs = self.batch_norm(outputs)
-        # outputs = self.condenser_1(outputs)
-        # outputs = self.activation(outputs)
-        #outputs = self.activation(outputs)
-        #outputs = self.reducer(outputs)
-        #outputs = self.activation(outputs)
+
+        # bring LM output size down so that it doesn't outweigh the additional features
+        outputs = self.reducer(outputs)
+        outputs = self.activation(outputs)
+        
+        # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
                             sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                             perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
                             mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                         dim=1)
-        outputs = self.classifier(outputs)
+        
+        # final prediction is reduced to len(class_labels)
+        return self.classifier(outputs)
+
+
+class CNN(nn.Module):
+    def __init__(self, language_model):
+        super(CNN, self).__init__()
+        """
+        # TODO : move lm_out and self.lm outside of class declaration
+        """
+        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
+        self.requires_grad_(False)
+        self.lm_out_size = self.lm.config.hidden_size
+
+        # keep the rest
+        self.out_channels = 128
+        self.kernel_size = 5
+        self.in_channels = self.lm_out_size  # word embeddings + 1 for surprisal value
+        self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5)
+        self.relu = nn.ReLU()
+        self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
+
+        # Calculate the size after conv and pooling
+        sequence_length = 42  # Adjusted based on the input shape 
+        conv_seq_length = sequence_length - 4  # kernel_size - 1 for Conv1d
+        pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
+
+        self.flattened_size = self.out_channels * pooled_seq_length  # 128 is the out_channels from conv1
+        self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2)
+        self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels)
+
+    def forward(self, input_ids, attention_mask):
+        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
+        print(f"Input shape: {lm_out.shape}")
+        outputs = self.conv1(lm_out)
+        print(f"After conv1 shape: {outputs.shape}")
+        outputs = self.relu(outputs)
+        outputs = self.pool(outputs)
+        print(f"After pooling shape: {outputs.shape}")
+
+        outputs = outputs.view(outputs.size(0), -1)
+        print(f"After flattening shape: {outputs.shape}")
+        outputs = self.fc1(outputs)
+        print(f"After fc1 shape: {outputs.shape}")
+        outputs = self.fc2(outputs)
+        print(f"Output shape: {outputs.shape}")
         return outputs
-
-
 
 def main():
 
@@ -87,11 +120,13 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
+    max_sequence_length = 100
+
     language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-    data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # def tokenize(data):
@@ -131,7 +166,7 @@ def main():
     test_dataloader = dataloader_from_pickle("test")
 
     loss_fn = nn.CrossEntropyLoss()#weight=class_weights.to(device))#*alpha)
-    model = Classifier(language_model).to(device)
+    model = CNN(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
 
