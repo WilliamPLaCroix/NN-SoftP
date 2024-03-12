@@ -75,7 +75,7 @@ class CNN(nn.Module):
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
 
         # Calculate the size after conv and pooling
-        sequence_length = 100  # Adjusted based on the input shape 
+        sequence_length = max_sequence_length  # Adjusted based on the input shape 
         conv_seq_length = sequence_length  # kernel_size - 1 for Conv1d
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
@@ -122,6 +122,7 @@ def main():
         bnb_4bit_compute_dtype=torch.float32,
     )
 
+    global max_sequence_length
     max_sequence_length = 128
 
     language_model = "google/gemma-2b"
