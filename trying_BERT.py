@@ -86,7 +86,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    language_model = "meta-llama/Llama-2-7b-hf"
+    language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     tokenizer.pad_token = tokenizer.eos_token
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
