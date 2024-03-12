@@ -92,9 +92,9 @@ class CNN(nn.Module):
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
-        outputs = torch.cat((outputs.permute(0,2,1).to(torch.float), subword_surp.unsqueeze(-1)), dim=2)
+        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=2)
 
-        outputs = self.conv1(outputs)
+        outputs = self.conv1(outputs.permute(0,2,1).to(torch.float))
         #print(f"After conv1 shape: {outputs.shape}")
         outputs = self.relu(outputs)
         outputs = self.pool(outputs).to(bnb_config.bnb_4bit_compute_dtype)
