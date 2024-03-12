@@ -69,13 +69,13 @@ class CNN(nn.Module):
         self.out_channels = 128
         self.kernel_size = 5
         self.in_channels = self.lm_out_size  # word embeddings + 1 for surprisal value
-        self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5, batch_first=True)
+        self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5, padding=2)
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
 
         # Calculate the size after conv and pooling
         sequence_length = 100  # Adjusted based on the input shape 
-        conv_seq_length = sequence_length - 4  # kernel_size - 1 for Conv1d
+        conv_seq_length = sequence_length  # kernel_size - 1 for Conv1d
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
         self.flattened_size = self.out_channels * pooled_seq_length  # 128 is the out_channels from conv1
@@ -85,7 +85,8 @@ class CNN(nn.Module):
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids).hidden_states[-1]
         print(f"Input shape: {lm_out.shape}")
-        outputs = self.conv1(lm_out)
+        outputs = outputs.permute(0,2,1)
+        outputs = self.conv1(outputs)
         print(f"After conv1 shape: {outputs.shape}")
         outputs = self.relu(outputs)
         outputs = self.pool(outputs)
