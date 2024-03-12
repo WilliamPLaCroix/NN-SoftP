@@ -42,6 +42,7 @@ class Classifier(torch.nn.Module):
         outputs = self.reducer(outputs.to(bnb_config.bnb_4bit_compute_dtype))
         outputs = self.activation(outputs).to(torch.float32)
         print(outputs.dtype, "outputs.dtype", outputs.shape, "outputs.shape")
+        print(outputs)
         outputs = self.lstm(outputs)#[0][:,-1]
         print(outputs)
         print(outputs[0].dtype, "outputs[0].dtype", outputs[0].shape, "outputs[0].shape")
