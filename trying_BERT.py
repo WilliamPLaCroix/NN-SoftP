@@ -84,9 +84,9 @@ class CNN(nn.Module):
         self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
-        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids).hidden_states[-1]
+        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         #print(f"Input shape: {lm_out.shape}")
-        outputs = lm_out.permute(0,2,1)
+        outputs = lm_out.hidden_states[-1].permute(0,2,1)
         outputs = self.conv1(outputs)
         #print(f"After conv1 shape: {outputs.shape}")
         outputs = self.relu(outputs)
@@ -127,7 +127,7 @@ def main():
     language_model = "google/gemma-2b"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    #tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
