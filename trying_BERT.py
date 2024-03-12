@@ -69,7 +69,7 @@ class CNN(nn.Module):
         # keep the rest
         self.out_channels = 128
         self.kernel_size = 5
-        self.in_channels = self.lm_out_size  # word embeddings + 1 for surprisal value
+        self.in_channels = self.lm_out_size + 1  # word embeddings + 1 for surprisal value
         self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5, padding=2)
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
@@ -86,13 +86,13 @@ class CNN(nn.Module):
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         #print(f"Input shape: {lm_out.shape}")
-        outputs = lm_out.hidden_states[-1].permute(0,2,1).to(torch.float)
+        outputs = lm_out.hidden_states[-1]
         
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
-        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=2)
+        outputs = torch.cat((outputs.permute(0,2,1).to(torch.float), subword_surp.unsqueeze(-1)), dim=2)
 
         outputs = self.conv1(outputs)
         #print(f"After conv1 shape: {outputs.shape}")
@@ -135,7 +135,8 @@ def main():
     language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+    if language_model == "bert-base-uncased":
+        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
