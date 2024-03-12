@@ -25,7 +25,7 @@ class Classifier(torch.nn.Module):
                                   num_layers=2, batch_first=True, bidirectional=False) #proj_size=self.proj_size,)
         #self.lstm_classifier = torch.nn.Linear(self.hidden_size+4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = torch.nn.LeakyReLU()
-        self.batch_norm = torch.nn.BatchNorm1d(self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.batch_norm = torch.nn.BatchNorm1d(self.lm_out_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.condenser_1 = torch.nn.Linear(self.lm_out_size, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.condenser_2 = torch.nn.Linear(self.intermediate_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -39,6 +39,7 @@ class Classifier(torch.nn.Module):
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
+        outputs = self.batch_norm(outputs)
         outputs = self.reducer(outputs.to(bnb_config.bnb_4bit_compute_dtype))
         outputs = self.activation(outputs).to(torch.float32)
         outputs = self.lstm(outputs)[0][:,-1]
@@ -76,7 +77,7 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.01
+    learning_rate = 0.001
     alpha = 1
 
     global bnb_config
