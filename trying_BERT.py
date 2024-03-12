@@ -83,7 +83,7 @@ class CNN(nn.Module):
         self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
-        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
+        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids).hidden_states[-1]
         print(f"Input shape: {lm_out.shape}")
         outputs = self.conv1(lm_out)
         print(f"After conv1 shape: {outputs.shape}")
