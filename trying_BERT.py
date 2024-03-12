@@ -18,7 +18,7 @@ class Classifier(torch.nn.Module):
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
-        self.proj_size = 40
+        self.proj_size = 5
         self.intermediate_size = 100
         self.hidden_size = 100
         #self.lstm = torch.nn.LSTM(input_size=self.lm_out_size, hidden_size=self.hidden_size, 
@@ -31,8 +31,8 @@ class Classifier(torch.nn.Module):
         # self.extra_linear_1 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_2 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         # self.extra_linear_3 = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.reducer = torch.nn.Linear(self.lm_out_size+5, self.intermediate_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.intermediate_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.reducer = torch.nn.Linear(self.intermediate_size, self.proj_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.proj_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = torch.nn.Dropout(0.3)
 
 
@@ -46,18 +46,19 @@ class Classifier(torch.nn.Module):
         mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
         outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
         #outputs = self.batch_norm(outputs)
-        outputs = torch.cat((outputs, 
-                                    sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
-                                    mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                                dim=1)
-
+        outputs = self.dropout(outputs)
+        outputs = self.condenser_1(outputs)
         # outputs = self.batch_norm(outputs)
         # outputs = self.condenser_1(outputs)
         # outputs = self.activation(outputs)
+        outputs = self.activation(outputs)
         outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
-        outputs = self.dropout(outputs)
+        outputs = torch.cat((outputs, 
+                            sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                            perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
+                            mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                        dim=1)
         outputs = self.classifier(outputs)
         return outputs
 
