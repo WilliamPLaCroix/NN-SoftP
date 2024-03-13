@@ -142,7 +142,9 @@ class LSTM(torch.nn.Module):
 
         # stack the subword surprisal values onto the word embeddings
         outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
-
+        print("LM output with surpirsal", outputs.shape, outputs.dtype)
+        print("max memory allocated:", torch.cuda.max_memory_allocated())
+        print("memory allocated:", torch.cuda.memory_allocated())
         outputs = self.lstm(outputs)[0][:,-1,:]
 
 
@@ -278,8 +280,8 @@ def main():
             #         print("Model Parameters",name, torch.isfinite(param.grad).all(), "max param.grad", torch.max(abs(param.grad)), "dtype=", param.grad)
             #     except TypeError:
             #         print("Model Parameters",name, "NoneType")
-        print("max memory allocated:", torch.cuda.max_memory_allocated())
-        print("memory allocated:", torch.cuda.memory_allocated())
+        # print("max memory allocated:", torch.cuda.max_memory_allocated())
+        # print("memory allocated:", torch.cuda.memory_allocated())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
         print("train loss:", np.mean(losses), "train acc:", correct/total*100)
