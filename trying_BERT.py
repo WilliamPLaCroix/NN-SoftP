@@ -220,7 +220,7 @@ def main():
 
 
     def remap_labels_tokenize(data):
-        tokens = tokenizer(data["statement"])
+        tokens = tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
         label_mapping = {
             0: 0,
             1: 1,
@@ -230,7 +230,8 @@ def main():
             5: 0}  # Map positive class labels
         binary_labels = [label_mapping[label] for label in data["label"]]
         tokens["label"] = binary_labels
-        return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
+        return tokens
+        # return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
 
     # def tokenize(data):
     #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
