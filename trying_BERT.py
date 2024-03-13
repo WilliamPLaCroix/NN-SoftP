@@ -164,7 +164,9 @@ def main():
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
         global max_sequence_length
-        max_sequence_length = max(tokenized_dataset["input_ids"].apply(len))
+        max_sequence_length = len(tokenized_dataset["input_ids"][0])
+        for i in range(10):
+            print(len(tokenized_dataset["input_ids"][i]))
         weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
         class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
                                      dtype=bnb_config.bnb_4bit_compute_dtype)
