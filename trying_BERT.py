@@ -82,6 +82,7 @@ class CNN(nn.Module):
         self.flattened_size = self.out_channels * pooled_seq_length + 4  # 128 is the out_channels from conv1
         self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.dropout = nn.Dropout(0.5)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
@@ -99,6 +100,7 @@ class CNN(nn.Module):
         #outputs = self.relu(outputs)
         outputs = self.pool(outputs)
         #print(f"After pooling shape: {outputs.shape}")
+        outputs = self.dropout(outputs)
 
         outputs = outputs.view(outputs.size(0), -1)
         #outputs = self.fc1(outputs)
@@ -185,7 +187,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    language_model = "meta-llama/Llama-2-7b-hf"
+    language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased" or language_model == "meta-llama/Llama-2-7b-hf":
