@@ -101,16 +101,12 @@ class CNN(nn.Module):
         #print(f"After pooling shape: {outputs.shape}")
 
         outputs = outputs.view(outputs.size(0), -1)
-        print(f"After flattening shape: {outputs.shape}")
-        print("subword_surp", subword_surp.shape)
-        print("sentiment", sentiment.shape)
-        print("perplexity", perplexity.shape)
         #outputs = self.fc1(outputs)
         #print(f"After fc1 shape: {outputs.shape}")
         outputs = torch.cat((outputs,
                             sentiment,
                             perplexity.unsqueeze(-1),
-                            ), dim=1)
+                            ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         outputs = self.fc2(outputs)
         #print(f"Output shape: {outputs.shape}")
         return outputs
