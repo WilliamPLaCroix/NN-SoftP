@@ -154,7 +154,7 @@ def main():
         #     5: 5}  # Map positive class labels
         # binary_labels = [label_mapping[label] for label in data["label"]]
         # tokens["label"] = binary_labels
-        return tokenizer(data["statement"])
+        return tokenizer(data["statement"], padding=True)
 
     def dataloader_from_pickle(split):
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
