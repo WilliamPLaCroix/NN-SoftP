@@ -105,7 +105,7 @@ class CNN(nn.Module):
         #outputs = self.fc1(outputs)
         #print(f"After fc1 shape: {outputs.shape}")
         outputs = self.fc2(outputs)
-        print(f"Output shape: {outputs.shape}")
+        #print(f"Output shape: {outputs.shape}")
         return outputs
 
 
@@ -204,10 +204,6 @@ def main():
 
 
     train_dataloader = dataloader_from_pickle("train")
-    for batch in train_dataloader:
-        print(batch["input_ids"].shape)
-        break
-
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
