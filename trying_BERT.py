@@ -89,8 +89,8 @@ class CNN(nn.Module):
         outputs = lm_out.hidden_states[-1]
         
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
-        probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
-        subword_surp = -1 * torch.log2(probs) * attention_mask
+        word_probabilities = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
+        subword_surp = -1 * torch.log2(word_probabilities) * attention_mask
 
         outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=2)
 
@@ -105,8 +105,9 @@ class CNN(nn.Module):
         #outputs = self.fc1(outputs)
         #print(f"After fc1 shape: {outputs.shape}")
         outputs = self.fc2(outputs)
-        #print(f"Output shape: {outputs.shape}")
+        print(f"Output shape: {outputs.shape}")
         return outputs
+
 
 def main():
 
@@ -158,10 +159,12 @@ def main():
     def dataloader_from_pickle(split):
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
-        tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
+        tokenized_dataset = dataset.map(tokenize)#, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
+        global max_sequence_length
+        max_sequence_length = max(tokenized_dataset["input_ids"].apply(len))
         weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
         class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
                                      dtype=bnb_config.bnb_4bit_compute_dtype)
