@@ -144,20 +144,7 @@ def main():
 
     
 
-    # def tokenize(data):
-    #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
-    def tokenize(data):
-        # tokens = tokenizer(data["statement"])
-        # label_mapping = {
-        #     0: 0,
-        #     1: 1,
-        #     2: 2,
-        #     3: 3,
-        #     4: 4,
-        #     5: 5}  # Map positive class labels
-        # binary_labels = [label_mapping[label] for label in data["label"]]
-        # tokens["label"] = binary_labels
-        return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
+
     
     def find_max_length():
 
@@ -175,6 +162,21 @@ def main():
     
     global max_sequence_length
     max_sequence_length = find_max_length()
+
+    # def tokenize(data):
+    #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
+    def tokenize(data):
+        # tokens = tokenizer(data["statement"])
+        # label_mapping = {
+        #     0: 0,
+        #     1: 1,
+        #     2: 2,
+        #     3: 3,
+        #     4: 4,
+        #     5: 5}  # Map positive class labels
+        # binary_labels = [label_mapping[label] for label in data["label"]]
+        # tokens["label"] = binary_labels
+        return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
 
     def dataloader_from_pickle(split):
         print(f"padding {split} to max length of {max_sequence_length}")
