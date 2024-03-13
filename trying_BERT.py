@@ -160,13 +160,15 @@ def main():
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(tokenize)#, batch_size=batch_size, batched=True)
+        longest = max([len(x["input_ids"]) for x in tokenized_dataset])
+        print(f"longest sequence in {split}:", longest)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
-        global max_sequence_length
-        max_sequence_length = len(tokenized_dataset["input_ids"][0])
-        for i in range(10):
-            print(len(tokenized_dataset["input_ids"][i]))
+        # global max_sequence_length
+        # max_sequence_length = len(tokenized_dataset["input_ids"][0])
+        # for i in range(10):
+        #     print(len(tokenized_dataset["input_ids"][i]))
         weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
         class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
                                      dtype=bnb_config.bnb_4bit_compute_dtype)
