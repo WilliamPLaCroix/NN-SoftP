@@ -182,7 +182,7 @@ def main():
         print(f"padding {split} to max length of {max_sequence_length}")
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
-        tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
+        tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
