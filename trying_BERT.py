@@ -130,6 +130,12 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
+    language_model = "bert-base-uncased"
+    tokenizer = AutoTokenizer.from_pretrained(language_model)
+    #tokenizer.pad_token = tokenizer.eos_token
+    if language_model == "bert-base-uncased":
+        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
     def temp_tokenize(data):
         return tokenizer(data["statement"])
 
@@ -150,11 +156,7 @@ def main():
     global max_sequence_length
     max_sequence_length = find_max_length()
 
-    language_model = "bert-base-uncased"
-    tokenizer = AutoTokenizer.from_pretrained(language_model)
-    #tokenizer.pad_token = tokenizer.eos_token
-    if language_model == "bert-base-uncased":
-        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
