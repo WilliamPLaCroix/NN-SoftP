@@ -80,8 +80,8 @@ class CNN(nn.Module):
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
         self.flattened_size = self.out_channels * pooled_seq_length + 4  # 128 is the out_channels from conv1
-        self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        #self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = nn.Dropout(0.5)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
@@ -110,8 +110,8 @@ class CNN(nn.Module):
                             perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         outputs = self.fc1(outputs)
-        outputs = self.relu(outputs)
-        outputs = self.fc2(outputs)
+        # outputs = self.relu(outputs)
+        # outputs = self.fc2(outputs)
         #print(f"Output shape: {outputs.shape}")
         return outputs
 
