@@ -141,6 +141,9 @@ def main():
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
+
+    
+
     # def tokenize(data):
     #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
     def tokenize(data):
@@ -169,6 +172,9 @@ def main():
                 longest_sequence_length = longest
 
         return longest_sequence_length
+    
+    global max_sequence_length
+    max_sequence_length = find_max_length()
 
     def dataloader_from_pickle(split):
         print(f"padding {split} to max length of {max_sequence_length}")
@@ -192,15 +198,14 @@ def main():
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
-    global max_sequence_length
-    max_sequence_length = find_max_length()
+
 
 
     train_dataloader = dataloader_from_pickle("train")
     for batch in train_dataloader:
         print(batch["input_ids"].shape)
         break
-    
+
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
