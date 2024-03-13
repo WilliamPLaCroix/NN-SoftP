@@ -69,7 +69,7 @@ class CNN(nn.Module):
         # keep the rest
         self.out_channels = 128
         self.kernel_size = 5
-        self.in_channels = self.lm_out_size  # word embeddings + 1 for surprisal value
+        self.in_channels = self.lm_out_size + 1  # word embeddings + 1 for surprisal value
         self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5, padding=2)
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
@@ -80,7 +80,7 @@ class CNN(nn.Module):
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
         self.flattened_size = self.out_channels * pooled_seq_length  # 128 is the out_channels from conv1
-        self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2 + 5, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.fc1 = nn.Linear(self.flattened_size, self.flattened_size//2 + 4, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.fc2 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
@@ -91,6 +91,8 @@ class CNN(nn.Module):
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         word_probabilities = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(word_probabilities) * attention_mask
+
+        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
 
         outputs = self.conv1(outputs.permute(0,2,1).to(torch.float))
         #print(f"After conv1 shape: {outputs.shape}")
@@ -105,9 +107,8 @@ class CNN(nn.Module):
         print("perplexity", perplexity.shape)
         #outputs = self.fc1(outputs)
         #print(f"After fc1 shape: {outputs.shape}")
-        outputs = torch.cat((outputs, 
-                            subword_surp.unsqueeze(-1),
-                            sentiment.unsqueeze(-1),
+        outputs = torch.cat((outputs,
+                            sentiment,
                             perplexity.unsqueeze(-1),
                             ), dim=1)
         outputs = self.fc2(outputs)
