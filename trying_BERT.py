@@ -146,7 +146,7 @@ class LSTM(torch.nn.Module):
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
         self.lstm.to('cpu')
-        outputs = self.lstm(outputs.to('cpu'))[0][:,-1,:].to(device)
+        outputs = self.lstm(outputs.to(torch.half).to('cpu'))[0][:,-1,:].to(device)
 
 
 
