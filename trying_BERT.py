@@ -69,7 +69,7 @@ class CNN(nn.Module):
         # keep the rest
         self.out_channels = 128
         self.kernel_size = 5
-        self.in_channels = self.lm_out_size + 1  # word embeddings + 1 for surprisal value
+        self.in_channels = self.lm_out_size + 5  # word embeddings + 1 for surprisal value
         self.conv1 = nn.Conv1d(in_channels=self.in_channels, out_channels=self.out_channels, kernel_size=5, padding=2)
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
@@ -94,7 +94,8 @@ class CNN(nn.Module):
 
         outputs = torch.cat((outputs, 
                             subword_surp.unsqueeze(-1),
-                            #sentiment.unsqueeze(-1),
+                            sentiment.unsqueeze(-1),
+                            perplexity.unsqueeze(-1),
                             ), dim=2)
 
         outputs = self.conv1(outputs.permute(0,2,1).to(torch.float))
@@ -133,7 +134,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    language_model = "google/gemma-2b"
+    language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased":
@@ -143,21 +144,21 @@ def main():
         return tokenizer(data["statement"])
 
     def find_max_length():
-
-        longest_sequence_length = 0
+        global max_sequence_length
+        max_sequence_length = 0
         for split in ["train", "validation", "test"]:
             dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
             dataset = Dataset.from_pandas(dataframe)
             tokenized_dataset = dataset.map(temp_tokenize)
             longest = max([len(x["input_ids"]) for x in tokenized_dataset])
             print(f"Longest sequence length in {split}:", longest)
-            if longest > longest_sequence_length:
-                longest_sequence_length = longest
+            if longest > max_sequence_length:
+                max_sequence_length = longest
+        print("padding to max length of", max_sequence_length)
+        return
 
-        return longest_sequence_length
-
-    global max_sequence_length
-    max_sequence_length = find_max_length()
+    
+    find_max_length()
 
 
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
@@ -182,7 +183,7 @@ def main():
 
 
     def dataloader_from_pickle(split):
-        print(f"padding {split} to max length of {max_sequence_length}")
+        #print(f"padding {split} to max length of {max_sequence_length}")
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
