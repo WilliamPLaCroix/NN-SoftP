@@ -130,6 +130,8 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
+    def temp_tokenize(data):
+        return tokenizer(data["statement"])
 
     def find_max_length():
 
@@ -137,14 +139,14 @@ def main():
         for split in ["train", "validation", "test"]:
             dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
             dataset = Dataset.from_pandas(dataframe)
-            tokenized_dataset = dataset.map(tokenize)
+            tokenized_dataset = dataset.map(temp_tokenize)
             longest = max([len(x["input_ids"]) for x in tokenized_dataset])
             print(f"Longest sequence length in {split}:", longest)
             if longest > longest_sequence_length:
                 longest_sequence_length = longest
 
         return longest_sequence_length
-    
+
     global max_sequence_length
     max_sequence_length = find_max_length()
 
@@ -157,11 +159,7 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-    
-
-    # def tokenize(data):
-    #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
-    def tokenize(data):
+    def remap_labels_tokenize(data):
         # tokens = tokenizer(data["statement"])
         # label_mapping = {
         #     0: 0,
@@ -173,6 +171,10 @@ def main():
         # binary_labels = [label_mapping[label] for label in data["label"]]
         # tokens["label"] = binary_labels
         return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
+
+    # def tokenize(data):
+    #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
+
 
     def dataloader_from_pickle(split):
         print(f"padding {split} to max length of {max_sequence_length}")
