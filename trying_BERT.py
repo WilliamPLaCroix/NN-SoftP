@@ -130,9 +130,6 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    global max_sequence_length
-    max_sequence_length = 128
-
     language_model = "bert-base-uncased"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
@@ -142,10 +139,6 @@ def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-    
-
-
-    
     def find_max_length():
 
         longest_sequence_length = 0
