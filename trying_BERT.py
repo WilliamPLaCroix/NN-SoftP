@@ -92,7 +92,10 @@ class CNN(nn.Module):
         word_probabilities = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(word_probabilities) * attention_mask
 
-        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=2)
+        outputs = torch.cat((outputs, 
+                            subword_surp.unsqueeze(-1),
+                            #sentiment.unsqueeze(-1),
+                            ), dim=2)
 
         outputs = self.conv1(outputs.permute(0,2,1).to(torch.float))
         #print(f"After conv1 shape: {outputs.shape}")
@@ -130,7 +133,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    language_model = "bert-base-uncased"
+    language_model = "google/gemma-2b"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased":
