@@ -185,7 +185,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    language_model = "bert-base-uncased"
+    language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased":
@@ -255,7 +255,7 @@ def main():
     test_dataloader = dataloader_from_pickle("test")
 
     loss_fn = nn.CrossEntropyLoss()#weight=class_weights.to(device))#*alpha)
-    model = LSTM(language_model).to(device)
+    model = CNN(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
 
