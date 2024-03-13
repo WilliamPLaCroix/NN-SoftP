@@ -13,9 +13,9 @@ from tqdm import tqdm
 
 
 
-class Classifier(torch.nn.Module):
+class MLP(torch.nn.Module):
     def __init__(self, language_model):
-        super(Classifier, self).__init__()
+        super(MLP, self).__init__()
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
@@ -113,6 +113,48 @@ class CNN(nn.Module):
         #print(f"Output shape: {outputs.shape}")
         return outputs
 
+class MLP(torch.nn.Module):
+    def __init__(self, language_model):
+        super(MLP, self).__init__()
+        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
+        self.requires_grad_(False)
+        self.lm_out_size = self.lm.config.hidden_size
+        self.hidden_size = 100
+        self.activation = torch.nn.LeakyReLU()
+        self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+
+
+    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+        # lm_out is the foundation of the model output, while hidden_states[-1] gives us word embeddings
+        # we do mean pooling to get a single consistently sized vector for the entire sequence
+        """
+        # TODO : move lm_out and self.lm outside of class declaration
+        """
+        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
+        outputs = lm_out.hidden_states[-1]
+        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+
+        # calculates perplexity as mean subword suprisal from LM output logits
+        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
+        probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
+        subword_surp = -1 * torch.log2(probs) * attention_mask
+        mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
+
+        # bring LM output size down so that it doesn't outweigh the additional features
+        outputs = self.reducer(outputs)
+        outputs = self.activation(outputs)
+        
+        # concatenate mean-pooled LM output with the additional features
+        outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
+                            sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                            perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
+                            mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                        dim=1)
+        
+        # final prediction is reduced to len(class_labels)
+        return self.classifier(outputs)
+
 
 def main():
 
@@ -184,67 +226,25 @@ def main():
 
 
     def dataloader_from_pickle(split):
-        #print(f"padding {split} to max length of {max_sequence_length}")
+
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
-        # global max_sequence_length
-        # max_sequence_length = len(tokenized_dataset["input_ids"][0])
-        # for i in range(10):
-        #     print(len(tokenized_dataset["input_ids"][i]))
         weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
         class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
                                      dtype=bnb_config.bnb_4bit_compute_dtype)
         global class_weights
         class_weights = weights / class_proportions
-        class_weights
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
-    def shuffled_dataloader_from_pickle():
-        #print(f"padding {split} to max length of {max_sequence_length}")
-        dataframe = pd.read_pickle(f"./pickle_files/train.pkl")
-        # shuffle dataframe
-        dataframe = dataframe.sample(frac=1).reset_index(drop=True)
-        train_dataframe = dataframe.sample(frac=0.8, random_state=42)
-        val_dataframe = dataframe.drop(train_dataframe.index).sample(frac=0.5, random_state=42)
-        test_dataframe = dataframe.drop(train_dataframe.index).drop(val_dataframe.index)
-
-        train_dataset = Dataset.from_pandas(train_dataframe)
-        val_dataset = Dataset.from_pandas(val_dataframe)
-        test_dataset = Dataset.from_pandas(test_dataframe)
-
-        train_tokenized_dataset = train_dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
-        val_tokenized_dataset = val_dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
-        test_tokenized_dataset = test_dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
-
-        global number_of_labels
-        number_of_labels = len(set(train_tokenized_dataset["label"]))
-
-
-        train_tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
-        val_tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
-        test_tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
-        
-        
-        train_dataloader = DataLoader(train_tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
-        val_dataloader = DataLoader(val_tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
-        test_dataloader = DataLoader(test_tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
-
-        return train_dataloader, val_dataloader, test_dataloader
-
-    train_dataloader, val_dataloader, test_dataloader = shuffled_dataloader_from_pickle()
-    # train_dataloader = dataloader_from_pickle("train")
-    # val_dataloader = dataloader_from_pickle("validation")
-    # test_dataloader = dataloader_from_pickle("test")
-
-    # shuffle train/val/test dataloaders and randomly sample new ones
-
-
+    train_dataloader = dataloader_from_pickle("train")
+    val_dataloader = dataloader_from_pickle("validation")
+    test_dataloader = dataloader_from_pickle("test")
 
     loss_fn = nn.CrossEntropyLoss()#weight=class_weights.to(device))#*alpha)
     model = CNN(language_model).to(device)
