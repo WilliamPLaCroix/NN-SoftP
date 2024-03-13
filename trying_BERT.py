@@ -220,16 +220,16 @@ def main():
 
 
     def remap_labels_tokenize(data):
-        # tokens = tokenizer(data["statement"])
-        # label_mapping = {
-        #     0: 0,
-        #     1: 1,
-        #     2: 2,
-        #     3: 3,
-        #     4: 4,
-        #     5: 5}  # Map positive class labels
-        # binary_labels = [label_mapping[label] for label in data["label"]]
-        # tokens["label"] = binary_labels
+        tokens = tokenizer(data["statement"])
+        label_mapping = {
+            0: 0,
+            1: 1,
+            2: 1,
+            3: 1,
+            4: 0,
+            5: 0}  # Map positive class labels
+        binary_labels = [label_mapping[label] for label in data["label"]]
+        tokens["label"] = binary_labels
         return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
 
     # def tokenize(data):
@@ -263,43 +263,52 @@ def main():
     
 
     print(f"training on {device}")
-    for epoch in range(1000):
-        model.train()
-        losses = []
-        predictions = []
-        targets = []
-        for batch_number, batch in tqdm(enumerate(train_dataloader)):
-            batch.to(device)
+    try:
+        for epoch in range(1000):
+            model.train()
+            losses = []
+            predictions = []
+            targets = []
+            for batch_number, batch in tqdm(enumerate(train_dataloader)):
+                batch.to(device)
+                
+                optimizer.zero_grad()
+                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                loss = loss_fn(outputs, batch["labels"])
+                losses.append(loss.item())
+                loss.backward()
+                optimizer.step()
+                predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
+                targets.extend(batch["labels"].to('cpu').tolist())
+            total = len(targets)
+            correct = np.sum(np.array(predictions) == np.array(targets))
+            print("train loss:", np.mean(losses), "train acc:", correct/total*100)
             
-            optimizer.zero_grad()
-            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-            loss = loss_fn(outputs, batch["labels"])
-            losses.append(loss.item())
-            loss.backward()
-            optimizer.step()
-            predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-            targets.extend(batch["labels"].to('cpu').tolist())
-            # for name, param in model.named_parameters():
-            #     try:
-            #         print("Model Parameters",name, torch.isfinite(param.grad).all(), "max param.grad", torch.max(abs(param.grad)), "dtype=", param.grad)
-            #     except TypeError:
-            #         print("Model Parameters",name, "NoneType")
-        # print("max memory allocated:", torch.cuda.max_memory_allocated())
-        # print("memory allocated:", torch.cuda.memory_allocated())
-        total = len(targets)
-        correct = np.sum(np.array(predictions) == np.array(targets))
-        print("train loss:", np.mean(losses), "train acc:", correct/total*100)
-        # print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100, "train f1:", 
-        #       f1_score(targets, predictions)*100, "train conf:\n", confusion_matrix(targets, predictions))
-        
 
+            model.eval()
+            with torch.no_grad():
+                losses = []
+                predictions = []
+                targets = []
+                for batch_number, batch in enumerate(val_dataloader):
+                    batch.to(device)
+                    outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                    loss = loss_fn(outputs, batch["labels"])
+                    losses.append(loss.item())
+                    predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
+                    targets.extend(batch["labels"].to('cpu').tolist())
+                total = len(targets)
+                correct = np.sum(np.array(predictions) == np.array(targets))
+                print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, 
+                    "val conf:\n", confusion_matrix(targets, predictions))
+    except KeyboardInterrupt:
         model.eval()
         with torch.no_grad():
             
             losses = []
             predictions = []
             targets = []
-            for batch_number, batch in enumerate(val_dataloader):
+            for batch_number, batch in enumerate(test_dataloader):
                 batch.to(device)
                 outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
                 loss = loss_fn(outputs, batch["labels"])
@@ -308,10 +317,8 @@ def main():
                 targets.extend(batch["labels"].to('cpu').tolist())
             total = len(targets)
             correct = np.sum(np.array(predictions) == np.array(targets))
-            #print("val loss:", np.mean(losses), "val acc:", correct/total*100)
-            print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, "val f1:", 
-                  "val conf:\n", confusion_matrix(targets, predictions)) #f1_score(targets, predictions)*100,
-
+            print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
+                  confusion_matrix(targets, predictions))
     return
 
 if __name__ == "__main__":
