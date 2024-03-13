@@ -113,16 +113,17 @@ class CNN(nn.Module):
         #print(f"Output shape: {outputs.shape}")
         return outputs
 
-class MLP(torch.nn.Module):
+class LSTM(torch.nn.Module):
     def __init__(self, language_model):
-        super(MLP, self).__init__()
+        super(LSTM, self).__init__()
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
+        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=2, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = torch.nn.LeakyReLU()
-        self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
@@ -133,24 +134,28 @@ class MLP(torch.nn.Module):
         """
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
-        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
 
         # calculates perplexity as mean subword suprisal from LM output logits
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
-        mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
+
+        # stack the subword surprisal values onto the word embeddings
+        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
+
+        outputs = self.lstm(outputs)[0][:,-1,:]
+
+
 
         # bring LM output size down so that it doesn't outweigh the additional features
-        outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
         
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
-                            sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                            perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
-                            mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
-                        dim=1)
+                    sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
+                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)),
+                    #mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                dim=1)
         
         # final prediction is reduced to len(class_labels)
         return self.classifier(outputs)
@@ -247,7 +252,7 @@ def main():
     test_dataloader = dataloader_from_pickle("test")
 
     loss_fn = nn.CrossEntropyLoss()#weight=class_weights.to(device))#*alpha)
-    model = CNN(language_model).to(device)
+    model = LSTM(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
 
