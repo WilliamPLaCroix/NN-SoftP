@@ -82,7 +82,7 @@ class CNN(nn.Module):
         self.flattened_size = self.out_channels * pooled_seq_length + 4  # 128 is the out_channels from conv1
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         #self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.dropout = nn.Dropout(0.5)
+        self.dropout = nn.Dropout(0.8)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
@@ -109,6 +109,7 @@ class CNN(nn.Module):
                             sentiment,
                             perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
+        outputs = self.relu(outputs)
         outputs = self.fc1(outputs)
         # outputs = self.relu(outputs)
         # outputs = self.fc2(outputs)
