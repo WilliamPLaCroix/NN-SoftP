@@ -133,7 +133,7 @@ class LSTM(torch.nn.Module):
         # TODO : move lm_out and self.lm outside of class declaration
         """
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
-        outputs = lm_out.hidden_states[-1].to('cpu')
+        outputs = lm_out.hidden_states[-1]
 
         # calculates perplexity as mean subword suprisal from LM output logits
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
@@ -145,7 +145,7 @@ class LSTM(torch.nn.Module):
         print("LM output with surpirsal", outputs.shape, outputs.dtype)
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
-        outputs = self.lstm(outputs)[0][:,-1,:].to(device)
+        outputs = self.lstm(outputs.to('cpu'))[0][:,-1,:].to(device)
 
 
 
