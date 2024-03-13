@@ -203,12 +203,46 @@ def main():
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
+    def shuffled_dataloader_from_pickle():
+        #print(f"padding {split} to max length of {max_sequence_length}")
+        dataframe = pd.read_pickle(f"./pickle_files/train.pkl")
+        # shuffle dataframe
+        dataframe = dataframe.sample(frac=1).reset_index(drop=True)
+        train_dataframe = dataframe.sample(frac=0.8, random_state=42)
+        val_dataframe = dataframe.drop(train_dataframe.index).sample(frac=0.5, random_state=42)
+        test_dataframe = dataframe.drop(train_dataframe.index).drop(val_dataframe.index)
+
+        train_dataset = Dataset.from_pandas(train_dataframe)
+        val_dataset = Dataset.from_pandas(val_dataframe)
+        test_dataset = Dataset.from_pandas(test_dataframe)
+
+        train_tokenized_dataset = train_dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
+        val_tokenized_dataset = val_dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
+        test_tokenized_dataset = test_dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
+
+        global number_of_labels
+        number_of_labels = len(set(train_tokenized_dataset["label"]))
 
 
+        train_tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
+        val_tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
+        test_tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
+        
+        
+        train_dataloader = DataLoader(train_tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
+        val_dataloader = DataLoader(val_tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
+        test_dataloader = DataLoader(test_tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
-    train_dataloader = dataloader_from_pickle("train")
-    val_dataloader = dataloader_from_pickle("validation")
-    test_dataloader = dataloader_from_pickle("test")
+        return train_dataloader, val_dataloader, test_dataloader
+
+    train_dataloader, val_dataloader, test_dataloader = shuffled_dataloader_from_pickle()
+    # train_dataloader = dataloader_from_pickle("train")
+    # val_dataloader = dataloader_from_pickle("validation")
+    # test_dataloader = dataloader_from_pickle("test")
+
+    # shuffle train/val/test dataloaders and randomly sample new ones
+
+
 
     loss_fn = nn.CrossEntropyLoss()#weight=class_weights.to(device))#*alpha)
     model = CNN(language_model).to(device)
