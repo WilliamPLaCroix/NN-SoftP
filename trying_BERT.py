@@ -188,7 +188,7 @@ def main():
     language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
-    if language_model == "bert-base-uncased":
+    if language_model == "bert-base-uncased" or language_model == "meta-llama/Llama-2-7b-hf":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
     def temp_tokenize(data):
