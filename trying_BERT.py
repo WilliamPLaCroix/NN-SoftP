@@ -120,7 +120,7 @@ class LSTM(torch.nn.Module):
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
-        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=2, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype).to('cpu')
+        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=2, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -145,6 +145,7 @@ class LSTM(torch.nn.Module):
         print("LM output with surpirsal", outputs.shape, outputs.dtype)
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
+        self.lstm.to('cpu')
         outputs = self.lstm(outputs.to('cpu'))[0][:,-1,:].to(device)
 
 
