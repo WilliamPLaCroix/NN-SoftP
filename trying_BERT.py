@@ -154,14 +154,27 @@ def main():
         #     5: 5}  # Map positive class labels
         # binary_labels = [label_mapping[label] for label in data["label"]]
         # tokens["label"] = binary_labels
-        return tokenizer(data["statement"], padding=True)
+        return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
+    
+    def find_max_length():
+
+        longest_sequence_length = 0
+        for split in ["train", "validation", "test"]:
+            dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
+            dataset = Dataset.from_pandas(dataframe)
+            tokenized_dataset = dataset.map(tokenize)
+            longest = max([len(x["input_ids"]) for x in tokenized_dataset])
+            print(f"Longest sequence length in {split}:", longest)
+            if longest > longest_sequence_length:
+                longest_sequence_length = longest
+
+        return longest_sequence_length
 
     def dataloader_from_pickle(split):
+        print(f"padding {split} to max length of {max_sequence_length}")
         dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
-        tokenized_dataset = dataset.map(tokenize)#, batch_size=batch_size, batched=True)
-        longest = max([len(x["input_ids"]) for x in tokenized_dataset])
-        print(f"longest sequence in {split}:", longest)
+        tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
         dataset_length = len(tokenized_dataset)
@@ -177,6 +190,10 @@ def main():
         class_weights
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
+
+
+    global max_sequence_length
+    max_sequence_length = find_max_length()
 
 
     train_dataloader = dataloader_from_pickle("train")
