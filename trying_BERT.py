@@ -197,6 +197,10 @@ def main():
 
 
     train_dataloader = dataloader_from_pickle("train")
+    for batch in train_dataloader:
+        print(batch["input_ids"].shape)
+        break
+    
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
