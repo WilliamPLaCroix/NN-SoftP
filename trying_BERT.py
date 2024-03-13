@@ -177,7 +177,7 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.01
+    learning_rate = 0.00001
     alpha = 1
 
     global bnb_config
