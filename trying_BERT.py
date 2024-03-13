@@ -82,7 +82,7 @@ class CNN(nn.Module):
         self.flattened_size = self.out_channels * pooled_seq_length + 4  # 128 is the out_channels from conv1
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         #self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.dropout = nn.Dropout(0.8)
+        self.dropout = nn.Dropout(0.9)
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
@@ -221,20 +221,16 @@ def main():
 
     def remap_labels_tokenize(data):
         tokens = tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
-        label_mapping = {
-            0: 0,
-            1: 1,
-            2: 1,
-            3: 1,
-            4: 0,
-            5: 0}  # Map positive class labels
-        binary_labels = [label_mapping[label] for label in data["label"]]
-        tokens["label"] = binary_labels
+        # label_mapping = {
+        #     0: 0,
+        #     1: 1,
+        #     2: 1,
+        #     3: 1,
+        #     4: 0,
+        #     5: 0}  # Map positive class labels
+        # binary_labels = [label_mapping[label] for label in data["label"]]
+        # tokens["label"] = binary_labels
         return tokens
-        # return tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
-
-    # def tokenize(data):
-    #     return tokenizer(data["statement"], truncation=True, max_length=512, padding=True)
 
 
     def dataloader_from_pickle(split):
