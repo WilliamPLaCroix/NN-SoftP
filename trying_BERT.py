@@ -330,7 +330,7 @@ if __name__ == "__main__":
     LMs_to_run = {"meta-llama/Llama-2-7b-hf", "bert-base-uncased", "google/gemma-2b"}
     to_freeze_or_not_to_freeze = {True, False}
 
-    for architecture, language_model, frozen_or_not in tqdm(product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze)):
+    for architecture, language_model, frozen_or_not in product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze):
         print(f"frozen={frozen_or_not} {architecture} with {language_model}")
         main(architecture, language_model, frozen_or_not)
 
