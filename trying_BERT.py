@@ -128,7 +128,7 @@ class LSTM(torch.nn.Module):
             self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
-        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=1, batch_first=True)
+        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=2, batch_first=True, dropout=0.3)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -253,7 +253,7 @@ def main(architecture, language_model, frozen_or_not):
         learning_rate = 0.0001
         model = CNN(language_model).to(device)
     elif architecture == "LSTM":
-        learning_rate = 0.0001
+        learning_rate = 0.001
         model = LSTM(language_model).to(device)
     else:
         raise ValueError("Invalid architecture. Please choose from {MLP, CNN, LSTM}.")
@@ -263,7 +263,7 @@ def main(architecture, language_model, frozen_or_not):
 
     print(f"training on {device}")
     try:
-        for epoch in range(1000):
+        for epoch in range(10):
             model.train()
             losses = []
             predictions = torch.tensor([]).to(device)
@@ -279,7 +279,6 @@ def main(architecture, language_model, frozen_or_not):
                 optimizer.step()
                 predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
                 targets = torch.cat((targets, batch["labels"]))
-                break
             targets = targets.to("cpu").tolist()
             predictions = predictions.to("cpu").tolist()
             print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100)
@@ -297,12 +296,12 @@ def main(architecture, language_model, frozen_or_not):
                     losses.append(loss.item())
                     predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
                     targets = torch.cat((targets, batch["labels"]))
-                    break
+
                 targets = targets.to("cpu").tolist()
                 predictions = predictions.to("cpu").tolist()
-                print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, 
-                    "val conf:\n", confusion_matrix(targets, predictions))
-            break
+                print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100,"\n\n\n") 
+                    #"val conf:\n", confusion_matrix(targets, predictions))
+
     except KeyboardInterrupt:
         model.eval()
         with torch.no_grad():
@@ -321,6 +320,23 @@ def main(architecture, language_model, frozen_or_not):
             correct = np.sum(np.array(predictions) == np.array(targets))
             print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
                   confusion_matrix(targets, predictions))
+    model.eval()
+    with torch.no_grad():
+        
+        losses = []
+        predictions = []
+        targets = []
+        for batch_number, batch in enumerate(test_dataloader):
+            batch.to(device)
+            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+            loss = loss_fn(outputs, batch["labels"])
+            losses.append(loss.item())
+            predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
+            targets.extend(batch["labels"].to('cpu').tolist())
+        total = len(targets)
+        correct = np.sum(np.array(predictions) == np.array(targets))
+        print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
+                confusion_matrix(targets, predictions))
     model.to("cpu")
     del model
     return
