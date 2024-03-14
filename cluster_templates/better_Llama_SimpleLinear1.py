@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"LLAMA2-7b_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"Ex11_FULLDS_LLAMA2-7b_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -41,7 +41,7 @@ experiment = {
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 32, # USED
+    "BATCH_SIZE" : 8, # USED
     "NUM_EPOCHS" : 100, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.001, # USED
@@ -63,12 +63,16 @@ experiment = {
 
     }
 
+"""
 TOK_PATH = "/projects/misinfo_sp/.cache/token"
 
 with open(TOK_PATH, "r", encoding="utf8") as f:
     token = f.read().strip()
 
 login(token)
+"""
+
+access_token = "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"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -105,7 +109,6 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         train = pd.DataFrame(raw_liar_dataset_train)
         validation = pd.DataFrame(raw_liar_dataset_validation)
         test = pd.DataFrame(raw_liar_dataset_test)
-
 
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
         """
@@ -154,7 +157,6 @@ def make_new_labels_counting_dict(num_classes:int) -> dict():
 
     return classes_dict
 
-
 def tokenize(data):
     """
     """
@@ -193,8 +195,6 @@ class SimplestLinearHead(nn.Module):
         logits = self.fc(pooled_output)
         return logits
 
-
-
 #####################################################################################
 # Running everything defined above
 #####################################################################################
@@ -213,7 +213,7 @@ val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KE
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
 lm = AutoModel.from_pretrained("meta-llama/Llama-2-7b-hf", token=access_token, quantization_config=bnb_config)
-classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"])
+classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
 if experiment["FREEZE_LM"]:
@@ -233,7 +233,6 @@ optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 #####################################################################################
 # TRAINING LOOP
 #####################################################################################
-
 
 #### TODO: clean up train mean loss list, epoch train loss list, ....
 
@@ -307,7 +306,7 @@ try:
         classifier.train()
 
         for batch_number, batch in enumerate(train_dataloader):
-
+            batch.to(device)
             optimizer.zero_grad()
 
             lm_outputs = lm(batch["input_ids"])
@@ -331,6 +330,7 @@ try:
 
         train_mean_loss = np.mean(train_losses)
         epochs_train_loss_list.append(train_mean_loss)
+
 
 
         for target in train_targets:
@@ -362,7 +362,7 @@ try:
             val_losses, val_predictions, val_targets = [], [], []
 
             for batch_number, batch in enumerate(val_dataloader):
-                #batch.to(device)
+                batch.to(device)
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
@@ -374,7 +374,6 @@ try:
 
                 val_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
                 val_targets.extend(batch["labels"].to('cpu').tolist())
-
 
 
         val_predictions = np.array(val_predictions)
@@ -423,6 +422,7 @@ try:
                 print(f"{labels_predicted_val_epoch[label]} \t\t\t {true_targets_val_epoch[label]} \t\t\t {correct_predictions_val_epoch[label]}")
             print("Max memory allocated: " + str(torch.cuda.max_memory_allocated()) + "; Memory allocated: " + str(torch.cuda.memory_allocated()))
 
+
         # Early
         # early stopping:
         if val_accuracy >= best_val_acc_so_far:
@@ -448,15 +448,16 @@ try:
             print(f"Model converged. Training stopped.")
             break
 
-    except KeyboardInterrupt:
-        if PRINTING_FLAG: print("Training canceled!")
-        pass
+except KeyboardInterrupt:
+    if PRINTING_FLAG: print("Training canceled!")
+    pass
 
 
 
 #####################################################################################
 # Training finished
 #####################################################################################
+
 
 training_end_time = time.time()
 training_time_elapsed = training_end_time - training_start_time
@@ -484,10 +485,18 @@ os.mkdir(EXPERIMENT_NAME)
 # Plotting
 #####################################################################################
 
-epochs_list = [i for i in range(number_of_epochs_trained)]
+#epochs_list = [i for i in range(number_of_epochs_trained)]
+epochs_trained_list = [i for i in range(len(epochs_train_acc_list))]
+epochs_validated_list = [i for i in range(len(epochs_val_acc_list))]
 
-plt.plot(epochs_list, epochs_train_acc_list, color="blue", label="Train Accuracy")
-plt.plot(epochs_list, epochs_val_acc_list, color="red", label="Validation Accuracy")
+
+#epochs_list = [i for i in range(number_of_epochs_trained)]
+epochs_trained_list = [i for i in range(len(epochs_train_acc_list))]
+epochs_validated_list = [i for i in range(len(epochs_val_acc_list))]
+
+
+plt.plot(epochs_trained_list, epochs_train_acc_list, color="blue", label="Train Accuracy")
+plt.plot(epochs_validated_list, epochs_val_acc_list, color="red", label="Validation Accuracy")
 plt.xlabel("Number of Epochs")
 plt.ylabel("Accuracy")
 plt.title("Training and Validation Accuracy")
@@ -498,8 +507,8 @@ if PRINTING_FLAG: print(f"Accuracy plot saved at '{acc_plot_filename}'")
 
 plt.clf()
 
-plt.plot(epochs_list, epochs_train_loss_list, color="blue", label="Train Loss")
-plt.plot(epochs_list, epochs_val_loss_list, color="red", label="Validation Loss")
+plt.plot(epochs_trained_list, epochs_train_loss_list, color="blue", label="Train Loss")
+plt.plot(epochs_validated_list, epochs_val_loss_list, color="red", label="Validation Loss")
 plt.xlabel("Number of Epochs")
 plt.ylabel("Loss")
 plt.title("Training and Validation Loss")
@@ -554,7 +563,6 @@ output_log_filename = EXPERIMENT_NAME + "/" + "output_log_" + EXPERIMENT_NAME + 
 with open(output_log_filename, 'w') as file:
     file.write(output_log_string)
 if PRINTING_FLAG: print(f"Output logfile saved at {output_log_filename}")
-
 
 
 
