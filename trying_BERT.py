@@ -143,23 +143,19 @@ class LSTM(torch.nn.Module):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
 
-        # calculates perplexity as mean subword suprisal from LM output logits
+        # calculates perplexity as subword suprisal from LM output logits
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
         # stack the subword surprisal values onto the word embeddings
         outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1).to(torch.float)
-        print("LM output with surpirsal", outputs.shape, outputs.dtype)
-        print("max memory allocated:", torch.cuda.max_memory_allocated())
-        print("memory allocated:", torch.cuda.memory_allocated())
         outputs = self.lstm(outputs)[0][:,-1,:]
         
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
                     sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
                     perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)),
-                    #mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
                 dim=1)
         
         # final prediction is reduced to len(class_labels)
