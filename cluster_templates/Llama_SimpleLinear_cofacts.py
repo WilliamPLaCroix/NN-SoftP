@@ -214,7 +214,6 @@ class SimplestLinearHead(nn.Module):
 
 tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
 tokenizer.pad_token = tokenizer.eos_token
-tokenizer.add_special_tokens({'pad_token': '</s>'})
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
@@ -224,7 +223,13 @@ train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_
 val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
-lm = AutoModel.from_pretrained("meta-llama/Llama-2-7b-hf", quantization_config=bnb_config).bfloat16()
+lm = AutoModelForSequenceClassification.from_pretrained(
+    "meta-llama/Llama-2-7b-hf",
+    device_map="auto",
+    quantization_config=bnb_config,
+    pad_token_id=tokenizer.pad_token_id
+    )
+
 classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"])
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
