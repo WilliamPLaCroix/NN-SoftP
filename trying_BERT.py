@@ -23,7 +23,8 @@ class MLP(torch.nn.Module):
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
         if frozen_or_not == True:
-            self.requires_grad_(False)
+            for param in self.lm.parameters():
+                param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
         self.dropout = torch.nn.Dropout(0.3)
@@ -71,7 +72,8 @@ class CNN(nn.Module):
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
         if frozen_or_not == True:
-            self.requires_grad_(False)
+            for param in self.lm.parameters():
+                param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
 
         # keep the rest
@@ -125,7 +127,8 @@ class LSTM(torch.nn.Module):
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
         if frozen_or_not == True:
-            self.requires_grad_(False)
+            for param in self.lm.parameters():
+                param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
         self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=1, batch_first=True, dropout=0.3)
@@ -247,7 +250,7 @@ def main(architecture, language_model, frozen_or_not):
     
 
     if architecture == "MLP":
-        learning_rate = 0.01
+        learning_rate = 0.001
         model = MLP(language_model).to(device)
     elif architecture == "CNN":
         learning_rate = 0.0001
@@ -345,7 +348,7 @@ if __name__ == "__main__":
 
     architectures_to_run = {"MLP", "CNN", "LSTM"}
     LMs_to_run = {"bert-base-uncased"}#, "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
-    to_freeze_or_not_to_freeze = {False}#, True}
+    to_freeze_or_not_to_freeze = {True}#, False}
 
     for architecture, language_model, frozen_or_not in product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze):
         print(f"frozen={frozen_or_not} {architecture} with {language_model}")
