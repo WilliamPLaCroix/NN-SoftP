@@ -183,7 +183,7 @@ def tokenize(data):
     """
     """
     label_mapping = experiment["LABEL_MAPPING"]
-    tokens = tokenizer(data["statement"])
+    tokens = tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
     binary_labels = [label_mapping[label] for label in data["label"]]
     tokens["label"] = binary_labels
     return tokens
@@ -196,12 +196,12 @@ def dataloader_from_pickle(split, batch_size):
         tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        dataset_length = len(tokenized_dataset)
-        weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-        class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
-                                     dtype=bnb_config.bnb_4bit_compute_dtype)
-        global class_weights
-        class_weights = weights / class_proportions
+        # dataset_length = len(tokenized_dataset)
+        # weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
+        # class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
+        #                              dtype=bnb_config.bnb_4bit_compute_dtype)
+        # global class_weights
+        # class_weights = weights / class_proportions
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -256,12 +256,10 @@ class CNN(nn.Module):
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
 
-if experiment["LM"] == "bert-base-uncased":# or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
+if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
     tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
-
-
 
 train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
 val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
