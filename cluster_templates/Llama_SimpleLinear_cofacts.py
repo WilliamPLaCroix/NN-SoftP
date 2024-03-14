@@ -55,7 +55,7 @@ experiment = {
     "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["text", "label"], # USED
-    "NUM_CLASSES" : 6, # USED
+    "NUM_CLASSES" : 2, # USED
     "LABEL_MAPPING" : { # USED
         0: 0,
         1: 1,
