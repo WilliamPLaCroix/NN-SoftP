@@ -22,7 +22,8 @@ class MLP(torch.nn.Module):
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
-        self.requires_grad_(False)
+        if frozen_or_not:
+            self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
         self.dropout = torch.nn.Dropout(0.3)
@@ -72,7 +73,8 @@ class CNN(nn.Module):
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
-        self.requires_grad_(False)
+        if frozen_or_not:
+            self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
 
         # keep the rest
@@ -125,7 +127,8 @@ class LSTM(torch.nn.Module):
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
-        self.requires_grad_(False)
+        if frozen_or_not:
+            self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
         self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=1, batch_first=True)
@@ -162,7 +165,7 @@ class LSTM(torch.nn.Module):
         return self.classifier(outputs)
 
 
-def main(architecture, language_model):
+def main(architecture, language_model, frozen_or_not):
 
     TOK_PATH = "/projects/misinfo_sp/.cache/token"
 
@@ -323,11 +326,10 @@ if __name__ == "__main__":
 
     architectures_to_run = {"MLP", "CNN", "LSTM"}
     LMs_to_run = {"meta-llama/Llama-2-7b-hf", "bert-base-uncased", "google/gemma-2b"}
+    frozen_or_not = {True, False}
 
-    architectures_to_run = {"LSTM"}
-
-    for architecture, language_model in product(architectures_to_run, LMs_to_run):
-        print(f"Now running {architecture} with {language_model}")
-        main(architecture, language_model)
+    for i, (architecture, language_model) in enumerate(product(architectures_to_run, LMs_to_run, frozen_or_not)):
+        print(f"Run number {i+1}: frozen={frozen_or_not} {architecture} with {language_model}")
+        main(architecture, language_model, frozen_or_not)
 
     #main("LSTM", "bert-base-uncased")
