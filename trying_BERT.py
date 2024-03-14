@@ -17,7 +17,7 @@ from tqdm import tqdm
 class MLP(torch.nn.Module):
     def __init__(self, language_model):
         super(MLP, self).__init__()
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model)#, quantization_config=bnb_config)#, device_map='auto')
+        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
@@ -64,7 +64,7 @@ class CNN(nn.Module):
         """
         # TODO : move lm_out and self.lm outside of class declaration
         """
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model)#, device_map='auto')
+        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
 
@@ -112,7 +112,7 @@ class CNN(nn.Module):
 class LSTM(torch.nn.Module):
     def __init__(self, language_model):
         super(LSTM, self).__init__()
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
+        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
