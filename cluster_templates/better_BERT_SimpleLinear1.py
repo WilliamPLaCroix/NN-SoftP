@@ -1,5 +1,5 @@
 import os
-os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+os.environ['HF_HOME'] = '/data/users/phawlitschek/.cache/'
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import copy
