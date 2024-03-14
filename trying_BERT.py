@@ -242,7 +242,7 @@ def main():
 
     loss_fn = nn.CrossEntropyLoss()
     
-    model = MLP(language_model).to(device)
+    model = CNN(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
 
