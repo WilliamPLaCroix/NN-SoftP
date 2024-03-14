@@ -1,5 +1,6 @@
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 from transformers import AutoModelForCausalLM, DataCollatorWithPadding, AutoTokenizer, BitsAndBytesConfig
 import torch
 from huggingface_hub import login
@@ -179,7 +180,7 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    language_model = "bert-base-uncased"
+    language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased" or language_model == "meta-llama/Llama-2-7b-hf":
