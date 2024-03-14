@@ -88,7 +88,7 @@ class LlamaClfCnn(LlamaPreTrainedModel):
         )
 
         hidden_states = transformer_outputs[0]
-        x = hidden_states.transpose(1,2)
+        x = hidden_states.permute(0, 2, 1) # [batch, input_len, hidden] -> [batch, hidden, input_len]
         x = self.conv1(x)
         x = self.relu(x)
         x = self.pool(x)
