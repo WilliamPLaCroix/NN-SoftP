@@ -17,7 +17,7 @@ from tqdm import tqdm
 class MLP(torch.nn.Module):
     def __init__(self, language_model):
         super(MLP, self).__init__()
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)#, device_map='auto')
+        self.lm = AutoModelForCausalLM.from_pretrained(language_model)#, quantization_config=bnb_config)#, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
