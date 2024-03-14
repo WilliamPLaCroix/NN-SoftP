@@ -90,54 +90,54 @@ bnb_config = BitsAndBytesConfig(
 #####################################################################################
 
 
-def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object, object):
-    """
-    TODO: Implement other datasets
-    TODO: Docstring
-    """
-    if name == "Liar":
-        # load from csv as is in github
-        #raw_liar_dataset_train = pd.read_csv("pickle_files/liar_train.csv")
-        #raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
-        #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
+# def prepare_dataset(name:str, frac:float, columns:list[str]) -> (object, object, object):
+#     """
+#     TODO: Implement other datasets
+#     TODO: Docstring
+#     """
+#     if name == "Liar":
+#         # load from csv as is in github
+#         #raw_liar_dataset_train = pd.read_csv("pickle_files/liar_train.csv")
+#         #raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
+#         #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
 
-        raw_liar_dataset_train = pd.read_csv("liar_train.csv")
-        raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
-        raw_liar_dataset_test = pd.read_csv("liar_test.csv")
+#         raw_liar_dataset_train = pd.read_csv("liar_train.csv")
+#         raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
+#         raw_liar_dataset_test = pd.read_csv("liar_test.csv")
 
-        # convert into pandas dataframe
-        train = pd.DataFrame(raw_liar_dataset_train)
-        validation = pd.DataFrame(raw_liar_dataset_validation)
-        test = pd.DataFrame(raw_liar_dataset_test)
-
-
-    def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
-        """
-        """
-        # determine size
-        train_size = int(len(train) * frac)
-        val_size = int(len(val) * frac)
-        test_size = int(len(test) * frac)
-        # apply shrinkage
-        train = train.head(train_size)
-        validation = val.head(val_size)
-        test = test.head(test_size)
-
-        return train, validation, test
+#         # convert into pandas dataframe
+#         train = pd.DataFrame(raw_liar_dataset_train)
+#         validation = pd.DataFrame(raw_liar_dataset_validation)
+#         test = pd.DataFrame(raw_liar_dataset_test)
 
 
-    if frac < 1.0:
-        train, validation, test = take_top_n_rows(frac, train, validation, test)
+#     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
+#         """
+#         """
+#         # determine size
+#         train_size = int(len(train) * frac)
+#         val_size = int(len(val) * frac)
+#         test_size = int(len(test) * frac)
+#         # apply shrinkage
+#         train = train.head(train_size)
+#         validation = val.head(val_size)
+#         test = test.head(test_size)
 
-    if columns != "ALL":
-        train = train[columns]
-        validation = validation[columns]
-        test = test[columns]
-
-    return train, validation, test
+#         return train, validation, test
 
 
-def make_new_labels_counting_dict(num_classes:int) -> dict():
+#     if frac < 1.0:
+#         train, validation, test = take_top_n_rows(frac, train, validation, test)
+
+#     if columns != "ALL":
+#         train = train[columns]
+#         validation = validation[columns]
+#         test = test[columns]
+
+#     return train, validation, test
+
+
+def make_new_labels_counting_dict(num_classes:int) -> dict:
     """
     """
     if num_classes == 6:
@@ -263,11 +263,11 @@ if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Ll
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
 
-train, validation, test = prepare_dataset(experiment["DATASET"], experiment["DATA_FRAC"], experiment["KEEP_COLUMNS"])
 
-train_dataloader = dataloader_from_pickle(train, experiment["BATCH_SIZE"])
-val_dataloader = dataloader_from_pickle(validation, experiment["BATCH_SIZE"])
-test_dataloader = dataloader_from_pickle(test, experiment["BATCH_SIZE"])
+
+train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
+val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
+test_dataloader = dataloader_from_pickle("test", experiment["BATCH_SIZE"])
 
 lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
 classifier = CNN(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
