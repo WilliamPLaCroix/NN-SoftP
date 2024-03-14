@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex11_FULLDS_LLAMA2-7b_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"Llama-7b_FULL_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -42,7 +42,7 @@ experiment = {
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 8, # USED
-    "NUM_EPOCHS" : 100, # USED
+    "NUM_EPOCHS" : 200, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
@@ -101,9 +101,9 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         #raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
         #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
 
-        raw_liar_dataset_train = pd.read_csv("liar_train.csv")
-        raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
-        raw_liar_dataset_test = pd.read_csv("liar_test.csv")
+        raw_liar_dataset_train = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_train.csv")
+        raw_liar_dataset_validation = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_val.csv")
+        raw_liar_dataset_test = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_test.csv")
 
         # convert into pandas dataframe
         train = pd.DataFrame(raw_liar_dataset_train)
