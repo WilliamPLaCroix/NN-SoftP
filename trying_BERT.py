@@ -128,7 +128,7 @@ class LSTM(torch.nn.Module):
             self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
-        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=2, batch_first=True, dropout=0.3)
+        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=1, batch_first=True, dropout=0.3)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
