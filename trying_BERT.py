@@ -250,8 +250,8 @@ def main():
         for epoch in range(1000):
             model.train()
             losses = []
-            predictions = torch.tensor([])
-            targets = torch.tensor([])
+            predictions = torch.tensor([]).to(device)
+            targets = torch.tensor([]).to(device)
             for batch_number, batch in tqdm(enumerate(train_dataloader)):
                 batch.to(device)
                 
