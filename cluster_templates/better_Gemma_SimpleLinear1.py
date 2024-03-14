@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Gemma-2b_Ex1_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"Gemma-2b_Ex2_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -73,6 +73,7 @@ with open(TOK_PATH, "r", encoding="utf8") as f:
 
 login(token)
 """
+
 
 access_token = "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"
 
