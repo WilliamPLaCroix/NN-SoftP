@@ -205,8 +205,8 @@ class SimplestLinearHead(nn.Module):
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased", token=access_token)
-#tokenizer.pad_token = tokenizer.eos_token
-tokenizer.add_special_tokens({'pad_token': '</s>'})
+tokenizer.pad_token = tokenizer.eos_token
+#tokenizer.add_special_tokens({'pad_token': '</s>'})
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
