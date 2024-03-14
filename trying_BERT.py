@@ -21,7 +21,7 @@ class MLP(torch.nn.Module):
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
-        self.dropout = torch.nn.Dropout(0.9)
+        self.dropout = torch.nn.Dropout(0.3)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -170,7 +170,7 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.0001
+    learning_rate = 0.001
     alpha = 1
 
     global bnb_config
