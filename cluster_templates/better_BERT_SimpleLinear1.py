@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"BERT_FULL1_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"BERT_FULL_1000_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -44,7 +44,7 @@ experiment = {
     "BATCH_SIZE" : 32, # USED
     "NUM_EPOCHS" : 1000, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
-    "LEARNING_RATE" : 0.001, # USED
+    "LEARNING_RATE" : 0.0001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "Liar", # USED
