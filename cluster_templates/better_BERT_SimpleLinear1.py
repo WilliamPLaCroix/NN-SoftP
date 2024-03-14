@@ -32,7 +32,8 @@ PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-
+- remove classifier . to device
+- remove batch . to device
 
 
 """
@@ -216,7 +217,7 @@ val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KE
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
 lm = AutoModel.from_pretrained("google-bert/bert-base-uncased", token=access_token, quantization_config=bnb_config)
-classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"])
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
 if experiment["FREEZE_LM"]:
@@ -309,7 +310,7 @@ try:
         classifier.train()
 
         for batch_number, batch in enumerate(train_dataloader):
-            batch.to(device)
+            #batch.to(device)
             optimizer.zero_grad()
 
             lm_outputs = lm(batch["input_ids"])
@@ -365,7 +366,7 @@ try:
             val_losses, val_predictions, val_targets = [], [], []
 
             for batch_number, batch in enumerate(val_dataloader):
-                batch.to(device)
+                #batch.to(device)
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
