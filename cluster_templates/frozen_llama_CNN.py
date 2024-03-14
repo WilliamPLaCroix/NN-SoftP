@@ -212,10 +212,12 @@ def dataloader_from_pickle(split, batch_size):
 #####################################################################################
 
 class CNN(nn.Module):
-    def __init__(self, lm_output_size:int, num_classes:int):
+    def __init__(self):#, lm_output_size:int, num_classes:int):
         super(CNN, self).__init__()
 
-        self.lm_out_size = lm_output_size
+        self.lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)#, device_map='auto')
+        self.requires_grad_(False)
+        self.lm_out_size = self.lm.config.hidden_size
         self.out_channels = 128
         self.kernel_size = 5
         self.conv1 = nn.Conv1d(in_channels=self.lm_out_size + 1, out_channels=self.out_channels, kernel_size=5, padding=2) # + 1 for surprisal
@@ -227,7 +229,9 @@ class CNN(nn.Module):
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = nn.Dropout(0.9)
 
-    def forward(self, lm_outputs, input_ids, attention_mask, sentiment, perplexity):
+    #def forward(self, lm_outputs, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+        lm_outputs = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_outputs.hidden_states[-1]
         
         logits = torch.nn.functional.softmax(lm_outputs.logits, dim=-1).detach()
@@ -265,19 +269,19 @@ train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
 val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
 test_dataloader = dataloader_from_pickle("test", experiment["BATCH_SIZE"])
 
-lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
-classifier = CNN(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+#lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
+classifier = CNN()#lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
-if experiment["FREEZE_LM"]:
-    if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
-        if PRINTING_FLAG: print("freezing Model... (AutoModel)")
-        for param in lm.parameters():
-            param.requires_grad = False
-    else:
-        if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
-        for param in lm.base_model.parameters():
-            param.requires_grad = False
+# if experiment["FREEZE_LM"]:
+#     if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
+#         if PRINTING_FLAG: print("freezing Model... (AutoModel)")
+#         for param in lm.parameters():
+#             param.requires_grad = False
+    # else:
+    #     if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
+    #     for param in lm.base_model.parameters():
+    #         param.requires_grad = False
 
 loss_fn = nn.CrossEntropyLoss()
 
@@ -335,7 +339,7 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
         optimizer.zero_grad()
 
-        lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
+        #lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
         classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
         loss = loss_fn(classifier_outputs, batch["labels"])
