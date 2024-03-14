@@ -66,9 +66,6 @@ class CNN(nn.Module):
     def __init__(self, language_model):
         super(CNN, self).__init__()
         self.name = "CNN"
-        """
-        # TODO : move lm_out and self.lm outside of class declaration
-        """
         if language_model == "bert-base-uncased":
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
@@ -281,9 +278,7 @@ def main(architecture, language_model, frozen_or_not):
                 loss.backward()
                 optimizer.step()
                 predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
-                #predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets = torch.cat((targets, batch["labels"]))
-                #targets.extend(batch["labels"].to('cpu').tolist())
                 break
             print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets.to("cpu").tolist(), predictions.to("cpu").tolist())*100)
             
@@ -291,15 +286,15 @@ def main(architecture, language_model, frozen_or_not):
             model.eval()
             with torch.no_grad():
                 losses = []
-                predictions = []
-                targets = []
+                predictions = torch.tensor([]).to(device)
+                targets = torch.tensor([]).to(device)
                 for batch_number, batch in enumerate(val_dataloader):
                     batch.to(device)
                     outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
                     loss = loss_fn(outputs, batch["labels"])
                     losses.append(loss.item())
-                    predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-                    targets.extend(batch["labels"].to('cpu').tolist())
+                    predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
+                    targets = torch.cat((targets, batch["labels"]))
                     break
                 print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, 
                     "val conf:\n", confusion_matrix(targets, predictions))
