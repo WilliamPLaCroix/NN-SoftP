@@ -215,7 +215,7 @@ class CNN(nn.Module):
     def __init__(self):#, lm_output_size:int, num_classes:int):
         super(CNN, self).__init__()
 
-        self.lm = AutoModelForCausalLM.from_pretrained(experiment["LM"])#, quantization_config=bnb_config)#, device_map='auto')
+        self.lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config).bfloat16()#, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.out_channels = 128
