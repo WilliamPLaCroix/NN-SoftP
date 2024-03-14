@@ -52,7 +52,7 @@ experiment = {
     "LEARNING_RATE" : 0.001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
-    "DATASET" : "Liar", # USED
+    "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["statement", "label"], # USED
     "NUM_CLASSES" : 6, # USED
