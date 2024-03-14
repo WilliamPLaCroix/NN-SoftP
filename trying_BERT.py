@@ -265,7 +265,7 @@ def main():
                 #predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets = torch.cat((targets, batch["labels"]))
                 #targets.extend(batch["labels"].to('cpu').tolist())
-            print("train loss:", torch.mean(losses), "train acc:", accuracy_score(targets.to("cpu").tolist(), predictions.to("cpu").tolist())*100)
+            print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets.to("cpu").tolist(), predictions.to("cpu").tolist())*100)
             
 
             model.eval()
