@@ -167,20 +167,22 @@ def make_new_labels_counting_dict(num_classes:int) -> dict:
 def find_max_length():
     def temp_tokenize(data):
         return tokenizer(data["statement"])
-    max_length = 0
+    max_sequence_length = 0
     for split in ["train", "validation", "test"]:
         dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(temp_tokenize)
         longest = max([len(x["input_ids"]) for x in tokenized_dataset])
         print(f"Longest sequence length in {split}:", longest)
-        if longest > max_length:
-            max_length = longest
-    print("padding to max length of", max_length)
-    return max_length
+        if longest > max_sequence_length:
+            max_sequence_length = longest
+    print("padding to max length of", max_sequence_length)
+    return max_sequence_length
 
 global max_sequence_length
 max_sequence_length = find_max_length()
+
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
 
 
 def tokenize(data):
@@ -213,7 +215,7 @@ class CNN(nn.Module):
     def __init__(self):#, lm_output_size:int, num_classes:int):
         super(CNN, self).__init__()
 
-        self.lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)#, device_map='auto')
+        self.lm = AutoModelForCausalLM.from_pretrained(experiment["LM"])#, quantization_config=bnb_config)#, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.out_channels = 128
@@ -242,7 +244,8 @@ class CNN(nn.Module):
         outputs = self.pool(outputs)
         outputs = self.dropout(outputs)
 
-        outputs = torch.cat((outputs.view(outputs.size(0), -1),
+        outputs = outputs.view(outputs.size(0), -1)     
+        outputs = torch.cat((outputs,
                             sentiment,
                             perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
@@ -257,7 +260,6 @@ class CNN(nn.Module):
 #####################################################################################
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
 
 train_dataloader = dataloader_from_pickle("train")
 val_dataloader = dataloader_from_pickle("validation")
