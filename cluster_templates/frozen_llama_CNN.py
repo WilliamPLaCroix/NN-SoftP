@@ -74,7 +74,7 @@ with open(TOK_PATH, "r", encoding="utf8") as f:
 
 login(token)
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = "cpu"# torch.device("cuda" if torch.cuda.is_available() else "cpu")
 tokenizer = AutoTokenizer.from_pretrained(experiment["LM"])
 
 bnb_config = BitsAndBytesConfig(
