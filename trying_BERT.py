@@ -325,7 +325,6 @@ if __name__ == "__main__":
     LMs_to_run = {"meta-llama/Llama-2-7b-hf", "bert-base-uncased", "google/gemma-2b"}
 
     architectures_to_run = {"LSTM"}
-    LMs_to_run = {"bert-base-uncased"}
 
     for architecture, language_model in product(architectures_to_run, LMs_to_run):
         print(f"Now running {architecture} with {language_model}")
