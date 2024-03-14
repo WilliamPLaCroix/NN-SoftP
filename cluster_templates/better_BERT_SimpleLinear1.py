@@ -106,8 +106,8 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
 
         raw_liar_dataset_train = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_train.csv")
-        raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
-        raw_liar_dataset_test = pd.read_csv("liar_test.csv")
+        raw_liar_dataset_validation = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_val.csv")
+        raw_liar_dataset_test = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_test.csv")
 
         # convert into pandas dataframe
         train = pd.DataFrame(raw_liar_dataset_train)
