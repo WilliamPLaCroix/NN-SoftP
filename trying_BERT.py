@@ -11,6 +11,9 @@ import torch.nn as nn
 import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix
 from tqdm import tqdm
+from itertools import product
+
+
 
 
 
@@ -163,7 +166,7 @@ class LSTM(torch.nn.Module):
         return self.classifier(outputs)
 
 
-def main():
+def main(architecture, language_model):
 
     TOK_PATH = "/projects/misinfo_sp/.cache/token"
 
@@ -183,7 +186,6 @@ def main():
         bnb_4bit_compute_dtype=torch.bfloat16,
     )
 
-    language_model = "meta-llama/Llama-2-7b-hf"
     tokenizer = AutoTokenizer.from_pretrained(language_model)
     #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased" or language_model == "meta-llama/Llama-2-7b-hf":
@@ -248,14 +250,19 @@ def main():
     loss_fn = nn.CrossEntropyLoss()
     
 
-    model = MLP(language_model).to(device)
+    
 
-    if model.name == "MLP":
+    if architecture == "MLP":
         learning_rate = 0.01
-    elif model.name == "CNN":
+        model = MLP(language_model).to(device)
+    elif architecture == "CNN":
         learning_rate = 0.0001
+        model = CNN(language_model).to(device)
+    elif architecture == "LSTM":
+        learning_rate = 0.0001
+        model = LSTM(language_model).to(device)
     else:
-        learning_rate = 0.001
+        raise ValueError("Invalid architecture. Please choose from {MLP, CNN, LSTM}.")
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -281,6 +288,7 @@ def main():
                 #predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets = torch.cat((targets, batch["labels"]))
                 #targets.extend(batch["labels"].to('cpu').tolist())
+                break
             print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets.to("cpu").tolist(), predictions.to("cpu").tolist())*100)
             
 
@@ -296,8 +304,10 @@ def main():
                     losses.append(loss.item())
                     predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                     targets.extend(batch["labels"].to('cpu').tolist())
+                    break
                 print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, 
                     "val conf:\n", confusion_matrix(targets, predictions))
+            break
     except KeyboardInterrupt:
         model.eval()
         with torch.no_grad():
@@ -312,6 +322,7 @@ def main():
                 losses.append(loss.item())
                 predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets.extend(batch["labels"].to('cpu').tolist())
+                break
             total = len(targets)
             correct = np.sum(np.array(predictions) == np.array(targets))
             print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
@@ -320,5 +331,11 @@ def main():
 
 if __name__ == "__main__":
 
-    
-    main()
+    architectures_to_run = {"MLP", "CNN"}#, "LSTM"}
+    LMs_to_run = {"meta-llama/Llama-2-7b-hf", "bert-base-uncased", "google/gemma-2b"}
+
+    for architecture, language_model in product(architectures_to_run, LMs_to_run):
+        print(f"Now running {architecture} with {language_model}")
+        main(architecture, language_model)
+
+    #main("LSTM", "bert-base-uncased")
