@@ -21,7 +21,7 @@ class MLP(torch.nn.Module):
         if language_model == "bert-base-uncased":
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
-            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
         if frozen_or_not:
             self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
@@ -72,7 +72,7 @@ class CNN(nn.Module):
         if language_model == "bert-base-uncased":
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
-            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
         if frozen_or_not:
             self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
@@ -126,8 +126,8 @@ class LSTM(torch.nn.Module):
         if language_model == "bert-base-uncased":
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
-            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
-        if frozen_or_not:
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
+        if frozen_or_not == True:
             self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
