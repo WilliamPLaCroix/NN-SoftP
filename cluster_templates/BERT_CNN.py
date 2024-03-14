@@ -25,8 +25,6 @@ import matplotlib.pyplot as plt
 """
 Foundation LLM: lm
 Foundation LLM output: lm_outputs
-
-
 """
 
 
@@ -69,7 +67,12 @@ experiment = {
 
     }
 
-access_token = "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"
+TOK_PATH = "/projects/misinfo_sp/.cache/token"
+
+with open(TOK_PATH, "r", encoding="utf8") as f:
+    token = f.read().strip()
+
+login(token)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -219,32 +222,27 @@ class SimplestLinearHead(nn.Module):
 
 
 class CNN(nn.Module):
-    def __init__(self, lm_output_size:int):
+    def __init__(self, lm_output_size:int, num_classes:int):
         super(CNN, self).__init__()
         """
         # TODO : move lm_out and self.lm outside of class declaration
         """
-        #self.lm = AutoModelForCausalLM.from_pretrained(language_model)#, device_map='auto')
-        #self.requires_grad_(False)
-        #self.lm_out_size = self.lm.config.hidden_size
         self.lm_out_size = lm_output_size
         self.out_channels = 128
         self.kernel_size = 5
-        self.conv1 = nn.Conv1d(in_channels=self.lm_out_size + 1, out_channels=self.out_channels, kernel_size=5, padding=2)
+        self.conv1 = nn.Conv1d(in_channels=self.lm_out_size + 1, out_channels=self.out_channels, kernel_size=5, padding=2) # + 1 for surprisal
         self.relu = nn.ReLU()
         self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
 
         # Calculate the size after conv and pooling
-        self.flattened_size = (self.out_channels * (max_sequence_length // self.kernel_size)) + 4  # 128 is the out_channels from conv1
+        self.flattened_size = (self.out_channels * (max_sequence_length // self.kernel_size)) + 4 # + 3 for sentiment, + 1 for perplexity
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
-        #self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = nn.Dropout(0.9)
 
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
-        lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
-        outputs = lm_out.hidden_states[-1]
+    def forward(self, lm_outputs, input_ids, attention_mask, sentiment, perplexity):
+        outputs = lm_outputs.hidden_states[-1]
         
-        logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
+        logits = torch.nn.functional.softmax(lm_outputs.logits, dim=-1).detach()
         word_probabilities = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(word_probabilities) * attention_mask
         outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
@@ -267,9 +265,10 @@ class CNN(nn.Module):
 #####################################################################################
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", token=access_token)
-tokenizer.pad_token = tokenizer.eos_token
-tokenizer.add_special_tokens({'pad_token': '</s>'})
+tokenizer = AutoTokenizer.from_pretrained(experiment["LM"])
+if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
+    tokenizer.pad_token = tokenizer.eos_token
+    tokenizer.add_special_tokens({'pad_token': '</s>'})
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
 
@@ -279,7 +278,7 @@ train_dataloader = dataloader_from_pickle(train, experiment["BATCH_SIZE"])
 val_dataloader = dataloader_from_pickle(validation, experiment["BATCH_SIZE"])
 test_dataloader = dataloader_from_pickle(test, experiment["BATCH_SIZE"])
 
-lm = AutoModel.from_pretrained(experiment["LM"], token=access_token, quantization_config=bnb_config)
+lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
 classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"])
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
@@ -304,50 +303,24 @@ optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 
 #### TODO: clean up train mean loss list, epoch train loss list, ....
 
+epochs_train_loss_list: list[float] = [] # stores training mean loss of epochs
+epochs_train_acc_list: list[float] = [] # stores training accuracy of epochs
 
+epochs_val_loss_list: list[float] = [] # stores validation mean loss of epochs
+epochs_val_acc_list: list[float] = [] # stores validation accuracy of epochs
 
+labels_predicted_train_epochs_list: list[dict[int]:int] = [] # stores dictionaries of train labels predicted each epoch
+true_targets_train_epochs_list: list[dict[int]:int] = [] # stores dictionaries of train true targets each epoch
+correct_predictions_train_epoch_list: list[dict[int]:int] = [] # stores dictionaries of train correct predictions each epoch
 
+labels_predicted_val_epochs_list: list[dict[int]:int] = [] # stores dictionaries of val labels predicted each epoch
+true_targets_val_epochs_list: list[dict[int]:int] = [] # stores dictionaries of val true targets each epoch
+correct_predictions_val_epoch_list: list[dict[int]:int] = [] # stores dictionaries of val correct predictions each epoch
 
-
-
-
-
-
-epochs_train_loss_list = []
-epochs_train_acc_list = []
-# epochs_train_loss_list : list[float] -- stores training mean loss of epochs
-# epochs_train_acc_list : list[float] -- stores training accuracy of epochs
-
-epochs_val_loss_list = []
-epochs_val_acc_list = []
-# epochs_val_loss_list : list[float] -- stores validation mean loss of epochs
-# epochs_val_acc_list : list[float] -- stores validation accuracy of epochs
-
-labels_predicted_train_epochs_list = []
-true_targets_train_epochs_list = []
-correct_predictions_train_epoch_list = []
-# labels_predicted_train_epochs_list : list[dict[int]:int] -- stores dictionaries of train labels predicted each epoch
-# true_targets_train_epochs_list : list[dict[int]:int] -- stores dictionaries of train true targets each epoch
-# correct_predictions_train_epoch : list[dict[int]:int] -- stores dictionaries of train correct predictions each epoch
-
-labels_predicted_val_epochs_list = []
-true_targets_val_epochs_list = []
-correct_predictions_val_epoch_list = []
-# labels_predicted_val_epochs_list : list[dict[int]:int] -- stores dictionaries of val labels predicted each epoch
-# true_targets_val_epochs_list : list[dict[int]:int] -- stores dictionaries of val true targets each epoch
-# correct_predictions_val_epoch : list[dict[int]:int] -- stores dictionaries of val correct predictions each epoch
-
-best_val_acc_so_far = 0.0
-epochs_without_improvement_counter = 0
-# best_val_acc_so_far : float -- stores the highest validation accuracy so far (for early stopping)
-# epochs_without_improvement_counter : int -- stores the number of epochs without any improvement in validation accuracy (for early stopping)
-
-number_of_epochs_trained = 0
-# number_of_epochs_trained : int -- counter of how many epochs have been trained
-
-
-epochs_times_list = []
-# epochs_times_list : list -- stores how much time each epoch took
+best_val_acc_so_far: float = 0.0 # stores the highest validation accuracy so far (for early stopping)
+epochs_without_improvement_counter: int = 0 # stores the number of epochs without any improvement in validation accuracy (for early stopping)
+number_of_epochs_trained: int = 0 # counter of how many epochs have been trained
+epochs_times_list: list = [] # stores how much time each epoch took
 
 training_start_time = time.time()
 for epoch in range(experiment["NUM_EPOCHS"]):
@@ -364,19 +337,19 @@ for epoch in range(experiment["NUM_EPOCHS"]):
     # true_targets_train_epoch : dict[int]:int -- count which labels are true in this training epoch
     # correct_predictions_train_epoch : dict[int]:int -- count which predicted labels were correct in this training epoch
 
-    train_losses, train_predictions, train_targets,  = [], [], []
-    # train losses -- used to accumulate losses during batch training
-    # train_predictions -- used to accumulate predictions during batch training
-    # train targets -- used to accumulate true targets during batch training
+    train_losses: list = [] # used to accumulate losses during batch training
+    train_predictions: list = [] # used to accumulate predictions during batch training
+    train_targets: list = [] # used to accumulate true targets during batch training
 
     classifier.train()
 
     for batch_number, batch in enumerate(train_dataloader):
+        batch.to(device)
 
         optimizer.zero_grad()
 
-        lm_outputs = lm(batch["input_ids"])
-        classifier_outputs = classifier(lm_outputs[0].float())
+        lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
+        classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
         loss = loss_fn(classifier_outputs, batch["labels"])
         train_losses.append(loss.item())
@@ -389,9 +362,7 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
     train_predictions = np.array(train_predictions)
     train_targets = np.array(train_targets)
-    num_predictions_train_epoch = len(train_predictions)
-    num_predictions_train_epoch_correct = np.sum(train_predictions == train_targets)
-    train_accuracy = num_predictions_train_epoch_correct / num_predictions_train_epoch
+    train_accuracy = accuracy_score(train_targets, train_predictions)
     epochs_train_acc_list.append(train_accuracy)
 
     train_mean_loss = np.mean(train_losses)
@@ -431,8 +402,8 @@ for epoch in range(experiment["NUM_EPOCHS"]):
     with torch.no_grad():
         val_losses, val_predictions, val_targets = [], [], []
 
-        for batch_number, batch in enumerate(val_dataloader):
-            #batch.to(device)
+        for _, batch in enumerate(val_dataloader):
+            batch.to(device)
 
             #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
