@@ -5,7 +5,7 @@ import time
 import copy
 import pandas as pd
 import numpy as np
-from tqdm import tqdm
+import pickle
 
 import torch
 import torch.nn as nn
@@ -15,9 +15,10 @@ from torch.utils.data import DataLoader
 
 from datasets import Dataset, load_dataset
 from huggingface_hub import login
+import accelerate
 from transformers import AutoModel, AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
-
-from sklearn.metrics import accuracy_score, confusion_matrix
+from tqdm import tqdm
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
 import matplotlib.pyplot as plt
 
@@ -25,11 +26,13 @@ import matplotlib.pyplot as plt
 """
 Foundation LLM: lm
 Foundation LLM output: lm_outputs
+
+
 """
 
 
 ##################################################
-EXPERIMENT_NAME = f"frozen_Llama_CNN_{time.time()}"
+EXPERIMENT_NAME = f"LLAMA2-7b_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -41,21 +44,20 @@ PRINTING_FLAG = True
 
 ####
 experiment = {
-    "LM" : "meta-llama/Llama-2-7b-hf", # not used in code, define yourself
-    #"LM" : "bert-base-uncased", # USED
-    "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
-    "CLF_HEAD" : "CNN+linear classification head", # not used in code, define yourself
+    "LM" : "LLAMA 2 7B", # not used in code, define yourself
+    "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
+    "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 32, # USED
+    "BATCH_SIZE" : 4, # USED
     "NUM_EPOCHS" : 100, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
-    "LEARNING_RATE" : 0.0001, # USED
+    "LEARNING_RATE" : 0.001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
-    "DATASET" : "Liar", # USED
+    "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
-    "KEEP_COLUMNS" : ["statement", "label"], # USED
-    "NUM_CLASSES" : 6, # USED
+    "KEEP_COLUMNS" : ["text", "label"], # USED
+    "NUM_CLASSES" : 2, # USED
     "LABEL_MAPPING" : { # USED
         0: 0,
         1: 1,
@@ -68,18 +70,9 @@ experiment = {
 
     }
 
-TOK_PATH = "/projects/misinfo_sp/.cache/token"
-
-with open(TOK_PATH, "r", encoding="utf8") as f:
-    token = f.read().strip()
-
-login(token)
+access_token = "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"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-tokenizer = AutoTokenizer.from_pretrained(experiment["LM"])
-if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
-        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -95,54 +88,62 @@ bnb_config = BitsAndBytesConfig(
 #####################################################################################
 
 
-# def prepare_dataset(name:str, frac:float, columns:list[str]) -> (object, object, object):
-#     """
-#     TODO: Implement other datasets
-#     TODO: Docstring
-#     """
-#     if name == "Liar":
-#         # load from csv as is in github
-#         #raw_liar_dataset_train = pd.read_csv("pickle_files/liar_train.csv")
-#         #raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
-#         #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
+def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object, object):
+    """
+    TODO: Implement other datasets
+    TODO: Docstring
+    """
+    if name == "Liar":
+        # load from csv as is in github
+        #raw_liar_dataset_train = pd.read_csv("pickle_files/liar_train.csv")
+        #raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
+        #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
 
-#         raw_liar_dataset_train = pd.read_csv("liar_train.csv")
-#         raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
-#         raw_liar_dataset_test = pd.read_csv("liar_test.csv")
+        raw_liar_dataset_train = pd.read_csv("liar_train.csv")
+        raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
+        raw_liar_dataset_test = pd.read_csv("liar_test.csv")
 
-#         # convert into pandas dataframe
-#         train = pd.DataFrame(raw_liar_dataset_train)
-#         validation = pd.DataFrame(raw_liar_dataset_validation)
-#         test = pd.DataFrame(raw_liar_dataset_test)
+        # convert into pandas dataframe
+        train = pd.DataFrame(raw_liar_dataset_train)
+        validation = pd.DataFrame(raw_liar_dataset_validation)
+        test = pd.DataFrame(raw_liar_dataset_test)
+    
+    if name == "cofacts":
+        cofacts_ds = load_dataset("FNHQ/cofacts")
 
-
-#     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
-#         """
-#         """
-#         # determine size
-#         train_size = int(len(train) * frac)
-#         val_size = int(len(val) * frac)
-#         test_size = int(len(test) * frac)
-#         # apply shrinkage
-#         train = train.head(train_size)
-#         validation = val.head(val_size)
-#         test = test.head(test_size)
-
-#         return train, validation, test
+        # to pandas df
+        train = pd.DataFrame(cofacts_ds["train"])
+        validation = pd.DataFrame(cofacts_ds["validation"])
+        test = pd.DataFrame(cofacts_ds["test"])
 
 
-#     if frac < 1.0:
-#         train, validation, test = take_top_n_rows(frac, train, validation, test)
+    def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
+        """
+        """
+        # determine size
+        train_size = int(len(train) * frac)
+        val_size = int(len(val) * frac)
+        test_size = int(len(test) * frac)
+        # apply shrinkage
+        train = train.head(train_size)
+        validation = val.head(val_size)
+        test = test.head(test_size)
 
-#     if columns != "ALL":
-#         train = train[columns]
-#         validation = validation[columns]
-#         test = test[columns]
-
-#     return train, validation, test
+        return train, validation, test
 
 
-def make_new_labels_counting_dict(num_classes:int) -> dict:
+    if frac < 1.0:
+        train, validation, test = take_top_n_rows(frac, train, validation, test)
+
+    if columns != "ALL":
+        train = train[columns]
+        validation = validation[columns]
+        test = test[columns]
+
+    return train, validation, test
+
+
+def make_new_labels_counting_dict(num_classes:int) -> dict():
     """
     """
     if num_classes == 6:
@@ -164,46 +165,31 @@ def make_new_labels_counting_dict(num_classes:int) -> dict:
     return classes_dict
 
 
-def find_max_length():
-    def temp_tokenize(data):
-        return tokenizer(data["statement"])
-    max_sequence_length = 0
-    for split in ["train", "validation", "test"]:
-        dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
-        dataset = Dataset.from_pandas(dataframe)
-        tokenized_dataset = dataset.map(temp_tokenize)
-        longest = max([len(x["input_ids"]) for x in tokenized_dataset])
-        print(f"Longest sequence length in {split}:", longest)
-        if longest > max_sequence_length:
-            max_sequence_length = longest
-    print("padding to max length of", max_sequence_length)
-    return max_sequence_length
-
-global max_sequence_length
-max_sequence_length = find_max_length()
-
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
-
-
 def tokenize(data):
     """
     """
     label_mapping = experiment["LABEL_MAPPING"]
-    tokens = tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
+    tokens = tokenizer(data["text"])
     binary_labels = [label_mapping[label] for label in data["label"]]
     tokens["label"] = binary_labels
     return tokens
 
 
-def dataloader_from_pickle(split):
-        batch_size = experiment["BATCH_SIZE"]
-        dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
-        dataset = Dataset.from_pandas(dataframe)
-        tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
-        global number_of_labels
-        number_of_labels = len(set(tokenized_dataset["label"]))
-        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
-        return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
+def dataloader(datasplit, batch_size, columns_to_keep):
+    """
+    """
+    dataset = Dataset.from_pandas(datasplit)
+    tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
+    global number_of_labels
+    number_of_labels = len(set(tokenized_dataset["label"]))
+    dataset_length = len(tokenized_dataset)
+    weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
+    class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
+                                    dtype=bnb_config.bnb_4bit_compute_dtype)
+    global class_weights
+    class_weights = weights / class_proportions
+    tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label'])
+    return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
 
@@ -211,48 +197,16 @@ def dataloader_from_pickle(split):
 # Define classification head here
 #####################################################################################
 
-class CNN(nn.Module):
-    def __init__(self):#, lm_output_size:int, num_classes:int):
-        super(CNN, self).__init__()
+class SimplestLinearHead(nn.Module):
+    def __init__(self, lm_output_size:int, num_classes:int):
+        super(SimplestLinearHead, self).__init__()
+        self.fc = nn.Linear(lm_output_size, num_classes)
 
-        self.lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config, device_map='auto').bfloat16()
-        self.requires_grad_(False)
-        self.lm_out_size = self.lm.config.hidden_size
-        self.out_channels = 128
-        self.kernel_size = 5
-        self.conv1 = nn.Conv1d(in_channels=self.lm_out_size + 1, out_channels=self.out_channels, kernel_size=5, padding=2) # + 1 for surprisal
-        self.relu = nn.ReLU()
-        self.pool = nn.MaxPool1d(kernel_size=self.kernel_size)
+    def forward(self, lm_hidden_states):
+        pooled_output = torch.mean(lm_hidden_states, dim=1)
+        logits = self.fc(pooled_output)
+        return logits
 
-        # Calculate the size after conv and pooling
-        self.flattened_size = (self.out_channels * (max_sequence_length // self.kernel_size)) + 4 # + 3 for sentiment, + 1 for perplexity
-        self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.dropout = nn.Dropout(0.9)
-
-    #def forward(self, lm_outputs, input_ids, attention_mask, sentiment, perplexity):
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
-        lm_outputs = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
-        outputs = lm_outputs.hidden_states[-1]
-        
-        logits = torch.nn.functional.softmax(lm_outputs.logits, dim=-1).detach()
-        word_probabilities = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
-        subword_surp = -1 * torch.log2(word_probabilities) * attention_mask
-
-        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
-
-        outputs = self.conv1(outputs.permute(0,2,1).to(torch.float))
-        outputs = self.pool(outputs)
-        outputs = self.dropout(outputs)
-
-        outputs = outputs.view(outputs.size(0), -1)     
-        outputs = torch.cat((outputs,
-                            sentiment,
-                            perplexity.unsqueeze(-1),
-                            ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
-        
-        outputs = self.relu(outputs)
-        outputs = self.fc1(outputs)
-        return outputs
 
 
 #####################################################################################
@@ -260,24 +214,36 @@ class CNN(nn.Module):
 #####################################################################################
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
+tokenizer.pad_token = tokenizer.eos_token
 
-train_dataloader = dataloader_from_pickle("train")
-val_dataloader = dataloader_from_pickle("validation")
-test_dataloader = dataloader_from_pickle("test")
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
-#lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
-classifier = CNN().to(device)#lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
-#if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
+train, validation, test = prepare_dataset(experiment["DATASET"], experiment["DATA_FRAC"], experiment["KEEP_COLUMNS"])
 
-# if experiment["FREEZE_LM"]:
-#     if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
-#         if PRINTING_FLAG: print("freezing Model... (AutoModel)")
-#         for param in lm.parameters():
-#             param.requires_grad = False
-    # else:
-    #     if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
-    #     for param in lm.base_model.parameters():
-    #         param.requires_grad = False
+train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
+val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
+test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
+
+lm = AutoModel.from_pretrained(
+    "meta-llama/Llama-2-7b-hf",
+    device_map="auto",
+    quantization_config=bnb_config,
+    pad_token_id=tokenizer.pad_token_id
+    )
+
+classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
+
+if experiment["FREEZE_LM"]:
+    if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
+        if PRINTING_FLAG: print("freezing Model... (AutoModel)")
+        for param in lm.parameters():
+            param.requires_grad = False
+    else:
+        if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
+        for param in lm.base_model.parameters():
+            param.requires_grad = False
 
 loss_fn = nn.CrossEntropyLoss()
 
@@ -290,24 +256,50 @@ optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 
 #### TODO: clean up train mean loss list, epoch train loss list, ....
 
-epochs_train_loss_list: list[float] = [] # stores training mean loss of epochs
-epochs_train_acc_list: list[float] = [] # stores training accuracy of epochs
 
-epochs_val_loss_list: list[float] = [] # stores validation mean loss of epochs
-epochs_val_acc_list: list[float] = [] # stores validation accuracy of epochs
 
-labels_predicted_train_epochs_list: list[dict[int]:int] = [] # stores dictionaries of train labels predicted each epoch
-true_targets_train_epochs_list: list[dict[int]:int] = [] # stores dictionaries of train true targets each epoch
-correct_predictions_train_epoch_list: list[dict[int]:int] = [] # stores dictionaries of train correct predictions each epoch
 
-labels_predicted_val_epochs_list: list[dict[int]:int] = [] # stores dictionaries of val labels predicted each epoch
-true_targets_val_epochs_list: list[dict[int]:int] = [] # stores dictionaries of val true targets each epoch
-correct_predictions_val_epoch_list: list[dict[int]:int] = [] # stores dictionaries of val correct predictions each epoch
 
-best_val_acc_so_far: float = 0.0 # stores the highest validation accuracy so far (for early stopping)
-epochs_without_improvement_counter: int = 0 # stores the number of epochs without any improvement in validation accuracy (for early stopping)
-number_of_epochs_trained: int = 0 # counter of how many epochs have been trained
-epochs_times_list: list = [] # stores how much time each epoch took
+
+
+
+
+
+epochs_train_loss_list = []
+epochs_train_acc_list = []
+# epochs_train_loss_list : list[float] -- stores training mean loss of epochs
+# epochs_train_acc_list : list[float] -- stores training accuracy of epochs
+
+epochs_val_loss_list = []
+epochs_val_acc_list = []
+# epochs_val_loss_list : list[float] -- stores validation mean loss of epochs
+# epochs_val_acc_list : list[float] -- stores validation accuracy of epochs
+
+labels_predicted_train_epochs_list = []
+true_targets_train_epochs_list = []
+correct_predictions_train_epoch_list = []
+# labels_predicted_train_epochs_list : list[dict[int]:int] -- stores dictionaries of train labels predicted each epoch
+# true_targets_train_epochs_list : list[dict[int]:int] -- stores dictionaries of train true targets each epoch
+# correct_predictions_train_epoch : list[dict[int]:int] -- stores dictionaries of train correct predictions each epoch
+
+labels_predicted_val_epochs_list = []
+true_targets_val_epochs_list = []
+correct_predictions_val_epoch_list = []
+# labels_predicted_val_epochs_list : list[dict[int]:int] -- stores dictionaries of val labels predicted each epoch
+# true_targets_val_epochs_list : list[dict[int]:int] -- stores dictionaries of val true targets each epoch
+# correct_predictions_val_epoch : list[dict[int]:int] -- stores dictionaries of val correct predictions each epoch
+
+best_val_acc_so_far = 0.0
+epochs_without_improvement_counter = 0
+# best_val_acc_so_far : float -- stores the highest validation accuracy so far (for early stopping)
+# epochs_without_improvement_counter : int -- stores the number of epochs without any improvement in validation accuracy (for early stopping)
+
+number_of_epochs_trained = 0
+# number_of_epochs_trained : int -- counter of how many epochs have been trained
+
+
+epochs_times_list = []
+# epochs_times_list : list -- stores how much time each epoch took
 
 training_start_time = time.time()
 for epoch in range(experiment["NUM_EPOCHS"]):
@@ -324,21 +316,21 @@ for epoch in range(experiment["NUM_EPOCHS"]):
     # true_targets_train_epoch : dict[int]:int -- count which labels are true in this training epoch
     # correct_predictions_train_epoch : dict[int]:int -- count which predicted labels were correct in this training epoch
 
-    train_losses: list = [] # used to accumulate losses during batch training
-    train_predictions: list = [] # used to accumulate predictions during batch training
-    train_targets: list = [] # used to accumulate true targets during batch training
+    train_losses, train_predictions, train_targets,  = [], [], []
+    # train losses -- used to accumulate losses during batch training
+    # train_predictions -- used to accumulate predictions during batch training
+    # train targets -- used to accumulate true targets during batch training
 
     classifier.train()
 
-    for _, batch in enumerate(train_dataloader):
+    for batch in tqdm(train_dataloader):
         batch.to(device)
 
         optimizer.zero_grad()
 
-        #lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
-        #classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-        classifier_outputs = classifier(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-                
+        lm_outputs = lm(batch["input_ids"])
+        classifier_outputs = classifier(lm_outputs[0].float())
+
         loss = loss_fn(classifier_outputs, batch["labels"])
         train_losses.append(loss.item())
 
@@ -350,7 +342,9 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
     train_predictions = np.array(train_predictions)
     train_targets = np.array(train_targets)
-    train_accuracy = accuracy_score(train_targets, train_predictions)
+    num_predictions_train_epoch = len(train_predictions)
+    num_predictions_train_epoch_correct = np.sum(train_predictions == train_targets)
+    train_accuracy = num_predictions_train_epoch_correct / num_predictions_train_epoch
     epochs_train_acc_list.append(train_accuracy)
 
     train_mean_loss = np.mean(train_losses)
@@ -390,16 +384,14 @@ for epoch in range(experiment["NUM_EPOCHS"]):
     with torch.no_grad():
         val_losses, val_predictions, val_targets = [], [], []
 
-        for _, batch in enumerate(val_dataloader):
+        for batch_number, batch in enumerate(val_dataloader):
             batch.to(device)
 
             #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-            # lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
-            # classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-            
-            classifier_outputs = classifier(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-                
+            lm_outputs = lm(batch["input_ids"])
+            classifier_outputs = classifier(lm_outputs[0].float())
+
             loss = loss_fn(classifier_outputs, batch["labels"])
             val_losses.append(loss.item())
 

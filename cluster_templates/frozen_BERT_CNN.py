@@ -1,5 +1,6 @@
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import copy
 import pandas as pd
@@ -28,7 +29,7 @@ Foundation LLM output: lm_outputs
 
 
 ##################################################
-EXPERIMENT_NAME = f"BERT_CNN_{time.time()}"
+EXPERIMENT_NAME = f"frozen_Llama_CNN_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -40,7 +41,8 @@ PRINTING_FLAG = True
 
 ####
 experiment = {
-    "LM" : "bert-base-uncased", # not used in code, define yourself
+    "LM" : "meta-llama/Llama-2-7b-hf", # not used in code, define yourself
+    #"LM" : "bert-base-uncased", # USED
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
     "CLF_HEAD" : "CNN+linear classification head", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
@@ -75,6 +77,9 @@ login(token)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 tokenizer = AutoTokenizer.from_pretrained(experiment["LM"])
+if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
+        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -162,45 +167,41 @@ def make_new_labels_counting_dict(num_classes:int) -> dict:
 def find_max_length():
     def temp_tokenize(data):
         return tokenizer(data["statement"])
-    max_length = 0
+    max_sequence_length = 0
     for split in ["train", "validation", "test"]:
         dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(temp_tokenize)
         longest = max([len(x["input_ids"]) for x in tokenized_dataset])
         print(f"Longest sequence length in {split}:", longest)
-        if longest > max_length:
-            max_length = longest
-    print("padding to max length of", max_length)
-    return max_length
+        if longest > max_sequence_length:
+            max_sequence_length = longest
+    print("padding to max length of", max_sequence_length)
+    return max_sequence_length
 
 global max_sequence_length
 max_sequence_length = find_max_length()
+
+data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
 
 
 def tokenize(data):
     """
     """
     label_mapping = experiment["LABEL_MAPPING"]
-    tokens = tokenizer(data["statement"])
+    tokens = tokenizer(data["statement"], padding="max_length", max_length=max_sequence_length)
     binary_labels = [label_mapping[label] for label in data["label"]]
     tokens["label"] = binary_labels
     return tokens
 
 
-def dataloader_from_pickle(split, batch_size):
-
+def dataloader_from_pickle(split):
+        batch_size = experiment["BATCH_SIZE"]
         dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        dataset_length = len(tokenized_dataset)
-        weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-        class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
-                                     dtype=bnb_config.bnb_4bit_compute_dtype)
-        global class_weights
-        class_weights = weights / class_proportions
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -211,12 +212,12 @@ def dataloader_from_pickle(split, batch_size):
 #####################################################################################
 
 class CNN(nn.Module):
-    def __init__(self, lm_output_size:int, num_classes:int):
+    def __init__(self):#, lm_output_size:int, num_classes:int):
         super(CNN, self).__init__()
-        """
-        # TODO : move lm_out and self.lm outside of class declaration
-        """
-        self.lm_out_size = lm_output_size
+
+        self.lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config, device_map='auto').bfloat16()
+        self.requires_grad_(False)
+        self.lm_out_size = self.lm.config.hidden_size
         self.out_channels = 128
         self.kernel_size = 5
         self.conv1 = nn.Conv1d(in_channels=self.lm_out_size + 1, out_channels=self.out_channels, kernel_size=5, padding=2) # + 1 for surprisal
@@ -228,7 +229,9 @@ class CNN(nn.Module):
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = nn.Dropout(0.9)
 
-    def forward(self, lm_outputs, input_ids, attention_mask, sentiment, perplexity):
+    #def forward(self, lm_outputs, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+        lm_outputs = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_outputs.hidden_states[-1]
         
         logits = torch.nn.functional.softmax(lm_outputs.logits, dim=-1).detach()
@@ -241,7 +244,8 @@ class CNN(nn.Module):
         outputs = self.pool(outputs)
         outputs = self.dropout(outputs)
 
-        outputs = torch.cat((outputs.view(outputs.size(0), -1),
+        outputs = outputs.view(outputs.size(0), -1)     
+        outputs = torch.cat((outputs,
                             sentiment,
                             perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
@@ -257,30 +261,23 @@ class CNN(nn.Module):
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
 
-if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+train_dataloader = dataloader_from_pickle("train")
+val_dataloader = dataloader_from_pickle("validation")
+test_dataloader = dataloader_from_pickle("test")
 
-data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
+#lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
+classifier = CNN().to(device)#lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+#if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
-
-
-train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
-val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
-test_dataloader = dataloader_from_pickle("test", experiment["BATCH_SIZE"])
-
-lm = AutoModelForCausalLM.from_pretrained(experiment["LM"]).to(device)#, quantization_config=bnb_config)
-classifier = CNN(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
-if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
-
-if experiment["FREEZE_LM"]:
-    if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
-        if PRINTING_FLAG: print("freezing Model... (AutoModel)")
-        for param in lm.parameters():
-            param.requires_grad = False
-    else:
-        if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
-        for param in lm.base_model.parameters():
-            param.requires_grad = False
+# if experiment["FREEZE_LM"]:
+#     if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
+#         if PRINTING_FLAG: print("freezing Model... (AutoModel)")
+#         for param in lm.parameters():
+#             param.requires_grad = False
+    # else:
+    #     if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
+    #     for param in lm.base_model.parameters():
+    #         param.requires_grad = False
 
 loss_fn = nn.CrossEntropyLoss()
 
@@ -338,9 +335,10 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
         optimizer.zero_grad()
 
-        lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
-        classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-
+        #lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
+        #classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+        classifier_outputs = classifier(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                
         loss = loss_fn(classifier_outputs, batch["labels"])
         train_losses.append(loss.item())
 
@@ -397,9 +395,11 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
             #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-            lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
-            classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-
+            # lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
+            # classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+            
+            classifier_outputs = classifier(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                
             loss = loss_fn(classifier_outputs, batch["labels"])
             val_losses.append(loss.item())
 
