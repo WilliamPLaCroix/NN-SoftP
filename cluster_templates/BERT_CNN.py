@@ -1,4 +1,5 @@
 import os
+os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
 import time
 import copy
 import pandas as pd
@@ -29,7 +30,7 @@ Foundation LLM output: lm_outputs
 
 
 ##################################################
-EXPERIMENT_NAME = f"LLAMA2-7b_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"BERT_CNN_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
