@@ -118,6 +118,12 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         validation = pd.DataFrame(cofacts_ds["validation"])
         test = pd.DataFrame(cofacts_ds["test"])
 
+        target_counts = train["label"].value_counts()
+        global pos_weights
+        pos_weights = len(train) / (2 * target_counts[1])  # Assuming positive label is 1 (fake news)
+        global neg_weights
+        neg_weights = len(train) / (2 * target_counts[0])
+
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
         """
         """
@@ -182,12 +188,12 @@ def dataloader(datasplit, batch_size, columns_to_keep):
     tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
     global number_of_labels
     number_of_labels = len(set(tokenized_dataset["label"]))
-    dataset_length = len(tokenized_dataset)
-    weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-    class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
-                                    dtype=bnb_config.bnb_4bit_compute_dtype)
-    global class_weights
-    class_weights = weights / class_proportions
+#    dataset_length = len(tokenized_dataset)
+#    weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
+#    class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
+#                                    dtype=bnb_config.bnb_4bit_compute_dtype)
+#    global class_weights
+#    class_weights = weights / class_proportions
     tokenized_dataset.set_format(type='torch', columns=["input_ids", "attention_mask", "label"])
     return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -243,7 +249,7 @@ if experiment["FREEZE_LM"]:
         for param in lm.base_model.parameters():
             param.requires_grad = False
 
-loss_fn = nn.CrossEntropyLoss()
+loss_fn = torch.nn.CrossEntropyLoss(weight=torch.tensor([self.neg_weights, self.pos_weights], device=model.device, dtype=logits.dtype))
 
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 
