@@ -250,8 +250,8 @@ def main():
         for epoch in range(1000):
             model.train()
             losses = []
-            predictions = []
-            targets = []
+            predictions = torch.tensor([])
+            targets = torch.tensor([])
             for batch_number, batch in tqdm(enumerate(train_dataloader)):
                 batch.to(device)
                 
@@ -261,9 +261,11 @@ def main():
                 losses.append(loss.item())
                 loss.backward()
                 optimizer.step()
-                predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-                targets.extend(batch["labels"].to('cpu').tolist())
-            print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100)
+                predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
+                #predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
+                targets = torch.cat((targets, batch["labels"]))
+                #targets.extend(batch["labels"].to('cpu').tolist())
+            print("train loss:", torch.mean(losses), "train acc:", accuracy_score(targets.to("cpu").tolist(), predictions.to("cpu").tolist())*100)
             
 
             model.eval()
