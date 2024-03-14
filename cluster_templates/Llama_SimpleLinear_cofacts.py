@@ -54,7 +54,7 @@ experiment = {
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
-    "KEEP_COLUMNS" : ["statement", "label"], # USED
+    "KEEP_COLUMNS" : ["text", "label"], # USED
     "NUM_CLASSES" : 6, # USED
     "LABEL_MAPPING" : { # USED
         0: 0,
