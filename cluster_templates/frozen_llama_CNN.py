@@ -41,8 +41,8 @@ PRINTING_FLAG = True
 
 ####
 experiment = {
-    #"LM" : "meta-llama/Llama-2-7b-hf", # not used in code, define yourself
-    "LM" : "bert-base-uncased", # USED
+    "LM" : "meta-llama/Llama-2-7b-hf", # not used in code, define yourself
+    #"LM" : "bert-base-uncased", # USED
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
     "CLF_HEAD" : "CNN+linear classification head", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
