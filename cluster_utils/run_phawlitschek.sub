@@ -4,7 +4,7 @@
 universe                = docker
 docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.6
 initialdir              = /nethome/phawlitschek
-executable              = /nethome/phawlitschek/NN-SoftP/run_script_phawlitschek.sh
+executable              = /nethome/phawlitschek/NN-SoftP/cluster_utils/run_script_phawlitschek.sh
 output                  = /data/users/phawlitschek/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 error                   = /data/users/phawlitschek/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 log                     = /data/users/phawlitschek/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
@@ -12,5 +12,5 @@ request_CPUs            = 1
 request_memory          = 20G
 request_GPUs            = 1
 #requirements            = (GPUs_GlobalMemoryMb >= 16000) && (machine == "cl18lx.lsv.uni-saarland.de")
-requirements            = (GPUs_GlobalMemoryMb >= 16000) && ((machine == "cl18lx.lsv.uni-saarland.de") || (machine == "cl17lx.lsv.uni-saarland.de"))
+requirements            = (GPUs_GlobalMemoryMb >= 16000) && ((machine == "cl18lx.lsv.uni-saarland.de") || (machine == "cl17lx.lsv.uni-saarland.de") || (machine == "cl16lx.lsv.uni-saarland.de"))
 queue 1
