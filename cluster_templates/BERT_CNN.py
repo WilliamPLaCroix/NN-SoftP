@@ -258,8 +258,7 @@ class CNN(nn.Module):
 
 
 if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
-    tokenizer.pad_token = tokenizer.eos_token
-    tokenizer.add_special_tokens({'pad_token': '</s>'})
+    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
 
