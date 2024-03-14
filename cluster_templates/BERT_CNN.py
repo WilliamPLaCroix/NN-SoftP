@@ -4,7 +4,6 @@ import time
 import copy
 import pandas as pd
 import numpy as np
-import pickle
 from tqdm import tqdm
 
 import torch
@@ -15,7 +14,6 @@ from torch.utils.data import DataLoader
 
 from datasets import Dataset, load_dataset
 from huggingface_hub import login
-import accelerate
 from transformers import AutoModel, AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
 
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -271,7 +269,7 @@ train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
 val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
 test_dataloader = dataloader_from_pickle("test", experiment["BATCH_SIZE"])
 
-lm = AutoModelForCausalLM.from_pretrained(experiment["LM"])#, quantization_config=bnb_config)
+lm = AutoModelForCausalLM.from_pretrained(experiment["LM"]).to(device)#, quantization_config=bnb_config)
 classifier = CNN(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
