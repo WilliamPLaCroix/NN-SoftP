@@ -131,8 +131,9 @@ class LSTM(torch.nn.Module):
                 param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
-        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=1, batch_first=True, dropout=0.3)
+        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=1, batch_first=True)
         self.activation = torch.nn.LeakyReLU()
+        self.dropout = torch.nn.Dropout(0.5)
         self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
@@ -154,6 +155,7 @@ class LSTM(torch.nn.Module):
         # stack the subword surprisal values onto the word embeddings
         outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1).to(torch.float)
         outputs = self.lstm(outputs)[0][:,-1,:]
+        outputs = self.dropout(outputs)
         
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
@@ -347,7 +349,7 @@ def main(architecture, language_model, frozen_or_not):
 if __name__ == "__main__":
 
     architectures_to_run = {"MLP", "CNN", "LSTM"}
-    LMs_to_run = {"bert-base-uncased"}#, "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
+    LMs_to_run = {"meta-llama/Llama-2-7b-hf"}#, "bert-base-uncased", "google/gemma-2b"}
     to_freeze_or_not_to_freeze = {True}#, False}
 
     for architecture, language_model, frozen_or_not in product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze):
