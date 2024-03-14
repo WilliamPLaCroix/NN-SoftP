@@ -280,7 +280,9 @@ def main(architecture, language_model, frozen_or_not):
                 predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
                 targets = torch.cat((targets, batch["labels"]))
                 break
-            print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets.to("cpu").tolist(), predictions.to("cpu").tolist())*100)
+            targets = targets.to("cpu").tolist()
+            predictions = predictions.to("cpu").tolist()
+            print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100)
             
 
             model.eval()
@@ -296,6 +298,8 @@ def main(architecture, language_model, frozen_or_not):
                     predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
                     targets = torch.cat((targets, batch["labels"]))
                     break
+                targets = targets.to("cpu").tolist()
+                predictions = predictions.to("cpu").tolist()
                 print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, 
                     "val conf:\n", confusion_matrix(targets, predictions))
             break
