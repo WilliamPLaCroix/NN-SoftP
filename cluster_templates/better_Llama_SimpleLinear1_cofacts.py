@@ -228,7 +228,7 @@ lm = AutoModel.from_pretrained(
     device_map="auto",
     quantization_config=bnb_config,
     pad_token_id=tokenizer.pad_token_id
-    ).bfloat16()
+    )
 
 classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
