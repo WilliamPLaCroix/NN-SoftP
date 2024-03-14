@@ -250,8 +250,6 @@ def main(architecture, language_model):
     loss_fn = nn.CrossEntropyLoss()
     
 
-    
-
     if architecture == "MLP":
         learning_rate = 0.01
         model = MLP(language_model).to(device)
@@ -266,7 +264,6 @@ def main(architecture, language_model):
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-    
 
     print(f"training on {device}")
     try:
@@ -288,7 +285,6 @@ def main(architecture, language_model):
                 #predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets = torch.cat((targets, batch["labels"]))
                 #targets.extend(batch["labels"].to('cpu').tolist())
-                break
             print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets.to("cpu").tolist(), predictions.to("cpu").tolist())*100)
             
 
@@ -304,7 +300,6 @@ def main(architecture, language_model):
                     losses.append(loss.item())
                     predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                     targets.extend(batch["labels"].to('cpu').tolist())
-                    break
                 print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, 
                     "val conf:\n", confusion_matrix(targets, predictions))
             break
@@ -322,7 +317,6 @@ def main(architecture, language_model):
                 losses.append(loss.item())
                 predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets.extend(batch["labels"].to('cpu').tolist())
-                break
             total = len(targets)
             correct = np.sum(np.array(predictions) == np.array(targets))
             print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
