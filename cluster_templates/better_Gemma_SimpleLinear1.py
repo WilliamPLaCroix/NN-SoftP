@@ -1,5 +1,5 @@
 import os
-os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+os.environ['HF_HOME'] = '/data/users/phawlitschek/.cache/'
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import copy
@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Gemma-2b_Ex2_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"Gemma-2b_FULL1_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -50,7 +50,7 @@ experiment = {
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "Liar", # USED
-    "DATA_FRAC" : 0.01, # USED
+    "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["statement", "label"], # USED
     "NUM_CLASSES" : 6, # USED
     "LABEL_MAPPING" : { # USED
@@ -104,9 +104,9 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         #raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
         #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
 
-        raw_liar_dataset_train = pd.read_csv("liar_train.csv")
-        raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
-        raw_liar_dataset_test = pd.read_csv("liar_test.csv")
+        raw_liar_dataset_train = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_train.csv")
+        raw_liar_dataset_validation = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_val.csv")
+        raw_liar_dataset_test = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_test.csv")
 
         # convert into pandas dataframe
         train = pd.DataFrame(raw_liar_dataset_train)
