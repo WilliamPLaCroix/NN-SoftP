@@ -26,15 +26,12 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"BERT_Ex1_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"BERT_FULL1_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-- remove classifier . to device
-- remove batch . to device
-
 
 """
 
@@ -44,14 +41,14 @@ experiment = {
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 8, # USED
+    "BATCH_SIZE" : 32, # USED
     "NUM_EPOCHS" : 100, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "Liar", # USED
-    "DATA_FRAC" : 0.01, # USED
+    "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["statement", "label"], # USED
     "NUM_CLASSES" : 6, # USED
     "LABEL_MAPPING" : { # USED
