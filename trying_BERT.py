@@ -19,7 +19,7 @@ class MLP(torch.nn.Module):
         super(MLP, self).__init__()
         self.name = "MLP"
         if language_model == "bert-base-uncased":
-            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
@@ -69,7 +69,7 @@ class CNN(nn.Module):
         # TODO : move lm_out and self.lm outside of class declaration
         """
         if language_model == "bert-base-uncased":
-            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
