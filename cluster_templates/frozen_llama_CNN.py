@@ -267,7 +267,7 @@ train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
 val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
 test_dataloader = dataloader_from_pickle("test", experiment["BATCH_SIZE"])
 
-lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config).to(device)
+lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
 classifier = CNN(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
