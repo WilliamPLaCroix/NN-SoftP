@@ -206,6 +206,7 @@ class SimplestLinearHead(nn.Module):
 
 tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased", token=access_token)
 tokenizer.pad_token = tokenizer.eos_token
+tokenizer.pad_token = '</s>'
 #tokenizer.add_special_tokens({'pad_token': '</s>'})
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
