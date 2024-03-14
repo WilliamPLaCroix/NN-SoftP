@@ -340,8 +340,9 @@ for epoch in range(experiment["NUM_EPOCHS"]):
         optimizer.zero_grad()
 
         #lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
-        classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-
+        #classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+        classifier_outputs = classifier(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                
         loss = loss_fn(classifier_outputs, batch["labels"])
         train_losses.append(loss.item())
 
