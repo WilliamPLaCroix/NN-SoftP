@@ -321,7 +321,7 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
     classifier.train()
 
-    for batch_number, batch in tqdm(enumerate(train_dataloader)):
+    for _, batch in tqdm(train_dataloader):
 
         optimizer.zero_grad()
 
