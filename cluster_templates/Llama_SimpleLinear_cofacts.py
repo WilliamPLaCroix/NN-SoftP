@@ -223,7 +223,7 @@ train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_
 val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
-lm = AutoModelForSequenceClassification.from_pretrained(
+lm = AutoModel.from_pretrained(
     "meta-llama/Llama-2-7b-hf",
     device_map="auto",
     quantization_config=bnb_config,
