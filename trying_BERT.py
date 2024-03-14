@@ -86,7 +86,6 @@ class CNN(nn.Module):
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
-        #print(f"Input shape: {lm_out.shape}")
         outputs = lm_out.hidden_states[-1]
         
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
@@ -96,24 +95,16 @@ class CNN(nn.Module):
         outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
 
         outputs = self.conv1(outputs.permute(0,2,1).to(torch.float))
-        #print(f"After conv1 shape: {outputs.shape}")
-        #outputs = self.relu(outputs)
         outputs = self.pool(outputs)
-        #print(f"After pooling shape: {outputs.shape}")
         outputs = self.dropout(outputs)
 
         outputs = outputs.view(outputs.size(0), -1)
-        #outputs = self.fc1(outputs)
-        #print(f"After fc1 shape: {outputs.shape}")
         outputs = torch.cat((outputs,
                             sentiment,
                             perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         outputs = self.relu(outputs)
         outputs = self.fc1(outputs)
-        # outputs = self.relu(outputs)
-        # outputs = self.fc2(outputs)
-        #print(f"Output shape: {outputs.shape}")
         return outputs
 
 class LSTM(torch.nn.Module):
@@ -198,7 +189,6 @@ def main():
         return tokenizer(data["statement"])
 
     def find_max_length():
-        global max_sequence_length
         max_sequence_length = 0
         for split in ["train", "validation", "test"]:
             dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
@@ -209,10 +199,10 @@ def main():
             if longest > max_sequence_length:
                 max_sequence_length = longest
         print("padding to max length of", max_sequence_length)
-        return
+        return max_sequence_length
 
-    
-    find_max_length()
+    global max_sequence_length
+    max_sequence_length = find_max_length()
 
 
     data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
@@ -240,12 +230,6 @@ def main():
         tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        dataset_length = len(tokenized_dataset)
-        weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-        class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
-                                     dtype=bnb_config.bnb_4bit_compute_dtype)
-        global class_weights
-        class_weights = weights / class_proportions
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -254,7 +238,8 @@ def main():
     val_dataloader = dataloader_from_pickle("validation")
     test_dataloader = dataloader_from_pickle("test")
 
-    loss_fn = nn.CrossEntropyLoss()#weight=class_weights.to(device))#*alpha)
+    loss_fn = nn.CrossEntropyLoss()
+    
     model = CNN(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
@@ -277,9 +262,7 @@ def main():
                 optimizer.step()
                 predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                 targets.extend(batch["labels"].to('cpu').tolist())
-            total = len(targets)
-            correct = np.sum(np.array(predictions) == np.array(targets))
-            print("train loss:", np.mean(losses), "train acc:", correct/total*100)
+            print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100)
             
 
             model.eval()
@@ -294,8 +277,6 @@ def main():
                     losses.append(loss.item())
                     predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
                     targets.extend(batch["labels"].to('cpu').tolist())
-                total = len(targets)
-                correct = np.sum(np.array(predictions) == np.array(targets))
                 print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100, 
                     "val conf:\n", confusion_matrix(targets, predictions))
     except KeyboardInterrupt:
