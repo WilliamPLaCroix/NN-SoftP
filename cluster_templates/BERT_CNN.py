@@ -75,6 +75,7 @@ with open(TOK_PATH, "r", encoding="utf8") as f:
 login(token)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+tokenizer = AutoTokenizer.from_pretrained(experiment["LM"])
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -256,7 +257,7 @@ class CNN(nn.Module):
 #####################################################################################
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
-tokenizer = AutoTokenizer.from_pretrained(experiment["LM"])
+
 if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.add_special_tokens({'pad_token': '</s>'})
