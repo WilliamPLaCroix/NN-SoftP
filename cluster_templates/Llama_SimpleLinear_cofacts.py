@@ -224,7 +224,7 @@ train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_
 val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
-lm = AutoModel.from_pretrained("meta-llama/Llama-2-7b-hf", quantization_config=bnb_config)
+lm = AutoModel.from_pretrained("meta-llama/Llama-2-7b-hf", quantization_config=bnb_config).bfloat16()
 classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"])
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
