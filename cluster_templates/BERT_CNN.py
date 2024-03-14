@@ -169,8 +169,8 @@ def find_max_length():
         tokenized_dataset = dataset.map(temp_tokenize)
         longest = max([len(x["input_ids"]) for x in tokenized_dataset])
         print(f"Longest sequence length in {split}:", longest)
-        if longest > max_sequence_length:
-            max_sequence_length = longest
+        if longest > max_length:
+            max_length = longest
     print("padding to max length of", max_length)
     return max_length
 
@@ -210,17 +210,6 @@ def dataloader_from_pickle(split, batch_size):
 # Define classification head here
 #####################################################################################
 
-class SimplestLinearHead(nn.Module):
-    def __init__(self, lm_output_size:int, num_classes:int):
-        super(SimplestLinearHead, self).__init__()
-        self.fc = nn.Linear(lm_output_size, num_classes)
-
-    def forward(self, lm_hidden_states):
-        pooled_output = torch.mean(lm_hidden_states, dim=1)
-        logits = self.fc(pooled_output)
-        return logits
-
-
 class CNN(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(CNN, self).__init__()
@@ -245,6 +234,7 @@ class CNN(nn.Module):
         logits = torch.nn.functional.softmax(lm_outputs.logits, dim=-1).detach()
         word_probabilities = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(word_probabilities) * attention_mask
+
         outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
 
         outputs = self.conv1(outputs.permute(0,2,1).to(torch.float))
@@ -255,6 +245,7 @@ class CNN(nn.Module):
                             sentiment,
                             perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
+        
         outputs = self.relu(outputs)
         outputs = self.fc1(outputs)
         return outputs
@@ -279,7 +270,7 @@ val_dataloader = dataloader_from_pickle(validation, experiment["BATCH_SIZE"])
 test_dataloader = dataloader_from_pickle(test, experiment["BATCH_SIZE"])
 
 lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
-classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"])
+classifier = CNN(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
 if experiment["FREEZE_LM"]:
@@ -407,8 +398,8 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
             #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-            lm_outputs = lm(batch["input_ids"])
-            classifier_outputs = classifier(lm_outputs[0].float())
+            lm_outputs = lm(batch["input_ids"], batch["attention_mask"], output_hidden_states=True, labels=batch["input_ids"])
+            classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
             loss = loss_fn(classifier_outputs, batch["labels"])
             val_losses.append(loss.item())
