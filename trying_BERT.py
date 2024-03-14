@@ -17,6 +17,7 @@ from tqdm import tqdm
 class MLP(torch.nn.Module):
     def __init__(self, language_model):
         super(MLP, self).__init__()
+        self.name = "MLP"
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
@@ -25,7 +26,6 @@ class MLP(torch.nn.Module):
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
-
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         # lm_out is the foundation of the model output, while hidden_states[-1] gives us word embeddings
@@ -61,6 +61,7 @@ class MLP(torch.nn.Module):
 class CNN(nn.Module):
     def __init__(self, language_model):
         super(CNN, self).__init__()
+        self.name = "CNN"
         """
         # TODO : move lm_out and self.lm outside of class declaration
         """
@@ -85,6 +86,7 @@ class CNN(nn.Module):
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         #self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = nn.Dropout(0.9)
+
 
     def forward(self, input_ids, attention_mask, sentiment, perplexity):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
@@ -112,6 +114,7 @@ class CNN(nn.Module):
 class LSTM(torch.nn.Module):
     def __init__(self, language_model):
         super(LSTM, self).__init__()
+        self.name = "LSTM"
         self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
@@ -170,7 +173,6 @@ def main():
     login(token)
 
     batch_size = 32
-    learning_rate = 0.001
     alpha = 1
 
     global bnb_config
@@ -187,8 +189,9 @@ def main():
     if language_model == "bert-base-uncased" or language_model == "meta-llama/Llama-2-7b-hf":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
         if language_model == "meta-llama/Llama-2-7b-hf":
+            #model.resize_token_embeddings(len(tokenizer))
             tokenizer.pad_token = tokenizer.eos_token
-            
+
     def temp_tokenize(data):
         return tokenizer(data["statement"])
 
@@ -244,8 +247,18 @@ def main():
 
     loss_fn = nn.CrossEntropyLoss()
     
-    model = CNN(language_model).to(device)
+
+    model = MLP(language_model).to(device)
+
+    if model.name == "MLP":
+        learning_rate = 0.01
+    elif model.name == "CNN":
+        learning_rate = 0.0001
+    else:
+        learning_rate = 0.001
+
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
     
 
     print(f"training on {device}")
