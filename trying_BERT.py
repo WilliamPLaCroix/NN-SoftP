@@ -329,7 +329,7 @@ if __name__ == "__main__":
     frozen_or_not = {True, False}
 
     for i, configuration in enumerate(product(architectures_to_run, LMs_to_run, frozen_or_not)):
-        architecture, language_model = configuration
+        (architecture, language_model) = configuration
         print(f"Run number {i+1}: frozen={frozen_or_not} {architecture} with {language_model}")
         main(architecture, language_model, frozen_or_not)
 
