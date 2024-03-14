@@ -122,13 +122,13 @@ class LSTM(torch.nn.Module):
         super(LSTM, self).__init__()
         self.name = "LSTM"
         if language_model == "bert-base-uncased":
-            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
-        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=2, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.lstm = torch.nn.LSTM(self.lm_out_size+1, self.hidden_size, num_layers=1, batch_first=True)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -149,17 +149,11 @@ class LSTM(torch.nn.Module):
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
         # stack the subword surprisal values onto the word embeddings
-        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
+        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1).to(torch.float)
         print("LM output with surpirsal", outputs.shape, outputs.dtype)
         print("max memory allocated:", torch.cuda.max_memory_allocated())
         print("memory allocated:", torch.cuda.memory_allocated())
-        self.lstm.to('cpu')
-        outputs = self.lstm(outputs.to(torch.half).to('cpu'))[0][:,-1,:].to(device)
-
-
-
-        # bring LM output size down so that it doesn't outweigh the additional features
-        outputs = self.activation(outputs)
+        outputs = self.lstm(outputs)[0][:,-1,:]
         
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
@@ -337,8 +331,11 @@ def main(architecture, language_model):
 
 if __name__ == "__main__":
 
-    architectures_to_run = {"MLP", "CNN"}#, "LSTM"}
+    architectures_to_run = {"MLP", "CNN", "LSTM"}
     LMs_to_run = {"meta-llama/Llama-2-7b-hf", "bert-base-uncased", "google/gemma-2b"}
+
+    architectures_to_run = {"LSTM"}
+    LMs_to_run = {"bert-base-uncased"}
 
     for architecture, language_model in product(architectures_to_run, LMs_to_run):
         print(f"Now running {architecture} with {language_model}")
