@@ -41,7 +41,8 @@ PRINTING_FLAG = True
 
 ####
 experiment = {
-    "LM" : "meta-llama/Llama-2-7b-hf", # not used in code, define yourself
+    #"LM" : "meta-llama/Llama-2-7b-hf", # not used in code, define yourself
+    "LM" : "bert-base-uncased", # USED
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
     "CLF_HEAD" : "CNN+linear classification head", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
@@ -76,6 +77,9 @@ login(token)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 tokenizer = AutoTokenizer.from_pretrained(experiment["LM"])
+if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
+        tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+
 
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
@@ -189,19 +193,13 @@ def tokenize(data):
     return tokens
 
 
-def dataloader_from_pickle(split, batch_size):
-
+def dataloader_from_pickle(split):
+        batch_size = experiment["BATCH_SIZE"]
         dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        # dataset_length = len(tokenized_dataset)
-        # weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-        # class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
-        #                              dtype=bnb_config.bnb_4bit_compute_dtype)
-        # global class_weights
-        # class_weights = weights / class_proportions
         tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -259,15 +257,11 @@ class CNN(nn.Module):
 #####################################################################################
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
-
-if experiment["LM"] == "bert-base-uncased" or experiment["LM"] == "meta-llama/Llama-2-7b-hf":
-    tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer, padding="max_length", max_length=max_sequence_length)
 
-train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
-val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
-test_dataloader = dataloader_from_pickle("test", experiment["BATCH_SIZE"])
+train_dataloader = dataloader_from_pickle("train")
+val_dataloader = dataloader_from_pickle("validation")
+test_dataloader = dataloader_from_pickle("test")
 
 #lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
 classifier = CNN()#lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
