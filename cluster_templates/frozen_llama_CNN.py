@@ -264,7 +264,7 @@ val_dataloader = dataloader_from_pickle("validation")
 test_dataloader = dataloader_from_pickle("test")
 
 #lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config)
-classifier = CNN()#lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+classifier = CNN().to(device)#lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 #if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
 # if experiment["FREEZE_LM"]:
