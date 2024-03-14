@@ -15,7 +15,7 @@ from datasets import Dataset, load_dataset
 from huggingface_hub import login
 import accelerate
 from transformers import AutoModel, AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
-
+from tqdm import tqdm
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
 import matplotlib.pyplot as plt
@@ -321,7 +321,7 @@ for epoch in range(experiment["NUM_EPOCHS"]):
 
     classifier.train()
 
-    for batch_number, batch in enumerate(train_dataloader):
+    for batch_number, batch in tqdm(enumerate(train_dataloader)):
 
         optimizer.zero_grad()
 
