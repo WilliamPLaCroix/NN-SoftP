@@ -21,6 +21,7 @@ class MLP(torch.nn.Module):
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
+        self.dropout = torch.nn.Dropout(0.9)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -45,7 +46,7 @@ class MLP(torch.nn.Module):
         # bring LM output size down so that it doesn't outweigh the additional features
         outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
-        
+        outputs = self.dropout(outputs)
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
                             sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
@@ -241,7 +242,7 @@ def main():
 
     loss_fn = nn.CrossEntropyLoss()
     
-    model = CNN(language_model).to(device)
+    model = MLP(language_model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     
 
