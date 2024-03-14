@@ -1,4 +1,6 @@
 import os
+os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import copy
 import pandas as pd
