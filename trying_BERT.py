@@ -22,7 +22,7 @@ class MLP(torch.nn.Module):
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
-        if frozen_or_not:
+        if frozen_or_not == True:
             self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
@@ -73,7 +73,7 @@ class CNN(nn.Module):
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
-        if frozen_or_not:
+        if frozen_or_not == True:
             self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
 
@@ -322,6 +322,8 @@ def main(architecture, language_model, frozen_or_not):
             correct = np.sum(np.array(predictions) == np.array(targets))
             print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
                   confusion_matrix(targets, predictions))
+    model.to("cpu")
+    del model
     return
 
 if __name__ == "__main__":
