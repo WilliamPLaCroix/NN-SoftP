@@ -444,7 +444,7 @@ try:
 
 
         # Train til convergence:
-        if (train_accuracy == 0.8):
+        if (train_accuracy >= 0.8):
             print(f"Model converged. Training stopped.")
             break
 
