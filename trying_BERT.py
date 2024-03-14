@@ -299,7 +299,7 @@ def main(architecture, language_model, frozen_or_not):
 
                 targets = targets.to("cpu").tolist()
                 predictions = predictions.to("cpu").tolist()
-                print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100,"\n\n\n") 
+                print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100) 
                     #"val conf:\n", confusion_matrix(targets, predictions))
 
     except KeyboardInterrupt:
@@ -344,7 +344,7 @@ def main(architecture, language_model, frozen_or_not):
 if __name__ == "__main__":
 
     architectures_to_run = {"MLP", "CNN", "LSTM"}
-    LMs_to_run = {"meta-llama/Llama-2-7b-hf", "bert-base-uncased", "google/gemma-2b"}
+    LMs_to_run = {"bert-base-uncased"}#, "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
     to_freeze_or_not_to_freeze = {False}#, True}
 
     for architecture, language_model, frozen_or_not in product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze):
