@@ -186,7 +186,9 @@ def main():
     #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased" or language_model == "meta-llama/Llama-2-7b-hf":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
-
+        if language_model == "meta-llama/Llama-2-7b-hf":
+            tokenizer.pad_token = tokenizer.eos_token
+            
     def temp_tokenize(data):
         return tokenizer(data["statement"])
 
