@@ -164,7 +164,7 @@ def find_max_length():
         return tokenizer(data["statement"])
     max_length = 0
     for split in ["train", "validation", "test"]:
-        dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
+        dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(temp_tokenize)
         longest = max([len(x["input_ids"]) for x in tokenized_dataset])
@@ -190,7 +190,7 @@ def tokenize(data):
 
 def dataloader_from_pickle(split, batch_size):
 
-        dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
+        dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
