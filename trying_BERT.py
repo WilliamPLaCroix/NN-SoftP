@@ -14,14 +14,14 @@ from tqdm import tqdm
 from itertools import product
 
 
-
-
-
 class MLP(torch.nn.Module):
     def __init__(self, language_model):
         super(MLP, self).__init__()
         self.name = "MLP"
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
+        if language_model == "bert-base-uncased":
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)
+        else:
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
@@ -68,7 +68,10 @@ class CNN(nn.Module):
         """
         # TODO : move lm_out and self.lm outside of class declaration
         """
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
+        if language_model == "bert-base-uncased":
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)
+        else:
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
 
@@ -118,7 +121,10 @@ class LSTM(torch.nn.Module):
     def __init__(self, language_model):
         super(LSTM, self).__init__()
         self.name = "LSTM"
-        self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
+        if language_model == "bert-base-uncased":
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config)
+        else:
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')
         self.requires_grad_(False)
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
