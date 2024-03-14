@@ -1,5 +1,6 @@
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import copy
 import pandas as pd
@@ -213,9 +214,7 @@ def dataloader_from_pickle(split, batch_size):
 class CNN(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(CNN, self).__init__()
-        """
-        # TODO : move lm_out and self.lm outside of class declaration
-        """
+
         self.lm_out_size = lm_output_size
         self.out_channels = 128
         self.kernel_size = 5
@@ -268,7 +267,7 @@ train_dataloader = dataloader_from_pickle("train", experiment["BATCH_SIZE"])
 val_dataloader = dataloader_from_pickle("validation", experiment["BATCH_SIZE"])
 test_dataloader = dataloader_from_pickle("test", experiment["BATCH_SIZE"])
 
-lm = AutoModelForCausalLM.from_pretrained(experiment["LM"]).to(device)#, quantization_config=bnb_config)
+lm = AutoModelForCausalLM.from_pretrained(experiment["LM"], quantization_config=bnb_config).to(device)
 classifier = CNN(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
