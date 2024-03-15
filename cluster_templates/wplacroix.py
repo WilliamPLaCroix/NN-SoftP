@@ -287,7 +287,7 @@ def main(architecture, language_model, frozen_or_not):
         losses = []
         predictions = torch.tensor([]).to(device)
         targets = torch.tensor([]).to(device)
-        for batch_number, batch in tqdm(enumerate(train_dataloader)):
+        for _, batch in enumerate(train_dataloader):
             batch.to(device)
             
             optimizer.zero_grad()
