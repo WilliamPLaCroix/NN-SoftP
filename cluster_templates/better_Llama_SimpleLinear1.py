@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"EXP2contd_Llama-7b_FULL_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"now_really_EXP2contd_Llama-7b_FULL_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -264,9 +264,11 @@ if experiment["FREEZE_LM"]:
         for param in lm.base_model.parameters():
             param.requires_grad = False
 
+
 loss_fn = nn.CrossEntropyLoss()
 
-previous_checkpoint = "EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717/checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717.pth"
+previous_checkpoint_file = "EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717/checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717.pth"
+previous_checkpoint = torch.load(previous_checkpoint_file)
 classifier.load_state_dict(previous_checkpoint['classifier_state_dict']) #################################################################
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 optimizer.load_state_dict(previous_checkpoint['optimizer_state_dict']) ####################################################################
@@ -439,6 +441,7 @@ try:
 
         if PRINTING_FLAG:
             print(f"Epoch [{epoch+1}/{experiment['NUM_EPOCHS']}] took {epoch_time_elapsed}s")
+            print(f"Experiment configuration: {experiment}")
             print(f"Train mean loss: {train_mean_loss}, train accuracy: {train_accuracy}")
             print(f"Val mean loss: {val_mean_loss}, val accuracy: {val_accuracy}")
             print()
