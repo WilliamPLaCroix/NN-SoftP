@@ -334,7 +334,7 @@ try:
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs[0].float())
 
-            loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=logits.dtype))
+            loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
