@@ -211,10 +211,8 @@ def main(architecture, language_model, frozen_or_not):
             dataset = Dataset.from_pandas(dataframe)
             tokenized_dataset = dataset.map(temp_tokenize)
             longest = max([len(x["input_ids"]) for x in tokenized_dataset])
-            print(f"Longest sequence length in {split}:", longest)
             if longest > max_sequence_length:
                 max_sequence_length = longest
-        print("padding to max length of", max_sequence_length)
         return max_sequence_length
 
     global max_sequence_length
@@ -283,9 +281,8 @@ def main(architecture, language_model, frozen_or_not):
     max_patience = 5
     current_patience = 0
     last_loss = 100000
-    
 
-    print(f"training on {device}")
+
     for epoch_number in range(max_epochs):
         model.train()
         losses = []
@@ -351,12 +348,12 @@ def main(architecture, language_model, frozen_or_not):
             targets.extend(batch["labels"].to("cpu"))
             if batch_number == 2:
                 break
-    print(f"model stopped improving at epoch {best_epoch} \
-            training losses: {training_losses} \
-            training accuracies: {training_accuracies} \
-            validation losses: {validation_losses} \
-            validation accuracies: {validation_accuracies} \
-            test accuracy: {accuracy_score(targets, predictions)*100} \
+    print(f"model stopped improving at epoch {best_epoch}\n\
+            training losses: {training_losses}\n\
+            training accuracies: {training_accuracies}\n\
+            validation losses: {validation_losses}\n\
+            validation accuracies: {validation_accuracies}\n\
+            test accuracy: {accuracy_score(targets, predictions)*100}\n\
             confusion matrix:\n {confusion_matrix(targets, predictions)}")
     return
 
