@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python trying_BERT.py
+python ./cluster_templates/helloworld.py
