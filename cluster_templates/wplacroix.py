@@ -371,9 +371,9 @@ if __name__ == "__main__":
     # LMs_to_run = {"bert-base-uncased", "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
     # to_freeze_or_not_to_freeze = {True, False}
 
-    architecture = "LSTM"
-    language_model = "bert-base-uncased"
-    frozen_or_not = False
+    architecture = "MLP"
+    language_model = "meta-llama/Llama-2-7b-hf"
+    frozen_or_not = True
 
     
     if frozen_or_not == True:
