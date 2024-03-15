@@ -430,6 +430,7 @@ try:
         # early stopping:
         if val_accuracy >= best_val_acc_so_far:
             best_classifier_so_far = copy.deepcopy(classifier)
+            best_optimizer_state_so_far = copy.deepcopy(optimizer.state_dict())
             best_classifier_after_num_epochs = number_of_epochs_trained
             best_val_acc_so_far = val_accuracy
             best_classifier_val_loss = val_mean_loss
@@ -535,6 +536,18 @@ torch.save({
     'optimizer_state_dict': optimizer.state_dict(),
     }, checkpoint_filename)
 if PRINTING_FLAG: print(f"Checkpoint saved at '{checkpoint_filename}'")
+
+best_checkpoint_filename = EXPERIMENT_NAME + "/" + "best_" + "checkpoint_" + EXPERIMENT_NAME + ".pth"
+torch.save({
+    'classifier_state_dict': best_classifier_so_far.state_dict(),
+    'optimizer_state_dict': best_optimizer_state_so_far,
+    'achieved_after' : best_classifier_after_num_epochs,
+    'best_val_acc_so_far' : best_val_acc_so_far,
+    'best_classifier_val_loss' : best_classifier_val_loss,
+    'best_classifier_training_acc' : best_classifier_training_acc,
+    'best_classifier_training_loss' : best_classifier_training_loss,
+    }, best_checkpoint_filename)
+if PRINTING_FLAG: print(f"Best checkpoint saved at '{best_checkpoint_filename}'")
 
 
 #####################################################################################
