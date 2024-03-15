@@ -41,7 +41,7 @@ experiment = {
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 8, # USED
+    "BATCH_SIZE" : 4, # USED
     "NUM_EPOCHS" : 100, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.001, # USED
