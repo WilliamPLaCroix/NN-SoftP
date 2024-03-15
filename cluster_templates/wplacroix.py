@@ -16,7 +16,7 @@ from itertools import product
 import sys
 
 class MLP(torch.nn.Module):
-    def __init__(self, language_model):
+    def __init__(self, language_model, frozen_or_not):
         super(MLP, self).__init__()
         self.name = "MLP"
         if language_model == "bert-base-uncased":
@@ -65,7 +65,7 @@ class MLP(torch.nn.Module):
 
 
 class CNN(nn.Module):
-    def __init__(self, language_model):
+    def __init__(self, language_model, frozen_or_not):
         super(CNN, self).__init__()
         self.name = "CNN"
         if language_model == "bert-base-uncased":
@@ -120,7 +120,7 @@ class CNN(nn.Module):
         return outputs
 
 class LSTM(torch.nn.Module):
-    def __init__(self, language_model):
+    def __init__(self, language_model, frozen_or_not):
         super(LSTM, self).__init__()
         self.name = "LSTM"
         if language_model == "bert-base-uncased":
@@ -241,7 +241,7 @@ def main(architecture, language_model, frozen_or_not):
         tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
+        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
@@ -254,78 +254,89 @@ def main(architecture, language_model, frozen_or_not):
 
     if architecture == "MLP":
         learning_rate = 0.001
-        model = MLP(language_model).to(device)
+        model = MLP(language_model, frozen_or_not).to(device)
     elif architecture == "CNN":
         learning_rate = 0.0001
-        model = CNN(language_model).to(device)
+        model = CNN(language_model, frozen_or_not).to(device)
     elif architecture == "LSTM":
         learning_rate = 0.001
-        model = LSTM(language_model).to(device)
+        model = LSTM(language_model, frozen_or_not).to(device)
     else:
         raise ValueError("Invalid architecture. Please choose from {MLP, CNN, LSTM}.")
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
+    training_losses = []
+    training_accuracies = []
+
+    validation_losses = []
+    validation_accuracies = []
+
+    max_epochs = 100
+    best_epoch = 0
+
+    max_patience = 5
+    current_patience = 0
+    last_loss = 100000
+    
 
     print(f"training on {device}")
-    try:
-        for epoch in range(10):
-            model.train()
+    for i in range(max_epochs):
+        model.train()
+        losses = []
+        predictions = torch.tensor([]).to(device)
+        targets = torch.tensor([]).to(device)
+        for batch_number, batch in tqdm(enumerate(train_dataloader)):
+            batch.to(device)
+            
+            optimizer.zero_grad()
+            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+            loss = loss_fn(outputs, batch["labels"])
+            losses.append(loss.item())
+            loss.backward()
+            optimizer.step()
+            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
+            targets = torch.cat((targets, batch["labels"]))
+
+        targets = targets.to("cpu").tolist()
+        predictions = predictions.to("cpu").tolist()
+        accuracy = accuracy_score(targets, predictions)*100
+        loss = np.mean(losses)
+        training_accuracies.append(accuracy)
+        training_losses.append(loss)
+        #print("train loss:", np.mean(losses), "train acc:", accuracy)
+        
+
+        model.eval()
+        with torch.no_grad():
             losses = []
             predictions = torch.tensor([]).to(device)
             targets = torch.tensor([]).to(device)
-            for batch_number, batch in tqdm(enumerate(train_dataloader)):
+            for batch_number, batch in enumerate(val_dataloader):
                 batch.to(device)
-                
-                optimizer.zero_grad()
-                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
                 loss = loss_fn(outputs, batch["labels"])
                 losses.append(loss.item())
-                loss.backward()
-                optimizer.step()
                 predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
                 targets = torch.cat((targets, batch["labels"]))
+
             targets = targets.to("cpu").tolist()
             predictions = predictions.to("cpu").tolist()
-            print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100)
-            
+            accuracy = accuracy_score(targets, predictions)*100
+            loss = np.mean(losses)
+            validation_accuracies.append(accuracy)
+            validation_losses.append(loss)
 
-            model.eval()
-            with torch.no_grad():
-                losses = []
-                predictions = torch.tensor([]).to(device)
-                targets = torch.tensor([]).to(device)
-                for batch_number, batch in enumerate(val_dataloader):
-                    batch.to(device)
-                    outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-                    loss = loss_fn(outputs, batch["labels"])
-                    losses.append(loss.item())
-                    predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
-                    targets = torch.cat((targets, batch["labels"]))
+            if loss < last_loss:
+                last_loss = loss
+                best_epoch = i
+                current_patience = 0
+            else:
+                if current_patience == max_patience:
+                    break
+                current_patience += 1
+            #print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100) 
 
-                targets = targets.to("cpu").tolist()
-                predictions = predictions.to("cpu").tolist()
-                print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100) 
-                    #"val conf:\n", confusion_matrix(targets, predictions))
-
-    except KeyboardInterrupt:
-        model.eval()
-        with torch.no_grad():
-            
-            losses = []
-            predictions = []
-            targets = []
-            for batch_number, batch in enumerate(test_dataloader):
-                batch.to(device)
-                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-                loss = loss_fn(outputs, batch["labels"])
-                losses.append(loss.item())
-                predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-                targets.extend(batch["labels"].to('cpu').tolist())
-            total = len(targets)
-            correct = np.sum(np.array(predictions) == np.array(targets))
-            print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
-                  confusion_matrix(targets, predictions))
     model.eval()
     with torch.no_grad():
         
@@ -334,13 +345,18 @@ def main(architecture, language_model, frozen_or_not):
         targets = []
         for batch_number, batch in enumerate(test_dataloader):
             batch.to(device)
-            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
             loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
             targets.extend(batch["labels"].to('cpu').tolist())
         total = len(targets)
         correct = np.sum(np.array(predictions) == np.array(targets))
+        print("model stopped improving at epoch", best_epoch)
+        print("training losses:", training_losses)
+        print("training accuracies:", training_accuracies)
+        print("validation losses:", validation_losses)
+        print("validation accuracies:", validation_accuracies)
         print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
                 confusion_matrix(targets, predictions))
     model.to("cpu")
@@ -350,22 +366,23 @@ def main(architecture, language_model, frozen_or_not):
 if __name__ == "__main__":
 
     architectures_to_run = {"MLP", "CNN", "LSTM"}
-    LMs_to_run = {"meta-llama/Llama-2-7b-hf"}#, "bert-base-uncased", "google/gemma-2b"}
-    to_freeze_or_not_to_freeze = {True}#, False}
+    LMs_to_run = {"bert-base-uncased", "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
+    to_freeze_or_not_to_freeze = {True, False}
+
+    architecture = "MLP"
+    language_model = "bert-base-uncased"
+    frozen_or_not = True
 
     
 
-    
-
-    for architecture, language_model, frozen_or_not in product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze):
-        if to_freeze_or_not_to_freeze == True:
-            frozen = "frozen"
-        else:
-            frozen = "fine-tuned"
-        EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
-        os.mkdir(f"./{EXPERIMENT_NAME}")
-        sys.stdout = open('./{EXPERIMENT_NAME}/{EXPERIMENT_NAME}.log', 'w')
-        print(f"frozen={frozen_or_not} {architecture} with {language_model}")
-        main(architecture, language_model, frozen_or_not)
-
-    #main("LSTM", "bert-base-uncased")
+    if to_freeze_or_not_to_freeze == True:
+        frozen = "frozen"
+    else:
+        frozen = "fine-tuned"
+    EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
+    directory = f"./{EXPERIMENT_NAME}/"
+    os.mkdir(directory)
+    sys.stdout = open(f"{directory}{EXPERIMENT_NAME}", 'w')
+    print(EXPERIMENT_NAME)
+    main(architecture, language_model, frozen_or_not)
+    sys.stdout.close()
