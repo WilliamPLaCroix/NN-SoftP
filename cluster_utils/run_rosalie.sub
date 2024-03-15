@@ -1,0 +1,29 @@
+# HTCondor submit description file
+# Everything with a leading # is a comment
+
+universe                = docker
+docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.6
+initialdir              = /nethome/hhwang
+executable              = /nethome/hhwang/start_rosalie.sh
+output                  = /data/users/hhwang/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+error                   = /data/users/hhwang/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+log                     = /data/users/hhwang/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
+request_CPUs            = 1
+request_memory          = 50G
+request_GPUs            = 1
+requirements            = (GPUs_GlobalMemoryMb >= 32000) && (machine == "cl18lx.lsv.uni-saarland.de")
+#+JobFlavour             = "workday"
+# +MaxRuntime             = 28000
+queue 1
+
+# JobFlavours == maximum runtime
+# this can increase wait time as priority is given to faster jobs
+# espresso     = 20 minutes
+# microcentury = 1 hour
+# longlunch    = 2 hours
+# workday      = 8 hours
+# tomorrow     = 1 day
+# testmatch    = 3 days
+# nextweek     = 1 week
+
+# MaxRuntime for more specific duration (in seconds)
