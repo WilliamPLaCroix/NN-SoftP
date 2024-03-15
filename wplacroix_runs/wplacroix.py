@@ -183,7 +183,7 @@ def main(architecture, language_model, frozen_or_not):
 
     login(token)
 
-    batch_size = 32
+    batch_size = 16
     alpha = 1
 
     global bnb_config
@@ -195,7 +195,6 @@ def main(architecture, language_model, frozen_or_not):
     )
 
     tokenizer = AutoTokenizer.from_pretrained(language_model)
-    #tokenizer.pad_token = tokenizer.eos_token
     if language_model == "bert-base-uncased" or language_model == "meta-llama/Llama-2-7b-hf":
         tokenizer.add_special_tokens({'pad_token': '[PAD]'})
         if language_model == "meta-llama/Llama-2-7b-hf":
@@ -290,47 +289,40 @@ def main(architecture, language_model, frozen_or_not):
     for epoch_number in range(max_epochs):
         model.train()
         losses = []
-        predictions = torch.tensor([])
-        targets = torch.tensor([])
+        predictions = []
+        targets = []
         for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
-            
             optimizer.zero_grad()
             outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
             loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
             loss.backward()
             optimizer.step()
-            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1).to("cpu")))
-            targets = torch.cat((targets, batch["labels"].to("cpu")))
+            predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
+            targets.extend(batch["labels"].to("cpu"))
             if batch_number == 2:
                 break
             batch.to("cpu")
-        targets = targets.to("cpu").tolist()
-        predictions = predictions.to("cpu").tolist()
         accuracy = accuracy_score(targets, predictions)*100
         loss = np.mean(losses)
         training_accuracies.append(accuracy)
         training_losses.append(loss)
-        #print("train loss:", np.mean(losses), "train acc:", accuracy)
-        
 
         model.eval()
         with torch.no_grad():
             losses = []
-            predictions = torch.tensor([])
-            targets = torch.tensor([])
+            predictions = []
+            targets = []
             for batch_number, batch in enumerate(val_dataloader):
                 batch.to(device)
                 outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
                 loss = loss_fn(outputs, batch["labels"])
                 losses.append(loss.item())
-                predictions = torch.cat((predictions, outputs.detach().argmax(dim=1).to("cpu")))
-                targets = torch.cat((targets, batch["labels"].to("cpu")))
+                predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
+                targets.extend(batch["labels"].to("cpu"))
                 if batch_number == 2:
                     break
-            targets = targets.to("cpu").tolist()
-            predictions = predictions.to("cpu").tolist()
             accuracy = accuracy_score(targets, predictions)*100
             loss = np.mean(losses)
             validation_accuracies.append(accuracy)
@@ -338,31 +330,27 @@ def main(architecture, language_model, frozen_or_not):
 
             if loss < last_loss:
                 last_loss = loss
-                best_epoch = i
+                best_epoch = epoch_number
                 current_patience = 0
             else:
                 if current_patience == max_patience:
                     break
                 current_patience += 1
-            #print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100) 
         break
     model.eval()
     with torch.no_grad():
-        
         losses = []
-        predictions = torch.tensor([])
-        targets = torch.tensor([])
+        predictions = []
+        targets = []
         for batch_number, batch in enumerate(test_dataloader):
             batch.to(device)
             outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
             loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
-            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1).to("cpu")))
-            targets = torch.cat((targets, batch["labels"].to("cpu")))
+            predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
+            targets.extend(batch["labels"].to("cpu"))
             if batch_number == 2:
                 break
-        targets = targets.to("cpu").tolist()
-        predictions = predictions.to("cpu").tolist()
         print("model stopped improving at epoch", best_epoch)
         print("training losses:", training_losses)
         print("training accuracies:", training_accuracies)
@@ -370,8 +358,6 @@ def main(architecture, language_model, frozen_or_not):
         print("validation accuracies:", validation_accuracies)
         print("test accuracy:", accuracy_score(targets, predictions)*100, "confusion matrix:\n", 
                 confusion_matrix(targets, predictions))
-    model.to("cpu")
-    del model
     return
 
 if __name__ == "__main__":
