@@ -141,7 +141,7 @@ training_args = TrainingArguments(
     push_to_hub=False,
 )
 
-trainer = Trainer(
+WeightedCELossTrainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_ds["train"],
