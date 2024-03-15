@@ -384,7 +384,7 @@ try:
         with torch.no_grad():
             val_losses, val_predictions, val_targets = [], [], []
 
-            for batch_number, batch in enumerate(val_dataloader):
+            for batch in tqdm(val_dataloader):
                 batch.to(device)
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
