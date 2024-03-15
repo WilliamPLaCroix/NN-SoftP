@@ -286,12 +286,12 @@ def main(architecture, language_model, frozen_or_not):
     
 
     print(f"training on {device}")
-    for i in range(max_epochs):
+    for epoch_number in range(max_epochs):
         model.train()
         losses = []
         predictions = torch.tensor([]).to(device)
         targets = torch.tensor([]).to(device)
-        for _, batch in enumerate(train_dataloader):
+        for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
             
             optimizer.zero_grad()
@@ -302,7 +302,8 @@ def main(architecture, language_model, frozen_or_not):
             optimizer.step()
             predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
             targets = torch.cat((targets, batch["labels"]))
-            break
+            if batch_number == 2:
+                break
         targets = targets.to("cpu").tolist()
         predictions = predictions.to("cpu").tolist()
         accuracy = accuracy_score(targets, predictions)*100
@@ -324,7 +325,8 @@ def main(architecture, language_model, frozen_or_not):
                 losses.append(loss.item())
                 predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
                 targets = torch.cat((targets, batch["labels"]))
-                break
+                if batch_number == 2:
+                    break
             targets = targets.to("cpu").tolist()
             predictions = predictions.to("cpu").tolist()
             accuracy = accuracy_score(targets, predictions)*100
@@ -355,7 +357,8 @@ def main(architecture, language_model, frozen_or_not):
             losses.append(loss.item())
             predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
             targets = torch.cat((targets, batch["labels"]))
-            break
+            if batch_number == 2:
+                break
         targets = targets.to("cpu").tolist()
         predictions = predictions.to("cpu").tolist()
         print("model stopped improving at epoch", best_epoch)
@@ -400,11 +403,11 @@ if __name__ == "__main__":
     # assert arguments[2] in {"MLP", "CNN", "LSTM"}, "third argument must be one of {MLP, CNN, LSTM}"
     # architecture = arguments[2]
 
-    frozen_or_not = True
+    frozen_or_not = False
     frozen = "frozen"
 
     for language_model, architecture in product(LM_aliases.keys(), ["MLP", "CNN", "LSTM"]):
-        EXPERIMENT_NAME = f"testing_{frozen}_{LM_aliases[language_model]}_{architecture}_{time.time()}"
+        EXPERIMENT_NAME = f"testing_{frozen}_{LM_aliases[language_model]}_{architecture}"#_{time.time()}"
         directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
         sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
         print(EXPERIMENT_NAME)
