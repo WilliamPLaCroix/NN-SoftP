@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"EXP2contd_Llama-7b_FULL_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"now_really_EXP2contd_Llama-7b_FULL_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
