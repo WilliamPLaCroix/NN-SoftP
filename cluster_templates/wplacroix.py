@@ -371,16 +371,32 @@ if __name__ == "__main__":
     # LMs_to_run = {"bert-base-uncased", "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
     # to_freeze_or_not_to_freeze = {True, False}
 
-    architecture = "LSTM"
-    language_model = "meta-llama/Llama-2-7b-hf"
-    frozen_or_not = False
+    arguments = sys.argv[1:]
+    assert len(arguments) == 3, "Please provide 3 arguments: {True, False}, {bert, llama, gemma} {MLP, CNN, LSTM}"
 
+    assert arguments[0] in {"True", "False"}, "First argument must be a boolean"
     
-    if frozen_or_not == True:
+    if arguments[0] == True:
+        frozen_or_not = True
         frozen = "frozen"
     else:
+        frozen_or_not = False
         frozen = "fine-tuned"
-    EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
+
+    assert arguments[1] in {"bert", "llama", "gemma"}, "Second argument must be one of {bert, llama, gemma}"
+    LM_antialiases = {"llama": "meta-llama/Llama-2-7b-hf",
+                    "gemma": "google/gemma-2b",
+                    "bert": "bert-base-uncased"}
+    LM_aliases = {"meta-llama/Llama-2-7b-hf": "llama-2-7b", 
+            "google/gemma-2b": "gemma-2b", 
+            "bert-base-uncased": "bert-base-uncased"}
+
+    language_model = LM_antialiases[arguments[1]]
+
+    assert arguments[2] in {"MLP", "CNN", "LSTM"}, "third argument must be one of {MLP, CNN, LSTM}"
+    architecture = arguments[2]
+
+    EXPERIMENT_NAME = f"{frozen}_{LM_aliases[language_model]}_{architecture}_{time.time()}"
     directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
     sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
     print(EXPERIMENT_NAME)
