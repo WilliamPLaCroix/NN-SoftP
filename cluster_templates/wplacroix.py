@@ -341,23 +341,24 @@ def main(architecture, language_model, frozen_or_not):
     with torch.no_grad():
         
         losses = []
-        predictions = []
-        targets = []
+        predictions = torch.tensor([]).to(device)
+        targets = torch.tensor([]).to(device)
         for batch_number, batch in enumerate(test_dataloader):
             batch.to(device)
             outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
             loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
-            predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-            targets.extend(batch["labels"].to('cpu').tolist())
-        total = len(targets)
-        correct = np.sum(np.array(predictions) == np.array(targets))
+            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
+            targets = torch.cat((targets, batch["labels"]))
+
+        targets = targets.to("cpu").tolist()
+        predictions = predictions.to("cpu").tolist()
         print("model stopped improving at epoch", best_epoch)
         print("training losses:", training_losses)
         print("training accuracies:", training_accuracies)
         print("validation losses:", validation_losses)
         print("validation accuracies:", validation_accuracies)
-        print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
+        print("test accuracy:", accuracy_score(targets, predictions)*100, "confusion matrix:\n", 
                 confusion_matrix(targets, predictions))
     model.to("cpu")
     del model
@@ -365,22 +366,21 @@ def main(architecture, language_model, frozen_or_not):
 
 if __name__ == "__main__":
 
-    architectures_to_run = {"MLP", "CNN", "LSTM"}
-    LMs_to_run = {"bert-base-uncased", "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
-    to_freeze_or_not_to_freeze = {True, False}
+    # architectures_to_run = {"MLP", "CNN", "LSTM"}
+    # LMs_to_run = {"bert-base-uncased", "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
+    # to_freeze_or_not_to_freeze = {True, False}
 
     architecture = "MLP"
     language_model = "bert-base-uncased"
     frozen_or_not = True
 
     
-
-    if to_freeze_or_not_to_freeze == True:
+    if frozen_or_not == True:
         frozen = "frozen"
     else:
         frozen = "fine-tuned"
     EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
-    directory = f"./{EXPERIMENT_NAME}/"
+    directory = f"/data/users/wplacroix/logs/{EXPERIMENT_NAME}/"
     os.mkdir(directory)
     sys.stdout = open(f"{directory}{EXPERIMENT_NAME}", 'w')
     print(EXPERIMENT_NAME)
