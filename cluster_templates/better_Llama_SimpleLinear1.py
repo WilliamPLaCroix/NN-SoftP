@@ -1,4 +1,6 @@
 import os
+os.environ['HF_HOME'] = '/data/users/phawlitschek/.cache/'
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import copy
 import pandas as pd
@@ -24,14 +26,14 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"EXP2Llama-7b_FULL_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"now_really_EXP2contd_Llama-7b_FULL_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-
-
+continueing job id 19363 after epoch 333
+USING TORCH LOAD INSTEAD OF FRESH CLASSIFIER
 
 """
 
@@ -42,7 +44,7 @@ experiment = {
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 32, # USED
-    "NUM_EPOCHS" : 333, # USED
+    "NUM_EPOCHS" : 1000, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
@@ -213,7 +215,43 @@ val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KE
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
 lm = AutoModel.from_pretrained("meta-llama/Llama-2-7b-hf", token=access_token, quantization_config=bnb_config)
+###
+####
+#####
+######
+####
+###
+##
+"""
+best_checkpoint_filename = EXPERIMENT_NAME + "/" + "best_" + "checkpoint_" + EXPERIMENT_NAME + ".pth"
+torch.save({
+    'classifier_state_dict': best_classifier_so_far.state_dict(),
+    'optimizer_state_dict': best_optimizer_state_so_far,
+    'achieved_after' : best_classifier_after_num_epochs,
+    'best_val_acc_so_far' : best_val_acc_so_far,
+    'best_classifier_val_loss' : best_classifier_val_loss,
+    'best_classifier_training_acc' : best_classifier_training_acc,
+    'best_classifier_training_loss' : best_classifier_training_loss,
+    }, best_checkpoint_filename)
+if PRINTING_FLAG: print(f"Best checkpoint saved at '{best_checkpoint_filename}'")
+
+"""
+##
+##
+##
+##
+##
+###
+###
+###
+##
+
+
+
 classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+
+
+
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
 if experiment["FREEZE_LM"]:
@@ -226,24 +264,18 @@ if experiment["FREEZE_LM"]:
         for param in lm.base_model.parameters():
             param.requires_grad = False
 
+
 loss_fn = nn.CrossEntropyLoss()
 
+previous_checkpoint_file = "EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717/checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717.pth"
+previous_checkpoint = torch.load(previous_checkpoint_file)
+classifier.load_state_dict(previous_checkpoint['classifier_state_dict']) #################################################################
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
+optimizer.load_state_dict(previous_checkpoint['optimizer_state_dict']) ####################################################################
 
 #####################################################################################
 # TRAINING LOOP
 #####################################################################################
-
-#### TODO: clean up train mean loss list, epoch train loss list, ....
-
-
-
-
-
-
-
-
-
 
 epochs_train_loss_list = []
 epochs_train_acc_list = []
@@ -409,6 +441,7 @@ try:
 
         if PRINTING_FLAG:
             print(f"Epoch [{epoch+1}/{experiment['NUM_EPOCHS']}] took {epoch_time_elapsed}s")
+            print(f"Experiment configuration: {experiment}")
             print(f"Train mean loss: {train_mean_loss}, train accuracy: {train_accuracy}")
             print(f"Val mean loss: {val_mean_loss}, val accuracy: {val_accuracy}")
             print()

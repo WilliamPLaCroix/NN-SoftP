@@ -44,7 +44,7 @@ experiment = {
     "BATCH_SIZE" : 4, # USED
     "NUM_EPOCHS" : 100, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
-    "LEARNING_RATE" : 0.001, # USED
+    "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "cofacts", # USED
@@ -175,7 +175,7 @@ def tokenize(data):
     """
     """
     label_mapping = experiment["LABEL_MAPPING"]
-    tokens = tokenizer(data["text"])
+    tokens = tokenizer(data["text"], truncation=True, max_length=1000)
     binary_labels = [label_mapping[label] for label in data["label"]]
     tokens["label"] = binary_labels
     return tokens

@@ -1,3 +1,4 @@
+import time
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -12,10 +13,10 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix
 from tqdm import tqdm
 from itertools import product
-
+import sys
 
 class MLP(torch.nn.Module):
-    def __init__(self, language_model):
+    def __init__(self, language_model, frozen_or_not):
         super(MLP, self).__init__()
         self.name = "MLP"
         if language_model == "bert-base-uncased":
@@ -29,10 +30,10 @@ class MLP(torch.nn.Module):
         self.hidden_size = 100
         self.dropout = torch.nn.Dropout(0.3)
         self.activation = torch.nn.LeakyReLU()
-        self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.reducer = torch.nn.Linear(self.lm_out_size+1, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.hidden_size+3, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment):
         # lm_out is the foundation of the model output, while hidden_states[-1] gives us word embeddings
         # we do mean pooling to get a single consistently sized vector for the entire sequence
         """
@@ -40,23 +41,25 @@ class MLP(torch.nn.Module):
         """
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
-        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-
+        
         # calculates perplexity as mean subword suprisal from LM output logits
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
-        mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
+
+        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
+        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        #mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
 
         # bring LM output size down so that it doesn't outweigh the additional features
         outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
         outputs = self.dropout(outputs)
+
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
-                            sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                            perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
-                            mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                            sentiment.to(bnb_config.bnb_4bit_compute_dtype),
+                            ), 
                         dim=1)
         
         # final prediction is reduced to len(class_labels)
@@ -64,7 +67,7 @@ class MLP(torch.nn.Module):
 
 
 class CNN(nn.Module):
-    def __init__(self, language_model):
+    def __init__(self, language_model, frozen_or_not):
         super(CNN, self).__init__()
         self.name = "CNN"
         if language_model == "bert-base-uncased":
@@ -89,13 +92,13 @@ class CNN(nn.Module):
         conv_seq_length = sequence_length  # kernel_size - 1 for Conv1d
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
-        self.flattened_size = self.out_channels * pooled_seq_length + 4  # 128 is the out_channels from conv1
+        self.flattened_size = self.out_channels * pooled_seq_length + 3  # 128 is the out_channels from conv1
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         #self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = nn.Dropout(0.9)
 
 
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
         
@@ -112,14 +115,13 @@ class CNN(nn.Module):
         outputs = outputs.view(outputs.size(0), -1)
         outputs = torch.cat((outputs,
                             sentiment,
-                            perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         outputs = self.relu(outputs)
         outputs = self.fc1(outputs)
         return outputs
 
 class LSTM(torch.nn.Module):
-    def __init__(self, language_model):
+    def __init__(self, language_model, frozen_or_not):
         super(LSTM, self).__init__()
         self.name = "LSTM"
         if language_model == "bert-base-uncased":
@@ -135,10 +137,10 @@ class LSTM(torch.nn.Module):
         self.activation = torch.nn.LeakyReLU()
         self.dropout = torch.nn.Dropout(0.5)
         self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.hidden_size+3, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment):
         # lm_out is the foundation of the model output, while hidden_states[-1] gives us word embeddings
         # we do mean pooling to get a single consistently sized vector for the entire sequence
         """
@@ -159,8 +161,8 @@ class LSTM(torch.nn.Module):
         
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
-                    sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)),
+                    sentiment.to(bnb_config.bnb_4bit_compute_dtype),
+                    ),
                 dim=1)
         
         # final prediction is reduced to len(class_labels)
@@ -201,7 +203,7 @@ def main(architecture, language_model, frozen_or_not):
     def find_max_length():
         max_sequence_length = 0
         for split in ["train", "validation", "test"]:
-            dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
+            dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
             dataset = Dataset.from_pandas(dataframe)
             tokenized_dataset = dataset.map(temp_tokenize)
             longest = max([len(x["input_ids"]) for x in tokenized_dataset])
@@ -235,12 +237,12 @@ def main(architecture, language_model, frozen_or_not):
 
     def dataloader_from_pickle(split):
 
-        dataframe = pd.read_pickle(f"./pickle_files/{split}.pkl")
+        dataframe = pd.read_pickle(f"/nethome/wplacroix/NN-SoftP/pickle_files/{split}.pkl")
         dataset = Dataset.from_pandas(dataframe)
         tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment', 'perplexity'])
+        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'])
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
@@ -253,94 +255,111 @@ def main(architecture, language_model, frozen_or_not):
 
     if architecture == "MLP":
         learning_rate = 0.001
-        model = MLP(language_model).to(device)
+        model = MLP(language_model, frozen_or_not).to(device)
     elif architecture == "CNN":
         learning_rate = 0.0001
-        model = CNN(language_model).to(device)
+        model = CNN(language_model, frozen_or_not).to(device)
     elif architecture == "LSTM":
         learning_rate = 0.001
-        model = LSTM(language_model).to(device)
+        model = LSTM(language_model, frozen_or_not).to(device)
     else:
         raise ValueError("Invalid architecture. Please choose from {MLP, CNN, LSTM}.")
 
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
+    training_losses = []
+    training_accuracies = []
+
+    validation_losses = []
+    validation_accuracies = []
+
+    max_epochs = 100
+    best_epoch = 0
+
+    max_patience = 5
+    current_patience = 0
+    last_loss = 100000
+    
 
     print(f"training on {device}")
-    try:
-        for epoch in range(10):
-            model.train()
+    for i in range(max_epochs):
+        model.train()
+        losses = []
+        predictions = torch.tensor([]).to(device)
+        targets = torch.tensor([]).to(device)
+        for _, batch in enumerate(train_dataloader):
+            batch.to(device)
+            
+            optimizer.zero_grad()
+            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+            loss = loss_fn(outputs, batch["labels"])
+            losses.append(loss.item())
+            loss.backward()
+            optimizer.step()
+            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
+            targets = torch.cat((targets, batch["labels"]))
+
+        targets = targets.to("cpu").tolist()
+        predictions = predictions.to("cpu").tolist()
+        accuracy = accuracy_score(targets, predictions)*100
+        loss = np.mean(losses)
+        training_accuracies.append(accuracy)
+        training_losses.append(loss)
+        #print("train loss:", np.mean(losses), "train acc:", accuracy)
+        
+
+        model.eval()
+        with torch.no_grad():
             losses = []
             predictions = torch.tensor([]).to(device)
             targets = torch.tensor([]).to(device)
-            for batch_number, batch in tqdm(enumerate(train_dataloader)):
+            for batch_number, batch in enumerate(val_dataloader):
                 batch.to(device)
-                
-                optimizer.zero_grad()
-                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
                 loss = loss_fn(outputs, batch["labels"])
                 losses.append(loss.item())
-                loss.backward()
-                optimizer.step()
                 predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
                 targets = torch.cat((targets, batch["labels"]))
+
             targets = targets.to("cpu").tolist()
             predictions = predictions.to("cpu").tolist()
-            print("train loss:", np.mean(losses), "train acc:", accuracy_score(targets, predictions)*100)
-            
+            accuracy = accuracy_score(targets, predictions)*100
+            loss = np.mean(losses)
+            validation_accuracies.append(accuracy)
+            validation_losses.append(loss)
 
-            model.eval()
-            with torch.no_grad():
-                losses = []
-                predictions = torch.tensor([]).to(device)
-                targets = torch.tensor([]).to(device)
-                for batch_number, batch in enumerate(val_dataloader):
-                    batch.to(device)
-                    outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-                    loss = loss_fn(outputs, batch["labels"])
-                    losses.append(loss.item())
-                    predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
-                    targets = torch.cat((targets, batch["labels"]))
+            if loss < last_loss:
+                last_loss = loss
+                best_epoch = i
+                current_patience = 0
+            else:
+                if current_patience == max_patience:
+                    break
+                current_patience += 1
+            #print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100) 
 
-                targets = targets.to("cpu").tolist()
-                predictions = predictions.to("cpu").tolist()
-                print("val loss:", np.mean(losses), "val acc:", accuracy_score(targets, predictions)*100) 
-                    #"val conf:\n", confusion_matrix(targets, predictions))
-
-    except KeyboardInterrupt:
-        model.eval()
-        with torch.no_grad():
-            
-            losses = []
-            predictions = []
-            targets = []
-            for batch_number, batch in enumerate(test_dataloader):
-                batch.to(device)
-                outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
-                loss = loss_fn(outputs, batch["labels"])
-                losses.append(loss.item())
-                predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-                targets.extend(batch["labels"].to('cpu').tolist())
-            total = len(targets)
-            correct = np.sum(np.array(predictions) == np.array(targets))
-            print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
-                  confusion_matrix(targets, predictions))
     model.eval()
     with torch.no_grad():
         
         losses = []
-        predictions = []
-        targets = []
+        predictions = torch.tensor([]).to(device)
+        targets = torch.tensor([]).to(device)
         for batch_number, batch in enumerate(test_dataloader):
             batch.to(device)
-            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
+            outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
             loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
-            predictions.extend(outputs.detach().argmax(dim=1).to('cpu').tolist())
-            targets.extend(batch["labels"].to('cpu').tolist())
-        total = len(targets)
-        correct = np.sum(np.array(predictions) == np.array(targets))
-        print("test acc:", accuracy_score(targets, predictions)*100, "test conf:\n", 
+            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
+            targets = torch.cat((targets, batch["labels"]))
+
+        targets = targets.to("cpu").tolist()
+        predictions = predictions.to("cpu").tolist()
+        print("model stopped improving at epoch", best_epoch)
+        print("training losses:", training_losses)
+        print("training accuracies:", training_accuracies)
+        print("validation losses:", validation_losses)
+        print("validation accuracies:", validation_accuracies)
+        print("test accuracy:", accuracy_score(targets, predictions)*100, "confusion matrix:\n", 
                 confusion_matrix(targets, predictions))
     model.to("cpu")
     del model
@@ -348,12 +367,38 @@ def main(architecture, language_model, frozen_or_not):
 
 if __name__ == "__main__":
 
-    architectures_to_run = {"MLP", "CNN", "LSTM"}
-    LMs_to_run = {"meta-llama/Llama-2-7b-hf"}#, "bert-base-uncased", "google/gemma-2b"}
-    to_freeze_or_not_to_freeze = {True}#, False}
+    # architectures_to_run = {"MLP", "CNN", "LSTM"}
+    # LMs_to_run = {"bert-base-uncased", "meta-llama/Llama-2-7b-hf", "google/gemma-2b"}
+    # to_freeze_or_not_to_freeze = {True, False}
 
-    for architecture, language_model, frozen_or_not in product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze):
-        print(f"frozen={frozen_or_not} {architecture} with {language_model}")
-        main(architecture, language_model, frozen_or_not)
+    arguments = sys.argv[1:]
+    assert len(arguments) == 3, "Please provide 3 arguments: {True, False}, {bert, llama, gemma} {MLP, CNN, LSTM}"
 
-    #main("LSTM", "bert-base-uncased")
+    assert arguments[0] in {"True", "False"}, "First argument must be a boolean"
+    
+    if arguments[0] == True:
+        frozen_or_not = True
+        frozen = "frozen"
+    else:
+        frozen_or_not = False
+        frozen = "fine-tuned"
+
+    assert arguments[1] in {"bert", "llama", "gemma"}, "Second argument must be one of {bert, llama, gemma}"
+    LM_antialiases = {"llama": "meta-llama/Llama-2-7b-hf",
+                    "gemma": "google/gemma-2b",
+                    "bert": "bert-base-uncased"}
+    LM_aliases = {"meta-llama/Llama-2-7b-hf": "llama-2-7b", 
+            "google/gemma-2b": "gemma-2b", 
+            "bert-base-uncased": "bert-base-uncased"}
+
+    language_model = LM_antialiases[arguments[1]]
+
+    assert arguments[2] in {"MLP", "CNN", "LSTM"}, "third argument must be one of {MLP, CNN, LSTM}"
+    architecture = arguments[2]
+
+    EXPERIMENT_NAME = f"{frozen}_{LM_aliases[language_model]}_{architecture}_{time.time()}"
+    directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
+    sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
+    print(EXPERIMENT_NAME)
+    main(architecture, language_model, frozen_or_not)
+    sys.stdout.close()
