@@ -381,7 +381,7 @@ if __name__ == "__main__":
     else:
         frozen = "fine-tuned"
     EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
-    directory = f"/data/users/wplacroix/logs/{EXPERIMENT_NAME}/"
+    directory = f"/nethome/wplacroix/NN-SoftP/wplacoix_runs/{EXPERIMENT_NAME}/"
     #os.mkdir(directory)
     #sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
     print(EXPERIMENT_NAME)
