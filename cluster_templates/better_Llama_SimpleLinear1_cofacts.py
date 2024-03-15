@@ -234,7 +234,7 @@ lm = AutoModel.from_pretrained(
     device_map="auto",
     quantization_config=bnb_config,
     pad_token_id=tokenizer.pad_token_id
-    )
+    ).bfloat16()
 
 classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
@@ -467,7 +467,7 @@ try:
 
 
         # Train til convergence:
-        if (train_accuracy == 0.8):
+        if (train_accuracy >= 0.8):
             print(f"Model converged. Training stopped.")
             break
 
@@ -555,6 +555,18 @@ torch.save({
     'optimizer_state_dict': optimizer.state_dict(),
     }, checkpoint_filename)
 if PRINTING_FLAG: print(f"Checkpoint saved at '{checkpoint_filename}'")
+
+best_checkpoint_filename = EXPERIMENT_NAME + "/" + "best_" + "checkpoint_" + EXPERIMENT_NAME + ".pth"
+torch.save({
+    'classifier_state_dict': best_classifier_so_far.state_dict(),
+    'optimizer_state_dict': best_optimizer_state_so_far,
+    'achieved_after' : best_classifier_after_num_epochs,
+    'best_val_acc_so_far' : best_val_acc_so_far,
+    'best_classifier_val_loss' : best_classifier_val_loss,
+    'best_classifier_training_acc' : best_classifier_training_acc,
+    'best_classifier_training_loss' : best_classifier_training_loss,
+    }, best_checkpoint_filename)
+if PRINTING_FLAG: print(f"Best checkpoint saved at '{best_checkpoint_filename}'")
 
 
 #####################################################################################
