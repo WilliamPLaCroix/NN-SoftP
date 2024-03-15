@@ -2,7 +2,7 @@
 # Everything with a leading # is a comment
 
 universe                = docker
-docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.3
+docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.6
 initialdir              = /nethome/wplacroix
 output                  = /data/users/wplacroix/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 error                   = /data/users/wplacroix/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
@@ -10,5 +10,5 @@ log                     = /data/users/wplacroix/logs/log_$(ClusterId).$(Year)_$(
 request_CPUs            = 1
 request_memory          = 10G
 request_GPUs            = 1
-requirements            = (GPUs_GlobalMemoryMb >= 16000) && (machine == "cl18lx.lsv.uni-saarland.de")
+requirements            = (GPUs_GlobalMemoryMb >= 16000) && (machine == "cl16lx.lsv.uni-saarland.de" || machine == "cl17lx.lsv.uni-saarland.de" || machine == "cl18lx.lsv.uni-saarland.de")
 queue 1
