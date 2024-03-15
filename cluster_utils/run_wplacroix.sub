@@ -4,7 +4,7 @@
 universe                = docker
 docker_image            = docker.lsv.uni-saarland.de/jguertler/nina:v1.6
 initialdir              = /nethome/wplacroix
-executable              = /nethome/wplacroix/NN-SoftP/run_script_wplacroix.sh
+executable              = /nethome/wplacroix/NN-SoftP/cluster_utils/run_script_wplacroix.sh
 output                  = /data/users/wplacroix/logs/output_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 error                   = /data/users/wplacroix/logs/error_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
 log                     = /data/users/wplacroix/logs/log_$(ClusterId).$(Year)_$(Month)_$(Day)_$(SUBMIT_TIME).log
@@ -13,3 +13,16 @@ request_memory          = 40G
 request_GPUs            = 1
 requirements            = (GPUs_GlobalMemoryMb >= 32000) && (machine == "cl18lx.lsv.uni-saarland.de" || machine == "cl17lx.lsv.uni-saarland.de")
 queue 1
+JobFlavour              = "workday"
+
+# JobFlavours == maximum runtime
+# this can increase wait time as priority is given to faster jobs
+# espresso     = 20 minutes
+# microcentury = 1 hour
+# longlunch    = 2 hours
+# workday      = 8 hours
+# tomorrow     = 1 day
+# testmatch    = 3 days
+# nextweek     = 1 week
+
+# MaxRuntime for more specific duration (in seconds)
