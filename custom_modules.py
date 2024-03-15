@@ -18,8 +18,8 @@ class WeightedCELossTrainer(Trainer):
         """
         train_df = self.train_dataset.to_pandas()
         target_counts = train_df["label"].value_counts()
-        self.pos_weights = len(train_df) / (2 * target_counts[0])  # Assuming positive label is 0
-        self.neg_weights = len(train_df) / (2 * target_counts[1])
+        self.pos_weights = len(train_df) / (2 * target_counts[1])  # Assuming positive label is 0
+        self.neg_weights = len(train_df) / (2 * target_counts[0])
         print(f"Label weights are:\n\ttrue: {self.pos_weights}\n\tfake: {self.neg_weights}")
 
     def compute_loss(self, model, inputs, return_outputs=False):
@@ -88,7 +88,7 @@ class LlamaClfCnn(LlamaPreTrainedModel):
         )
 
         hidden_states = transformer_outputs[0]
-        x = hidden_states.transpose(1,2)
+        x = hidden_states.permute(0, 2, 1) # [batch, input_len, hidden] -> [batch, hidden, input_len]
         x = self.conv1(x)
         x = self.relu(x)
         x = self.pool(x)
