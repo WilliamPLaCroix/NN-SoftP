@@ -30,10 +30,10 @@ class MLP(torch.nn.Module):
         self.hidden_size = 100
         self.dropout = torch.nn.Dropout(0.3)
         self.activation = torch.nn.LeakyReLU()
-        self.reducer = torch.nn.Linear(self.lm_out_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.hidden_size+5, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.reducer = torch.nn.Linear(self.lm_out_size+1, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.hidden_size+3, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment):
         # lm_out is the foundation of the model output, while hidden_states[-1] gives us word embeddings
         # we do mean pooling to get a single consistently sized vector for the entire sequence
         """
@@ -41,23 +41,25 @@ class MLP(torch.nn.Module):
         """
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
-        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
-
+        
         # calculates perplexity as mean subword suprisal from LM output logits
         logits = torch.nn.functional.softmax(lm_out.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
-        mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
+
+        outputs = torch.cat((outputs, subword_surp.unsqueeze(-1)), dim=-1)
+        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        #mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
 
         # bring LM output size down so that it doesn't outweigh the additional features
         outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
         outputs = self.dropout(outputs)
+
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
-                            sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                            perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1),
-                            mean_surprisal.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)), 
+                            sentiment.to(bnb_config.bnb_4bit_compute_dtype),
+                            ), 
                         dim=1)
         
         # final prediction is reduced to len(class_labels)
@@ -90,13 +92,13 @@ class CNN(nn.Module):
         conv_seq_length = sequence_length  # kernel_size - 1 for Conv1d
         pooled_seq_length = conv_seq_length // self.kernel_size  # assuming default stride for MaxPool1d
 
-        self.flattened_size = self.out_channels * pooled_seq_length + 4  # 128 is the out_channels from conv1
+        self.flattened_size = self.out_channels * pooled_seq_length + 3  # 128 is the out_channels from conv1
         self.fc1 = nn.Linear(self.flattened_size, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         #self.fc2 = nn.Linear(self.flattened_size//2, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.dropout = nn.Dropout(0.9)
 
 
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment):
         lm_out = self.lm(input_ids, attention_mask, output_hidden_states=True, labels=input_ids)
         outputs = lm_out.hidden_states[-1]
         
@@ -113,7 +115,6 @@ class CNN(nn.Module):
         outputs = outputs.view(outputs.size(0), -1)
         outputs = torch.cat((outputs,
                             sentiment,
-                            perplexity.unsqueeze(-1),
                             ), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         outputs = self.relu(outputs)
         outputs = self.fc1(outputs)
@@ -136,10 +137,10 @@ class LSTM(torch.nn.Module):
         self.activation = torch.nn.LeakyReLU()
         self.dropout = torch.nn.Dropout(0.5)
         self.reducer = torch.nn.Linear(self.hidden_size, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.classifier = torch.nn.Linear(self.hidden_size+4, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.classifier = torch.nn.Linear(self.hidden_size+3, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
 
 
-    def forward(self, input_ids, attention_mask, sentiment, perplexity):
+    def forward(self, input_ids, attention_mask, sentiment):
         # lm_out is the foundation of the model output, while hidden_states[-1] gives us word embeddings
         # we do mean pooling to get a single consistently sized vector for the entire sequence
         """
@@ -160,8 +161,8 @@ class LSTM(torch.nn.Module):
         
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs.to(bnb_config.bnb_4bit_compute_dtype), 
-                    sentiment.to(bnb_config.bnb_4bit_compute_dtype), 
-                    perplexity.to(bnb_config.bnb_4bit_compute_dtype).unsqueeze(-1)),
+                    sentiment.to(bnb_config.bnb_4bit_compute_dtype),
+                    ),
                 dim=1)
         
         # final prediction is reduced to len(class_labels)
@@ -382,7 +383,7 @@ if __name__ == "__main__":
     EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
     directory = f"/data/users/wplacroix/logs/{EXPERIMENT_NAME}/"
     os.mkdir(directory)
-    sys.stdout = open(f"{directory}{EXPERIMENT_NAME}", 'w')
+    sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
     print(EXPERIMENT_NAME)
     main(architecture, language_model, frozen_or_not)
     sys.stdout.close()
