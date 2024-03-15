@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
     architecture = "MLP"
     language_model = "bert-base-uncased"
-    frozen_or_not = False
+    frozen_or_not = True
 
     
     if frozen_or_not == True:
