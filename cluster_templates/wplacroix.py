@@ -1,3 +1,4 @@
+import time
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
@@ -12,7 +13,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix
 from tqdm import tqdm
 from itertools import product
-
+import sys
 
 class MLP(torch.nn.Module):
     def __init__(self, language_model):
@@ -352,7 +353,18 @@ if __name__ == "__main__":
     LMs_to_run = {"meta-llama/Llama-2-7b-hf"}#, "bert-base-uncased", "google/gemma-2b"}
     to_freeze_or_not_to_freeze = {True}#, False}
 
+    
+
+    
+
     for architecture, language_model, frozen_or_not in product(architectures_to_run, LMs_to_run, to_freeze_or_not_to_freeze):
+        if to_freeze_or_not_to_freeze == True:
+            frozen = "frozen"
+        else:
+            frozen = "fine-tuned"
+        EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
+        os.mkdir(f"./{EXPERIMENT_NAME}")
+        sys.stdout = open('./{EXPERIMENT_NAME}/{EXPERIMENT_NAME}.log', 'w')
         print(f"frozen={frozen_or_not} {architecture} with {language_model}")
         main(architecture, language_model, frozen_or_not)
 

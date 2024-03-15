@@ -13,7 +13,7 @@ request_memory          = 40G
 request_GPUs            = 1
 requirements            = (GPUs_GlobalMemoryMb >= 32000) && (machine == "cl18lx.lsv.uni-saarland.de" || machine == "cl17lx.lsv.uni-saarland.de")
 queue 1
-JobFlavour              = "workday"
+JobFlavour              = workday
 
 # JobFlavours == maximum runtime
 # this can increase wait time as priority is given to faster jobs
