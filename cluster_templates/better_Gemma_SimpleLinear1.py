@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Gemma-2b_FULL1_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"Gemma-2b_EXP5_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -43,10 +43,10 @@ experiment = {
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 8, # USED
-    "NUM_EPOCHS" : 100, # USED
+    "BATCH_SIZE" : 64, # USED
+    "NUM_EPOCHS" : 333, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
-    "LEARNING_RATE" : 0.001, # USED
+    "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "Liar", # USED
