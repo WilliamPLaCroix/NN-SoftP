@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
     architecture = "CNN"
     language_model = "bert-base-uncased"
-    frozen_or_not = True
+    frozen_or_not = False
 
     
     if frozen_or_not == True:
