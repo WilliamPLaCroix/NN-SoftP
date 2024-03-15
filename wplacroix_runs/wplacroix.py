@@ -246,7 +246,7 @@ def main(architecture, language_model, frozen_or_not):
         tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'])
+        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'], dtype=bnb_config.bnb_4bit_compute_dtype)
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
@@ -304,6 +304,7 @@ def main(architecture, language_model, frozen_or_not):
             targets = torch.cat((targets, batch["labels"].to("cpu")))
             if batch_number == 2:
                 break
+            batch.to("cpu")
         targets = targets.to("cpu").tolist()
         predictions = predictions.to("cpu").tolist()
         accuracy = accuracy_score(targets, predictions)*100
