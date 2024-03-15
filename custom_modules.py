@@ -20,7 +20,7 @@ class WeightedCELossTrainer(Trainer):
         target_counts = train_df["label"].value_counts()
         self.pos_weights = len(train_df) / (2 * target_counts[1])  # Assuming positive label is 0
         self.neg_weights = len(train_df) / (2 * target_counts[0])
-        print(f"Label weights are:\n\ttrue: {self.pos_weights}\n\tfake: {self.neg_weights}")
+        print(f"Label weights are:\n\tfake: {self.pos_weights}\n\ttrue: {self.neg_weights}")
 
     def compute_loss(self, model, inputs, return_outputs=False):
         labels = inputs.pop("labels")

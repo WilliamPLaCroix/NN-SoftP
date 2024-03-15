@@ -81,8 +81,9 @@ peft_config = LoraConfig(
     lora_dropout=0.1,
     bias="none",
     target_modules=[
-        "q_proj",
-        "v_proj"
+#        "q_proj",
+#        "v_proj",
+        "score"
         ]
     )
 
