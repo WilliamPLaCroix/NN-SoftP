@@ -19,6 +19,8 @@ from torch.nn.utils.rnn import pad_sequence
 from sklearn.model_selection import train_test_split
 import torch.nn.functional as F
 
+os.environ["HF_HOME"] = "/data/users/hhwang/.cache"
+
 dataset = load_dataset("liar")
 df = pd.DataFrame(dataset['train'])
 df = df.rename(columns={'label': 'label', 'statement': 'statement'})
