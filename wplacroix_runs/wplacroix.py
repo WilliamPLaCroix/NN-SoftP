@@ -351,13 +351,13 @@ def main(architecture, language_model, frozen_or_not):
             targets.extend(batch["labels"].to("cpu"))
             if batch_number == 2:
                 break
-        print("model stopped improving at epoch", best_epoch)
-        print("training losses:", training_losses)
-        print("training accuracies:", training_accuracies)
-        print("validation losses:", validation_losses)
-        print("validation accuracies:", validation_accuracies)
-        print("test accuracy:", accuracy_score(targets, predictions)*100, "confusion matrix:\n", 
-                confusion_matrix(targets, predictions))
+    print(f"model stopped improving at epoch {best_epoch} \
+            training losses: {training_losses} \
+            training accuracies: {training_accuracies} \
+            validation losses: {validation_losses} \
+            validation accuracies: {validation_accuracies} \
+            test accuracy: {accuracy_score(targets, predictions)*100} \
+            confusion matrix:\n {confusion_matrix(targets, predictions)}")
     return
 
 if __name__ == "__main__":
