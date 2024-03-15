@@ -373,7 +373,7 @@ if __name__ == "__main__":
 
     architecture = "MLP"
     language_model = "meta-llama/Llama-2-7b-hf"
-    frozen_or_not = True
+    frozen_or_not = False
 
     
     if frozen_or_not == True:
