@@ -22,12 +22,12 @@ class MLP(torch.nn.Module):
         if language_model == "bert-base-uncased":
             self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config).bfloat16()
         else:
-            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto').bfloat16()
+            self.lm = AutoModelForCausalLM.from_pretrained(language_model, quantization_config=bnb_config, device_map='auto')#.bfloat16()
         if frozen_or_not == True:
             for param in self.lm.parameters():
                 param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
-        self.hidden_size = 100
+        self.hidden_size = 50
         #self.dropout = torch.nn.Dropout(0.3)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.lm_out_size+1, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -49,9 +49,9 @@ class MLP(torch.nn.Module):
 
         outputs = torch.cat((outputs, 
                              subword_surp.unsqueeze(-1)
-                             ), dim=-1)
+                             ), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
 
-        outputs = torch.mean(outputs, dim=1, dtype=bnb_config.bnb_4bit_compute_dtype)
+        outputs = torch.mean(outputs, dim=1)
         #mean_surprisal = subword_surp.sum(dim=1) / attention_mask.sum(dim=1)
 
         # bring LM output size down so that it doesn't outweigh the additional features
@@ -246,7 +246,7 @@ def main(architecture, language_model, frozen_or_not):
         tokenized_dataset = dataset.map(remap_labels_tokenize, batch_size=batch_size, batched=True)
         global number_of_labels
         number_of_labels = len(set(tokenized_dataset["label"]))
-        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'], dtype=bnb_config.bnb_4bit_compute_dtype)
+        tokenized_dataset.set_format(type='torch', columns=['input_ids', 'attention_mask', 'label', 'sentiment'], dtype=int)
         return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
