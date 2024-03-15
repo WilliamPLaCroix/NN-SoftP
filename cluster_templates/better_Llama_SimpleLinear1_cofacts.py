@@ -249,7 +249,6 @@ if experiment["FREEZE_LM"]:
         for param in lm.base_model.parameters():
             param.requires_grad = False
 
-loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device))
 
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 
@@ -335,6 +334,7 @@ try:
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs[0].float())
 
+            loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=logits.dtype))
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
