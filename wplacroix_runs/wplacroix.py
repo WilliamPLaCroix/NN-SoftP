@@ -403,7 +403,7 @@ if __name__ == "__main__":
     frozen_or_not = True
     frozen = "frozen"
 
-    for language_model, architecture in product(LM_antialiases.keys(), ["MLP", "CNN", "LSTM"]):
+    for language_model, architecture in product(LM_aliases.keys(), ["MLP", "CNN", "LSTM"]):
         EXPERIMENT_NAME = f"testing_{frozen}_{LM_aliases[language_model]}_{architecture}_{time.time()}"
         directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
         sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
