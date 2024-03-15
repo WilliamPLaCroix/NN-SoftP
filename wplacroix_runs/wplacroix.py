@@ -28,7 +28,7 @@ class MLP(torch.nn.Module):
                 param.requires_grad = False
         self.lm_out_size = self.lm.config.hidden_size
         self.hidden_size = 100
-        self.dropout = torch.nn.Dropout(0.3)
+        #self.dropout = torch.nn.Dropout(0.3)
         self.activation = torch.nn.LeakyReLU()
         self.reducer = torch.nn.Linear(self.lm_out_size+1, self.hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.classifier = torch.nn.Linear(self.hidden_size+3, number_of_labels, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -57,7 +57,7 @@ class MLP(torch.nn.Module):
         # bring LM output size down so that it doesn't outweigh the additional features
         outputs = self.reducer(outputs)
         outputs = self.activation(outputs)
-        outputs = self.dropout(outputs)
+        #outputs = self.dropout(outputs)
 
         # concatenate mean-pooled LM output with the additional features
         outputs = torch.cat((outputs, 
@@ -289,8 +289,8 @@ def main(architecture, language_model, frozen_or_not):
     for epoch_number in range(max_epochs):
         model.train()
         losses = []
-        predictions = torch.tensor([]).to(device)
-        targets = torch.tensor([]).to(device)
+        predictions = torch.tensor([])
+        targets = torch.tensor([])
         for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
             
@@ -300,8 +300,8 @@ def main(architecture, language_model, frozen_or_not):
             losses.append(loss.item())
             loss.backward()
             optimizer.step()
-            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
-            targets = torch.cat((targets, batch["labels"]))
+            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1).to("cpu")))
+            targets = torch.cat((targets, batch["labels"].to("cpu")))
             if batch_number == 2:
                 break
         targets = targets.to("cpu").tolist()
@@ -316,15 +316,15 @@ def main(architecture, language_model, frozen_or_not):
         model.eval()
         with torch.no_grad():
             losses = []
-            predictions = torch.tensor([]).to(device)
-            targets = torch.tensor([]).to(device)
+            predictions = torch.tensor([])
+            targets = torch.tensor([])
             for batch_number, batch in enumerate(val_dataloader):
                 batch.to(device)
                 outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
                 loss = loss_fn(outputs, batch["labels"])
                 losses.append(loss.item())
-                predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
-                targets = torch.cat((targets, batch["labels"]))
+                predictions = torch.cat((predictions, outputs.detach().argmax(dim=1).to("cpu")))
+                targets = torch.cat((targets, batch["labels"].to("cpu")))
                 if batch_number == 2:
                     break
             targets = targets.to("cpu").tolist()
@@ -348,15 +348,15 @@ def main(architecture, language_model, frozen_or_not):
     with torch.no_grad():
         
         losses = []
-        predictions = torch.tensor([]).to(device)
-        targets = torch.tensor([]).to(device)
+        predictions = torch.tensor([])
+        targets = torch.tensor([])
         for batch_number, batch in enumerate(test_dataloader):
             batch.to(device)
             outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"])
             loss = loss_fn(outputs, batch["labels"])
             losses.append(loss.item())
-            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1)))
-            targets = torch.cat((targets, batch["labels"]))
+            predictions = torch.cat((predictions, outputs.detach().argmax(dim=1).to("cpu")))
+            targets = torch.cat((targets, batch["labels"].to("cpu")))
             if batch_number == 2:
                 break
         targets = targets.to("cpu").tolist()
