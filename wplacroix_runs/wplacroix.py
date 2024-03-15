@@ -2,6 +2,7 @@ import time
 import os
 os.environ['HF_HOME'] = '/data/users/wplacroix/.cache/'
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:512"
 from transformers import AutoModelForCausalLM, DataCollatorWithPadding, AutoTokenizer, BitsAndBytesConfig
 import torch
 from huggingface_hub import login
