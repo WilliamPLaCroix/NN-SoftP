@@ -450,6 +450,7 @@ try:
         # early stopping:
         if val_accuracy >= best_val_acc_so_far:
             best_classifier_so_far = copy.deepcopy(classifier)
+            best_optimizer_state_so_far = copy.deepcopy(optimizer.state_dict())
             best_classifier_after_num_epochs = number_of_epochs_trained
             best_val_acc_so_far = val_accuracy
             best_classifier_val_loss = val_mean_loss
