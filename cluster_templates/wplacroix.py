@@ -381,8 +381,7 @@ if __name__ == "__main__":
     else:
         frozen = "fine-tuned"
     EXPERIMENT_NAME = f"{frozen}_{language_model}_{architecture}_{time.time()}"
-    directory = f"/nethome/wplacroix/NN-SoftP/wplacoix_runs/{EXPERIMENT_NAME}/"
-    os.mkdir(directory)
+    directory = f"/nethome/wplacroix/NN-SoftP/wplacoix_runs/"
     sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
     print(EXPERIMENT_NAME)
     main(architecture, language_model, frozen_or_not)
