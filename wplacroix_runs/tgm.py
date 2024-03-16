@@ -298,8 +298,7 @@ def main(architecture, language_model, frozen_or_not):
             optimizer.step()
             predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
             targets.extend(batch["labels"].to("cpu"))
-            if batch_number == 2:
-                break
+    
             batch.to("cpu")
         accuracy = accuracy_score(targets, predictions)*100
         loss = np.mean(losses)
@@ -318,8 +317,7 @@ def main(architecture, language_model, frozen_or_not):
                 losses.append(loss.item())
                 predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
                 targets.extend(batch["labels"].to("cpu"))
-                if batch_number == 2:
-                    break
+
             accuracy = accuracy_score(targets, predictions)*100
             loss = np.mean(losses)
             validation_accuracies.append(accuracy)
@@ -333,7 +331,7 @@ def main(architecture, language_model, frozen_or_not):
                 if current_patience == max_patience:
                     break
                 current_patience += 1
-        break
+        
     model.eval()
     with torch.no_grad():
         losses = []
@@ -346,8 +344,7 @@ def main(architecture, language_model, frozen_or_not):
             losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
             targets.extend(batch["labels"].to("cpu"))
-            if batch_number == 2:
-                break
+
     print(f"model stopped improving at epoch {best_epoch}\n\
             training losses: {training_losses}\n\
             training accuracies: {training_accuracies}\n\
