@@ -1,0 +1,17 @@
+testing_fine-tuned_bert-base-uncased_MLP
+Token has not been saved to git credential helper. Pass `add_to_git_credential=True` if you want to set the git credential as well.
+Token is valid (permission: read).
+Your token has been saved to /data/users/wplacroix/.cache/token
+Login successful
+model stopped improving at epoch 0
+            training losses: [1.7335110007788161, 1.720356308411215, 1.6280057437694704, 1.4207432827102804, 1.1101416471962617, 0.7805898315809969, 0.5116928908683801]
+            training accuracies: [23.566072645827248, 24.111403252507547, 28.980426526438798, 39.117732982763656, 54.37725192326419, 69.62703281721687, 80.55312104391858]
+            validation losses: [1.7209683641975309, 1.7664930555555556, 1.8165509259259258, 1.9694251543209877, 2.353780864197531, 2.742091049382716, 3.3505015432098766]
+            validation accuracies: [23.598130841121495, 24.143302180685357, 23.67601246105919, 25.233644859813083, 24.143302180685357, 24.84423676012461, 24.45482866043614]
+            test accuracy: 22.525331254871396
+            confusion matrix:
+ [[33 63 52 35 56 11]
+ [27 73 75 24 61  7]
+ [13 69 81 32 50  4]
+ [16 59 66 37 29  4]
+ [21 60 46 27 51  9]

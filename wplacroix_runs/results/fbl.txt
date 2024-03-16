@@ -1,0 +1,17 @@
+testing_fine-tuned_bert-base-uncased_LSTM
+Token has not been saved to git credential helper. Pass `add_to_git_credential=True` if you want to set the git credential as well.
+Token is valid (permission: read).
+Your token has been saved to /data/users/wplacroix/.cache/token
+Login successful
+model stopped improving at epoch 1
+            training losses: [1.7625584112149533, 1.7252969236760125, 1.6171875, 1.4107403621495327, 1.1417384637850467, 0.883192781347352, 0.6881708162967289, 0.524061921972352]
+            training accuracies: [20.488849936702696, 24.04323692667251, 31.093582627324956, 42.896095043334306, 57.39604635310157, 69.08170221053656, 77.0961145194274, 83.44532086863376]
+            validation losses: [1.7677469135802468, 1.701292438271605, 1.7531828703703705, 1.9241898148148149, 2.0142746913580245, 2.4088541666666665, 2.5559413580246915, 2.78125]
+            validation accuracies: [21.105919003115265, 25.623052959501557, 23.05295950155763, 23.5202492211838, 24.922118380062305, 22.429906542056074, 22.97507788161994, 24.065420560747665]
+            test accuracy: 24.0062353858145
+            confusion matrix:
+ [[127  39  28  42   8   6]
+ [106  59  54  37   7   4]
+ [ 80  54  53  48   6   8]
+ [ 80  27  43  53   3   5]
+ [ 97  43  19  37  10   8]
