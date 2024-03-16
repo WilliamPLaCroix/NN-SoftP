@@ -262,7 +262,7 @@ def main(architecture, language_model, frozen_or_not):
         learning_rate = 0.0001
         model = CNN(language_model, frozen_or_not).to(device)
     elif architecture == "LSTM":
-        learning_rate = 0.001
+        learning_rate = 0.0001
         model = LSTM(language_model, frozen_or_not).to(device)
     else:
         raise ValueError("Invalid architecture. Please choose from {MLP, CNN, LSTM}.")
@@ -278,7 +278,7 @@ def main(architecture, language_model, frozen_or_not):
     max_epochs = 100
     best_epoch = 0
 
-    max_patience = 5
+    max_patience = 10
     current_patience = 0
     last_loss = 100000
 
@@ -330,7 +330,19 @@ def main(architecture, language_model, frozen_or_not):
             else:
                 if current_patience == max_patience:
                     break
+                elif current_patience == 0:
+                    PATH = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/model.pt"
+                    torch.save({
+                        'epoch': epoch_number,
+                        'model_state_dict': model.state_dict(),
+                        'optimizer_state_dict': optimizer.state_dict(),
+                        'loss': last_loss,
+                        }, PATH)
                 current_patience += 1
+
+    checkpoint = torch.load(PATH)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 
     model.eval()
     with torch.no_grad():
@@ -381,5 +393,7 @@ if __name__ == "__main__":
     directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
     sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
     print(EXPERIMENT_NAME)
+    seed = 42
+    torch.manual_seed(seed)
     main(architecture, language_model, frozen_or_not)
     sys.stdout.close()

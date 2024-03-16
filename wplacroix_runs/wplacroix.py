@@ -12,9 +12,10 @@ from torch.utils.data import DataLoader
 import torch.nn as nn
 import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix
-from tqdm import tqdm
 from itertools import product
 import sys
+
+
 
 class MLP(torch.nn.Module):
     def __init__(self, language_model, frozen_or_not):
@@ -254,7 +255,6 @@ def main(architecture, language_model, frozen_or_not):
 
     loss_fn = nn.CrossEntropyLoss()
     
-
     if architecture == "MLP":
         learning_rate = 0.001
         model = MLP(language_model, frozen_or_not).to(device)
@@ -262,7 +262,7 @@ def main(architecture, language_model, frozen_or_not):
         learning_rate = 0.0001
         model = CNN(language_model, frozen_or_not).to(device)
     elif architecture == "LSTM":
-        learning_rate = 0.001
+        learning_rate = 0.0001
         model = LSTM(language_model, frozen_or_not).to(device)
     else:
         raise ValueError("Invalid architecture. Please choose from {MLP, CNN, LSTM}.")
@@ -298,8 +298,6 @@ def main(architecture, language_model, frozen_or_not):
             optimizer.step()
             predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
             targets.extend(batch["labels"].to("cpu"))
-            if batch_number == 2:
-                break
             batch.to("cpu")
         accuracy = accuracy_score(targets, predictions)*100
         loss = np.mean(losses)
@@ -318,8 +316,6 @@ def main(architecture, language_model, frozen_or_not):
                 losses.append(loss.item())
                 predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
                 targets.extend(batch["labels"].to("cpu"))
-                if batch_number == 2:
-                    break
             accuracy = accuracy_score(targets, predictions)*100
             loss = np.mean(losses)
             validation_accuracies.append(accuracy)
@@ -332,8 +328,23 @@ def main(architecture, language_model, frozen_or_not):
             else:
                 if current_patience == max_patience:
                     break
+                elif current_patience == 0:
+                    PATH = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/model.pt"
+                    torch.save({
+                        'epoch': epoch_number,
+                        'model_state_dict': model.state_dict(),
+                        'optimizer_state_dict': optimizer.state_dict(),
+                        'loss': last_loss,
+                        }, PATH)
                 current_patience += 1
-        break
+
+    checkpoint = torch.load(PATH)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+
+    seed = 42
+    torch.manual_seed(seed)
+
     model.eval()
     with torch.no_grad():
         losses = []
@@ -346,8 +357,6 @@ def main(architecture, language_model, frozen_or_not):
             losses.append(loss.item())
             predictions.extend(outputs.detach().argmax(dim=1).to("cpu"))
             targets.extend(batch["labels"].to("cpu"))
-            if batch_number == 2:
-                break
     print(f"model stopped improving at epoch {best_epoch}\n\
             training losses: {training_losses}\n\
             training accuracies: {training_accuracies}\n\
@@ -391,10 +400,12 @@ if __name__ == "__main__":
     frozen_or_not = False
     frozen = "frozen"
 
-    for language_model, architecture in product(LM_aliases.keys(), ["MLP", "CNN", "LSTM"]):
-        EXPERIMENT_NAME = f"testing_{frozen}_{LM_aliases[language_model]}_{architecture}"#_{time.time()}"
-        directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
-        sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
-        print(EXPERIMENT_NAME)
-        main(architecture, language_model, frozen_or_not)
-        sys.stdout.close()
+
+    EXPERIMENT_NAME = f"testing_{frozen}_{LM_aliases[language_model]}_{architecture}"#_{time.time()}"
+    directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
+    sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
+    print(EXPERIMENT_NAME)
+    seed = 42
+    torch.manual_seed(seed)
+    main(architecture, language_model, frozen_or_not)
+    sys.stdout.close()
