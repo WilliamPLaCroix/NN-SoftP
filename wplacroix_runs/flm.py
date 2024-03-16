@@ -390,7 +390,7 @@ if __name__ == "__main__":
     else:
         frozen = "fine-tuned"
 
-    EXPERIMENT_NAME = f"testing_{frozen}_{LM_aliases[language_model]}_{architecture}"#_{time.time()}"
+    EXPERIMENT_NAME = f"{frozen}_{LM_aliases[language_model]}_{architecture}"#_{time.time()}"
     directory = f"/nethome/wplacroix/NN-SoftP/wplacroix_runs/"
     sys.stdout = open(f"{directory}{EXPERIMENT_NAME}.log", 'w')
     print(EXPERIMENT_NAME)
