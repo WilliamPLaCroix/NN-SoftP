@@ -213,12 +213,11 @@ class LstmHead(nn.Module):
         x = torch.cat(
             (
                 lm_output.hidden_states[-1],
-                subword_surp.unsqueeze(-1),
-                sentiment
+                subword_surp.unsqueeze(-1)
             ), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
-
         x = self.act(self.lstm(x))
         x = self.dropout(x)
+        x = torch.cat((x, sentiment), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         x = self.score(x)
         return x
 
@@ -242,7 +241,8 @@ lm = AutoModelForCausalLM.from_pretrained(
     "meta-llama/Llama-2-7b-hf",
     device_map="auto",
     quantization_config=bnb_config,
-    pad_token_id=tokenizer.pad_token_id
+    pad_token_id=tokenizer.pad_token_id,
+    output_hidden_states=True
     ).bfloat16()
 
 classifier = LstmHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
@@ -340,7 +340,7 @@ try:
             batch.to(device)
             optimizer.zero_grad()
 
-            lm_outputs = lm(batch["input_ids"], output_hidden_states=True)
+            lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
             loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
@@ -398,7 +398,7 @@ try:
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-                lm_outputs = lm(batch["input_ids"], output_hidden_states=True,)
+                lm_outputs = lm(batch["input_ids"])
                 classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
                 loss = loss_fn(classifier_outputs, batch["labels"])
