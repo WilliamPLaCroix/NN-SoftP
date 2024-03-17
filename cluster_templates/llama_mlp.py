@@ -198,12 +198,12 @@ def dataloader(datasplit, batch_size, columns_to_keep):
 class MlpHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(MlpHead, self).__init__()
-        hidden_size = (lm_output_size + 4)/2
+        hidden_size = int((lm_output_size + 1)/2)
 
         self.dropout = nn.Dropout(0.3)
-        self.down_proj1 = nn.Linear(lm_output_size + 4, hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.down_proj1 = nn.Linear(lm_output_size + 1, hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.activation = nn.LeakyReLU()
-        self.score = nn.Linear(hidden_size, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.score = nn.Linear(hidden_size + 3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
@@ -214,10 +214,9 @@ class MlpHead(nn.Module):
         x = lm_output.hidden_states[-1]
         x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
         x = torch.mean(x, dim=1)
-        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
-                
         x = self.dropout(x)
         x = self.activation(self.down_proj1(x))
+        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
         x = self.score(x)
         return x
 

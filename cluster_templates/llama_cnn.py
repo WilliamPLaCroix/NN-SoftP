@@ -199,12 +199,12 @@ class CnnHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(CnnHead, self).__init__()
 
-        self.conv1 = nn.Conv1d(in_channels=lm_output_size + 4, out_channels=128, kernel_size=5, padding=2, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.relu = nn.ReLU()
+        self.conv1 = nn.Conv1d(in_channels=lm_output_size + 1, out_channels=128, kernel_size=5, padding=2)
+        self.act = nn.ReLU()
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
         self.dropout = nn.Dropout(0.9)
 
-        self.score = nn.Linear(640, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
+        self.score = nn.Linear(640 + 3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
 
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
@@ -213,13 +213,12 @@ class CnnHead(nn.Module):
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
         x = lm_output.hidden_states[-1]
-        x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
-        x = torch.mean(x, dim=1)
-        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
-        
-        x = x.permute(0, 2, 1)
-        x = self.pool(self.relu(self.conv1(x)))
+        x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1)
+        x = x.permute(0, 2, 1).to(torch.float)
+        x = self.pool(self.act(self.conv1(x)))
         x = self.dropout(x)
+        x = x.view(x.size(0), -1)
+        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
         x = self.score(x)
         return x
 

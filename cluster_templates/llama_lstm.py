@@ -3,18 +3,14 @@ import time
 import copy
 import pandas as pd
 import numpy as np
-import pickle
 
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
+from torch import nn
+from torch import optim
 from torch.utils.data import DataLoader
 
 from datasets import Dataset, load_dataset
-from huggingface_hub import login
-import accelerate
-from transformers import AutoModel, AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
@@ -63,17 +59,6 @@ experiment = {
 
     }
 
-"""
-TOK_PATH = "/projects/misinfo_sp/.cache/token"
-
-with open(TOK_PATH, "r", encoding="utf8") as f:
-    token = f.read().strip()
-
-login(token)
-"""
-
-access_token = "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"
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 bnb_config = BitsAndBytesConfig(
@@ -82,7 +67,6 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_quant_type="nf4",
     bnb_4bit_compute_dtype=torch.bfloat16
     )
-
 
 
 #####################################################################################
