@@ -175,10 +175,10 @@ def make_new_labels_counting_dict(num_classes:int) -> dict():
 def tokenize(data):
     """
     """
-    label_mapping = experiment["LABEL_MAPPING"]
+#    label_mapping = experiment["LABEL_MAPPING"]
     tokens = tokenizer(data["text"], truncation=True, max_length=1000)
-    binary_labels = [label_mapping[label] for label in data["label"]]
-    tokens["label"] = binary_labels
+#    binary_labels = [label_mapping[label] for label in data["label"]]
+#    tokens["label"] = binary_labels
     return tokens
 
 
@@ -186,7 +186,9 @@ def dataloader(datasplit, batch_size, columns_to_keep):
     """
     """
     dataset = Dataset.from_pandas(datasplit)
+    print(dataset)
     tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
+    print(tokenized_dataset)
     tokenized_dataset.set_format(type='torch', columns=["input_ids", "attention_mask", "sentiment", "label"])
     return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
