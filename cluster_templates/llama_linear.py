@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex1_LLAMA2-7b_Linear_cofacts_{time.time()}"
+EXPERIMENT_NAME = f"Ex2_LLAMA2-7b_Linear_cofacts_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -357,6 +357,7 @@ try:
         num_predictions_train_epoch = len(train_predictions)
         num_predictions_train_epoch_correct = np.sum(train_predictions == train_targets)
         train_mean_loss = np.mean(train_losses)
+        epochs_train_loss_list.append(train_mean_loss)
 
         for target in train_targets:
             true_targets_train_epoch[target] += 1
