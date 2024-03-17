@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 from datasets import Dataset, load_dataset
 from transformers import AutoModelForCausalLM, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
 from tqdm import tqdm
-from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 import matplotlib.pyplot as plt
 
@@ -26,7 +26,11 @@ PRINTING_FLAG = True
 
 #### Other experiment details:
 """
+use bce loss + sigmoid
 
+combine datasets / undersample
+
+add eval metrics
 
 
 """
@@ -46,7 +50,7 @@ experiment = {
     "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["text", "label", "sentiment"], # USED
-    "NUM_CLASSES" : 2, # USED
+    "NUM_CLASSES" : 1, # USED # down projection to one for binary
     "LABEL_MAPPING" : { # USED
         0: 0,
         1: 1,
@@ -159,7 +163,7 @@ def tokenize(data):
     """
     """
 #    label_mapping = experiment["LABEL_MAPPING"]
-    tokens = tokenizer(data["text"], truncation=True, max_length=1000)
+    tokens = tokenizer(data["text"], truncation=True, max_length=2000)
 #    binary_labels = [label_mapping[label] for label in data["label"]]
 #    tokens["label"] = binary_labels
     return tokens
@@ -184,6 +188,7 @@ class SimplestLinearHead(nn.Module):
         super(SimplestLinearHead, self).__init__()
 
         self.fc = nn.Linear(lm_output_size + 4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.sigmoid = nn.Sigmoid()
 
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
@@ -196,7 +201,7 @@ class SimplestLinearHead(nn.Module):
         x = torch.mean(x, dim=1)
         x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
                 
-        x = self.fc(x)
+        x = self.sigmoid(self.fc(x))
         return x
 
 #####################################################################################
@@ -256,11 +261,17 @@ optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 
 epochs_train_loss_list = []
 epochs_train_acc_list = []
+epochs_train_prec_list = []
+epochs_train_recall_list = []
+epochs_train_f1_list = []
 # epochs_train_loss_list : list[float] -- stores training mean loss of epochs
 # epochs_train_acc_list : list[float] -- stores training accuracy of epochs
 
 epochs_val_loss_list = []
 epochs_val_acc_list = []
+epochs_val_prec_list = []
+epochs_val_recall_list = []
+epochs_val_f1_list = []
 # epochs_val_loss_list : list[float] -- stores validation mean loss of epochs
 # epochs_val_acc_list : list[float] -- stores validation accuracy of epochs
 
@@ -322,7 +333,7 @@ try:
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
-            loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
+            loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
@@ -332,17 +343,20 @@ try:
             train_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
             train_targets.extend(batch["labels"].to('cpu').tolist())
 
+        train_accuracy = accuracy_score(train_targets, train_predictions)
+        train_precision = precision_score(train_targets, train_predictions)
+        train_recall = recall_score(train_targets, train_predictions)
+        train_f1 = f1_score(train_targets, train_predictions)
+        epochs_train_acc_list.append(train_accuracy)
+        epochs_train_prec_list.append(train_precision)
+        epochs_train_recall_list.append(train_recall)
+        epochs_train_f1_list.append(train_f1)
+
         train_predictions = np.array(train_predictions)
         train_targets = np.array(train_targets)
         num_predictions_train_epoch = len(train_predictions)
         num_predictions_train_epoch_correct = np.sum(train_predictions == train_targets)
-        train_accuracy = num_predictions_train_epoch_correct / num_predictions_train_epoch
-        epochs_train_acc_list.append(train_accuracy)
-
         train_mean_loss = np.mean(train_losses)
-        epochs_train_loss_list.append(train_mean_loss)
-
-
 
         for target in train_targets:
             true_targets_train_epoch[target] += 1
@@ -380,20 +394,26 @@ try:
                 lm_outputs = lm(batch["input_ids"])
                 classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
+                loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
                 loss = loss_fn(classifier_outputs, batch["labels"])
                 val_losses.append(loss.item())
 
                 val_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
                 val_targets.extend(batch["labels"].to('cpu').tolist())
 
+        val_accuracy = accuracy_score(val_targets, val_predictions)
+        val_precision = precision_score(val_targets, val_predictions)
+        val_recall = recall_score(val_targets, val_predictions)
+        val_f1 = f1_score(val_targets, val_predictions)
+        epochs_val_acc_list.append(val_accuracy)
+        epochs_val_prec_list.append(val_precision)
+        epochs_val_recall_list.append(val_recall)
+        epochs_val_f1_list.append(val_f1)
 
         val_predictions = np.array(val_predictions)
         val_targets = np.array(val_targets)
         num_predictions_val_epoch = len(val_predictions)
         num_predictions_val_epoch_correct = np.sum(val_predictions == val_targets)
-        val_accuracy = num_predictions_val_epoch_correct / num_predictions_val_epoch
-        epochs_val_acc_list.append(val_accuracy)
-
         val_mean_loss = np.mean(val_losses)
         epochs_val_loss_list.append(val_mean_loss)
 
@@ -422,7 +442,9 @@ try:
             print(f"Epoch [{epoch+1}/{experiment['NUM_EPOCHS']}] took {epoch_time_elapsed}s")
             print(f"Experiment configuration: {experiment}")
             print(f"Train mean loss: {train_mean_loss}, train accuracy: {train_accuracy}")
+            print(f"Train precision: {train_precision}, train recall: {train_recall}, train_f1: {train_f1}")
             print(f"Val mean loss: {val_mean_loss}, val accuracy: {val_accuracy}")
+            print(f"Val precision: {val_precision}, val recall: {val_recall}, val_f1: {val_f1}")
             print()
             print("TRAINING:")
             print(f"Labels predicted: \t True targets: \t Correct labels:")
@@ -578,16 +600,25 @@ with torch.no_grad():
         batch.to(device)
         lm_outputs = lm(batch["input_ids"])
         classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+        loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
         loss = loss_fn(classifier_outputs, batch["labels"])
         losses.append(loss.item())
         predictions.extend(classifier_outputs.detach().argmax(dim=1).to("cpu"))
         targets.extend(batch["labels"].to("cpu"))
-test_acc = accuracy_score(targets, predictions)*100
+
+test_acc = accuracy_score(targets, predictions)
+test_precision = precision_score(targets, predictions)
+test_recall = recall_score(targets, predictions)
+test_f1 = f1_score(targets, predictions)
 confusion_mat = confusion_matrix(targets, predictions)
+
 if PRINTING_FLAG:
     print(f"model stopped improving at epoch {best_classifier_after_num_epochs}\n\
-            test accuracy: {accuracy_score(targets, predictions)*100}\n\
-            confusion matrix:\n {confusion_matrix(targets, predictions)}")
+            test accuracy: {test_acc}\n\
+            test precision: {test_precision}\n\
+            test recall: {test_recall}\n\
+            test f1-score: {test_f1}\n\
+            confusion matrix:\n {confusion_mat}")
 
 
 #####################################################################################
@@ -615,8 +646,11 @@ for i in range(len(labels_predicted_train_epochs_list)):
         output_log_string += f"{labels_predicted_val_epoch[label]} \t\t\t {true_targets_val_epoch[label]} \t\t\t {correct_predictions_val_epoch[label]} \n"
 
 output_log_string += f"model stopped improving at epoch {best_classifier_after_num_epochs}\n"
-output_log_string += f"test accuracy: {accuracy_score(targets, predictions)*100}\n"
-output_log_string += f"confusion matrix:\n {confusion_matrix(targets, predictions)}"
+output_log_string += f"test accuracy: {test_acc}\n"
+output_log_string += f"test precision: {test_precision}\n"
+output_log_string += f"test recall: {test_recall}\n"
+output_log_string += f"test f1-score: {test_f1}\n"
+output_log_string += f"confusion matrix:\n {confusion_mat}"
 
 output_log_filename = EXPERIMENT_NAME + "/" + "output_log_" + EXPERIMENT_NAME + ".txt"
 with open(output_log_filename, 'w') as file:
