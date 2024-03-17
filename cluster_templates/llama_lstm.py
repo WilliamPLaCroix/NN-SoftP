@@ -200,7 +200,7 @@ class LstmHead(nn.Module):
         super(LstmHead, self).__init__()
         
         hidden_size = 100
-        self.lstm = nn.LSTM(lm_output_size + 1, hidden_size, num_layers=1, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.lstm = nn.LSTM(lm_output_size + 1, hidden_size, num_layers=1, batch_first=True)
         self.act = nn.LeakyReLU()
         self.dropout = nn.Dropout(0.5)
         self.score = nn.Linear(hidden_size + 3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
@@ -215,8 +215,8 @@ class LstmHead(nn.Module):
             (
                 lm_output.hidden_states[-1],
                 subword_surp.unsqueeze(-1)
-            ), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
-        x = self.act(self.lstm(x))
+            ), dim=-1).to(torch.float)
+        x = self.act(self.lstm(x)[0][:, -1, :])
         x = self.dropout(x)
         x = torch.cat((x, sentiment), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         x = self.score(x)
