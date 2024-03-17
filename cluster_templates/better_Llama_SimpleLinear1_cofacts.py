@@ -112,6 +112,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
     
     if name == "cofacts":
         cofacts_ds = load_dataset("FNHQ/cofacts")
+        print(cofacts_ds)
 
         # to pandas df
         train = pd.DataFrame(cofacts_ds["train"])
