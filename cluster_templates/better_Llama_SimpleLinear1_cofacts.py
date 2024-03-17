@@ -185,9 +185,7 @@ def dataloader(datasplit, batch_size, columns_to_keep):
     """
     """
     dataset = Dataset.from_pandas(datasplit)
-    print(dataset)
     tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
-    print(tokenized_dataset)
     tokenized_dataset.set_format(type='torch', columns=["input_ids", "attention_mask", "sentiment", "label"])
     return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
@@ -202,13 +200,15 @@ class SimplestLinearHead(nn.Module):
         super(SimplestLinearHead, self).__init__()
         self.fc = nn.Linear(lm_output_size, num_classes)
 
-    def forward(self, lm_hidden_states, input_ids, attention_mask, sentiment):
+    def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
-        logits = torch.nn.functional.softmax(lm_hidden_states.logits, dim=-1).detach()
+        logits = torch.nn.functional.softmax(lm_output.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
-        x = torch.cat((lm_hidden_states, subword_surp.unsqueeze(-1)), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
+        x = lm_output.hidden_states[-1]
+
+        x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
 
         x = torch.mean(x, dim=1)
 
@@ -233,7 +233,7 @@ train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_
 val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
-lm = AutoModel.from_pretrained(
+lm = AutoModelForCausalLM.from_pretrained(
     "meta-llama/Llama-2-7b-hf",
     device_map="auto",
     quantization_config=bnb_config,
@@ -335,8 +335,8 @@ try:
             batch.to(device)
             optimizer.zero_grad()
 
-            lm_outputs = lm(batch["input_ids"])
-            classifier_outputs = classifier(lm_outputs[0].float(), batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+            lm_outputs = lm(batch["input_ids"], output_hidden_states=True)
+            classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
             loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
             loss = loss_fn(classifier_outputs, batch["labels"])
@@ -393,8 +393,8 @@ try:
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-                lm_outputs = lm(batch["input_ids"])
-                classifier_outputs = classifier(lm_outputs[0].float(), batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+                lm_outputs = lm(batch["input_ids"], output_hidden_states=True,)
+                classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
                 loss = loss_fn(classifier_outputs, batch["labels"])
                 val_losses.append(loss.item())
