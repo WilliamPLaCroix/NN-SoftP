@@ -49,7 +49,7 @@ experiment = {
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
-    "KEEP_COLUMNS" : ["text", "label"], # USED
+    "KEEP_COLUMNS" : ["text", "label", "sentiment"], # USED
     "NUM_CLASSES" : 2, # USED
     "LABEL_MAPPING" : { # USED
         0: 0,
@@ -112,14 +112,11 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
     
     if name == "cofacts":
         cofacts_ds = load_dataset("FNHQ/cofacts")
-        print(cofacts_ds)
 
         # to pandas df
         train = pd.DataFrame(cofacts_ds["train"])
         validation = pd.DataFrame(cofacts_ds["validation"])
         test = pd.DataFrame(cofacts_ds["test"])
-
-        print(train.head())
 
         target_counts = train["label"].value_counts()
         global pos_weights
