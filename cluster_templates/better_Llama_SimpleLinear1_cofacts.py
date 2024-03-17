@@ -432,6 +432,7 @@ try:
 
         if PRINTING_FLAG:
             print(f"Epoch [{epoch+1}/{experiment['NUM_EPOCHS']}] took {epoch_time_elapsed}s")
+            print(f"Experiment configuration: {experiment}")
             print(f"Train mean loss: {train_mean_loss}, train accuracy: {train_accuracy}")
             print(f"Val mean loss: {val_mean_loss}, val accuracy: {val_accuracy}")
             print()
