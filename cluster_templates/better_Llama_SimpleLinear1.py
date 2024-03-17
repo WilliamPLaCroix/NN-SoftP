@@ -26,14 +26,14 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"now_really_EXP2contd_Llama-7b_FULL_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"binary_Llama-7b_1e-5_333_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-continueing job id 19363 after epoch 333
-USING TORCH LOAD INSTEAD OF FRESH CLASSIFIER
+ADJUSTED TO BINARY
+NOT LOADING ANY PREVIOUS CHECKPOINT
 
 """
 
@@ -54,12 +54,12 @@ experiment = {
     "KEEP_COLUMNS" : ["statement", "label"], # USED
     "NUM_CLASSES" : 6, # USED
     "LABEL_MAPPING" : { # USED
-        0: 0,
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5
+        0: 0,   # false
+        1: 1,   # half true
+        2: 1,   # mostly true
+        3: 1,   # true
+        4: 0,   # barely true
+        5: 0    # pants fire
         },
 
 
@@ -267,11 +267,11 @@ if experiment["FREEZE_LM"]:
 
 loss_fn = nn.CrossEntropyLoss()
 
-previous_checkpoint_file = "EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717/checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717.pth"
-previous_checkpoint = torch.load(previous_checkpoint_file)
-classifier.load_state_dict(previous_checkpoint['classifier_state_dict']) #################################################################
+#previous_checkpoint_file = "EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717/checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717.pth"
+#previous_checkpoint = torch.load(previous_checkpoint_file)
+#classifier.load_state_dict(previous_checkpoint['classifier_state_dict']) #################################################################
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
-optimizer.load_state_dict(previous_checkpoint['optimizer_state_dict']) ####################################################################
+#optimizer.load_state_dict(previous_checkpoint['optimizer_state_dict']) ####################################################################
 
 #####################################################################################
 # TRAINING LOOP
