@@ -1,0 +1,192 @@
+Ex10_LLAMA2-7b_SimpleLinearHead_1710421017.7135966
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 128, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 0.001, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 0.1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 9 took 926.0314583778381s 
+The best validation result was obtained after 6 epochs 
+Checkpoint saved at: Ex10_LLAMA2-7b_SimpleLinearHead_1710421017.7135966/checkpoint_Ex10_LLAMA2-7b_SimpleLinearHead_1710421017.7135966.pthTraining took: 926.0314583778381s in total.
+
+Training Loss: 
+[1.9152118100060358, 1.9566606283187866, 1.965722680091858, 2.0969956318537393, 1.8038274049758911, 1.9025422996944852, 1.7077429294586182, 1.782881538073222, 1.7812887695100572]
+
+Validation Loss: 
+[1.9247188568115234, 1.777056097984314, 1.9495265483856201, 1.887109637260437, 1.9361876249313354, 1.9156187772750854, 1.8948171138763428, 1.814933180809021, 1.8487250804901123]
+
+Training Acc: 
+[0.21539961013645223, 0.22514619883040934, 0.26900584795321636, 0.253411306042885, 0.28460038986354774, 0.2621832358674464, 0.3031189083820663, 0.30701754385964913, 0.2933723196881092]
+
+Validation Acc: 
+[0.2109375, 0.2578125, 0.25, 0.2421875, 0.21875, 0.2890625, 0.2421875, 0.2578125, 0.234375]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+13 			 26 			 5 
+44 			 29 			 9 
+43 			 19 			 7 
+2 			 17 			 0 
+20 			 25 			 7 
+6 			 12 			 2 

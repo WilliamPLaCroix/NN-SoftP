@@ -1,0 +1,97 @@
+Ex10_LLAMA2-7b_SimpleLinearHead_1710420565.771035
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 64, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 0.001, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 0.1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 4 took 405.9355320930481s 
+The best validation result was obtained after 2 epochs 
+Checkpoint saved at: Ex10_LLAMA2-7b_SimpleLinearHead_1710420565.771035/checkpoint_Ex10_LLAMA2-7b_SimpleLinearHead_1710420565.771035.pthTraining took: 405.9355320930481s in total.
+
+Training Loss: 
+[1.946663632112391, 1.7030312138445236, 1.6911433654672958, 1.7033178034950704]
+
+Validation Loss: 
+[1.8376145362854004, 1.853701412677765, 1.9132286310195923, 2.1592355966567993]
+
+Training Acc: 
+[0.21150097465886938, 0.2826510721247563, 0.28167641325536064, 0.290448343079922]
+
+Validation Acc: 
+[0.203125, 0.2421875, 0.203125, 0.2109375]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+30 			 26 			 9 
+20 			 29 			 5 
+68 			 19 			 10 
+0 			 17 			 0 
+10 			 25 			 3 
+0 			 12 			 0 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+30 			 26 			 9 
+20 			 29 			 5 
+68 			 19 			 10 
+0 			 17 			 0 
+10 			 25 			 3 
+0 			 12 			 0 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+30 			 26 			 9 
+20 			 29 			 5 
+68 			 19 			 10 
+0 			 17 			 0 
+10 			 25 			 3 
+0 			 12 			 0 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+30 			 26 			 9 
+20 			 29 			 5 
+68 			 19 			 10 
+0 			 17 			 0 
+10 			 25 			 3 
+0 			 12 			 0 

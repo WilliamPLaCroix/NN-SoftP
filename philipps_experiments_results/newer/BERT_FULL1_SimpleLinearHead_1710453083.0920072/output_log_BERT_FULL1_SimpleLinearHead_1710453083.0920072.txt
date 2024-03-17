@@ -1,0 +1,1921 @@
+BERT_FULL1_SimpleLinearHead_1710453083.0920072
+{'LM': 'BERT', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 32, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 0.001, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 100 took 1655.0350184440613s 
+The best validation result was obtained after 41 epochs 
+Checkpoint saved at: BERT_FULL1_SimpleLinearHead_1710453083.0920072/checkpoint_BERT_FULL1_SimpleLinearHead_1710453083.0920072.pthTraining took: 1655.0350184440613s in total.
+
+Training Loss: 
+[1.751661224900005, 1.7186741769499496, 1.7063303680806146, 1.6932562552508534, 1.6894662201961623, 1.6801824744245344, 1.6736441754106421, 1.6724934273419723, 1.6664907754024612, 1.658014006332445, 1.659579363938804, 1.658363030706982, 1.6543245274701222, 1.6501743262430588, 1.6484392071810094, 1.6497274596371754, 1.6442532691628762, 1.644143129806281, 1.640559767636926, 1.6400117001429526, 1.637459229086047, 1.6395696583566637, 1.6339609600673213, 1.630038120293543, 1.6281945694272764, 1.6271177088360178, 1.6259933996052014, 1.6258403623586875, 1.6245872784997815, 1.6234114155219723, 1.6202253418919454, 1.6213656385368276, 1.6202659261560886, 1.6181403755027557, 1.6120659844526248, 1.6158860156840624, 1.6114993451911712, 1.6178316687497767, 1.6117210347333057, 1.6105473973669366, 1.6109679740537364, 1.6069225941863015, 1.6085010618435631, 1.6035303018546179, 1.6018568652441196, 1.605619048775171, 1.6057968912094924, 1.605148321742952, 1.6021927368603763, 1.5946082831171815, 1.5979261520867036, 1.5985680978246195, 1.6038869084598861, 1.6001227600180843, 1.600805282964142, 1.5969359923003248, 1.5987213170417, 1.5957681241436539, 1.5965514754951928, 1.593377720529788, 1.594223198489608, 1.5897076868936653, 1.59269442847956, 1.5895039452199253, 1.5860824971184182, 1.59099024032878, 1.5864451677999765, 1.5876182692815952, 1.5891592554585585, 1.5860708814543727, 1.5864226840366826, 1.5876200299396692, 1.5824340652453937, 1.5826706804590434, 1.5872522250885532, 1.583250704584092, 1.5828566198408418, 1.580545816466073, 1.5842495855884018, 1.5796763113354597, 1.5804491986366818, 1.5785708059774382, 1.578134639983608, 1.5793272962451352, 1.5769383892463376, 1.5768999340378236, 1.5757698838213152, 1.5796621347142157, 1.5768806147055463, 1.5750001449822637, 1.5787216918862126, 1.5775089241633906, 1.574693651585564, 1.5760843820661028, 1.5737986063288751, 1.5737768199956306, 1.5758692382652069, 1.569057252548194, 1.5755735884574344, 1.5726750454055929]
+
+Validation Loss: 
+[1.7226662810255842, 1.7267820776962652, 1.7085927870215438, 1.740867844442042, 1.7302854671710874, 1.6916555079018198, 1.730627740301737, 1.7133522760577318, 1.723710074657347, 1.7574643361859206, 1.7367558304856463, 1.7411627100735176, 1.738925015054098, 1.7127683627896193, 1.7013090296489437, 1.735915687026047, 1.7048461902432326, 1.7180589553786487, 1.7177089976101387, 1.703272595638182, 1.710704314999464, 1.7544321199742758, 1.727260057519122, 1.7268055910017432, 1.7157294953741677, 1.7424645656492652, 1.7274176812753446, 1.7196142673492432, 1.7249663690241372, 1.7477118794511004, 1.7316989637002713, 1.7161138348463105, 1.7128616251596591, 1.7210514836195039, 1.728248317067216, 1.7386306117220622, 1.7576073931484688, 1.7233716075013323, 1.7468061330841809, 1.7336013491560773, 1.7267758148472483, 1.7017372904754267, 1.7047899845169812, 1.711005993005706, 1.7277663102964076, 1.7256669910942637, 1.7193522540534414, 1.728629874020088, 1.7463051226080917, 1.7421596341016816, 1.7475855757550496, 1.7191983345078259, 1.7355555121491595, 1.7256658309843482, 1.728350694586591, 1.7219921495856307, 1.7613816086838885, 1.7434591113067255, 1.735948309665773, 1.7373102612611724, 1.7514112431828568, 1.715505285960872, 1.7420337142013922, 1.7117033499043162, 1.7703474498376615, 1.7328893120695905, 1.7439929973788377, 1.724364178936656, 1.7252648574549978, 1.7365157080859672, 1.7252820235926931, 1.7290638045566837, 1.7334190345391995, 1.801325327012597, 1.7400942633791667, 1.7368829802768986, 1.7400843021346302, 1.730789155494876, 1.7057206892385715, 1.7268873424064823, 1.7246485367053892, 1.737592133080087, 1.754910690028493, 1.7555279121166323, 1.749611712083584, 1.7380998890574386, 1.74288170802884, 1.7609949867899826, 1.784557441385781, 1.7563261142591151, 1.7303009789164474, 1.7341814448193806, 1.7609973041022695, 1.7388093122621862, 1.7360919190616142, 1.7251745665945657, 1.764794061823589, 1.7482404708862305, 1.7578179981650375, 1.747525238409275]
+
+Training Acc: 
+[0.21608725289706884, 0.24997565488363035, 0.2587398967767066, 0.271107215892492, 0.2698412698412698, 0.28230596942253383, 0.2848378615249781, 0.28698023176550785, 0.287467134092901, 0.29282305969422534, 0.29321258155613983, 0.29525757133119096, 0.2925309182977895, 0.30139254065634435, 0.30304800856948094, 0.30265848670756645, 0.3045087155516603, 0.30304800856948094, 0.306943227188626, 0.3040218132242672, 0.3093777388255916, 0.3085986951017626, 0.3097672606875061, 0.3192131658389327, 0.3206738728211121, 0.3180446002531892, 0.3150258058233518, 0.32018697049371897, 0.3172655565293602, 0.31473366442691597, 0.3224267211997273, 0.32203719933781283, 0.31385724023760836, 0.3237900477164281, 0.3250559937676502, 0.32145291654494107, 0.32447171097477845, 0.32125815561398385, 0.3298276365761028, 0.32340052585451357, 0.3284643100594021, 0.32749050540461583, 0.3224267211997273, 0.32973025611062423, 0.33304119193689746, 0.33109358262732497, 0.328756451455838, 0.3305092998344532, 0.3289512123867952, 0.3387866394001363, 0.33732593241795694, 0.3335280942642906, 0.3280747881974876, 0.3331385724023761, 0.33372285519524786, 0.33605998636673484, 0.33537832310838445, 0.3374233128834356, 0.3371311714869997, 0.33459927938455547, 0.33567046450482035, 0.33567046450482035, 0.3374233128834356, 0.33800759567630734, 0.34355828220858897, 0.33430713798811956, 0.34151329243353784, 0.3336254747297692, 0.3431687603466745, 0.3477456422241698, 0.34083162917518744, 0.3377154542798715, 0.35008277339565685, 0.3422923361573668, 0.34083162917518744, 0.34472684779433244, 0.3398578245204012, 0.34190281429545233, 0.34326614081215306, 0.3457980329145973, 0.3496932515337423, 0.35018015386113543, 0.3459927938455546, 0.33849449800370046, 0.3449216087252897, 0.3486220664134775, 0.3440451845359821, 0.3433635212776317, 0.34628493524199044, 0.3484273054825202, 0.3438504236050248, 0.35027753432661407, 0.3507644366540072, 0.34716135943129806, 0.3457006524491187, 0.3523225241016652, 0.3463823157074691, 0.34745350082773396, 0.3473561203622553, 0.35066705618852856]
+
+Validation Acc: 
+[0.2336448598130841, 0.2484423676012461, 0.2546728971962617, 0.2367601246105919, 0.2484423676012461, 0.26635514018691586, 0.2235202492211838, 0.23442367601246106, 0.23909657320872274, 0.22429906542056074, 0.24065420560747663, 0.25, 0.24299065420560748, 0.2515576323987539, 0.25778816199376947, 0.24065420560747663, 0.2468847352024922, 0.24299065420560748, 0.2538940809968847, 0.25934579439252337, 0.26090342679127726, 0.25, 0.24922118380062305, 0.25934579439252337, 0.25934579439252337, 0.25, 0.2601246105919003, 0.26791277258566976, 0.25934579439252337, 0.2484423676012461, 0.2515576323987539, 0.2515576323987539, 0.2554517133956386, 0.2601246105919003, 0.2484423676012461, 0.2367601246105919, 0.24922118380062305, 0.2507788161993769, 0.23598130841121495, 0.25934579439252337, 0.2811526479750779, 0.27102803738317754, 0.26090342679127726, 0.26557632398753894, 0.2562305295950156, 0.2507788161993769, 0.25934579439252337, 0.2484423676012461, 0.24221183800623053, 0.2538940809968847, 0.23909657320872274, 0.2484423676012461, 0.24065420560747663, 0.2616822429906542, 0.2531152647975078, 0.26557632398753894, 0.24610591900311526, 0.22975077881619937, 0.2601246105919003, 0.2616822429906542, 0.2398753894080997, 0.2554517133956386, 0.2546728971962617, 0.2523364485981308, 0.25778816199376947, 0.24376947040498442, 0.23130841121495327, 0.2398753894080997, 0.2601246105919003, 0.2585669781931464, 0.25934579439252337, 0.24610591900311526, 0.27102803738317754, 0.23442367601246106, 0.2538940809968847, 0.2531152647975078, 0.2562305295950156, 0.2616822429906542, 0.2515576323987539, 0.2546728971962617, 0.2570093457943925, 0.25778816199376947, 0.2507788161993769, 0.2398753894080997, 0.25, 0.2546728971962617, 0.24065420560747663, 0.24143302180685358, 0.24766355140186916, 0.24610591900311526, 0.2554517133956386, 0.26401869158878505, 0.24922118380062305, 0.2554517133956386, 0.25934579439252337, 0.2780373831775701, 0.24766355140186916, 0.2554517133956386, 0.24143302180685358, 0.24065420560747663]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 27: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 28: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 29: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 30: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 31: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 32: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 33: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 34: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 35: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 36: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 37: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 38: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 39: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 40: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 41: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 42: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 43: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 44: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 45: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 46: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 47: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 48: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 49: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 50: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 51: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 52: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 53: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 54: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 55: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 56: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 57: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 58: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 59: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 60: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 61: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 62: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 63: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 64: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 65: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 66: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 67: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 68: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 69: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 70: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 71: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 72: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 73: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 74: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 75: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 76: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 77: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 78: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 79: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 80: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 81: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 82: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 83: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 84: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 85: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 86: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 87: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 88: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 89: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 90: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 91: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 92: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 93: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 94: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 95: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 96: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 97: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 98: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
+
+ Epoch 99: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2466 			 1998 			 858 
+2368 			 2123 			 788 
+2093 			 1966 			 742 
+1551 			 1683 			 561 
+1280 			 1657 			 443 
+511 			 842 			 209 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+285 			 263 			 69 
+467 			 248 			 96 
+118 			 251 			 33 
+188 			 169 			 45 
+144 			 237 			 42 
+82 			 116 			 24 
