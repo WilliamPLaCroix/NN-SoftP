@@ -3,18 +3,14 @@ import time
 import copy
 import pandas as pd
 import numpy as np
-import pickle
 
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import torch.nn.functional as F
+from torch import nn
+from torch import optim
 from torch.utils.data import DataLoader
 
 from datasets import Dataset, load_dataset
-from huggingface_hub import login
-import accelerate
-from transformers import AutoModel, AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
+from transformers import AutoModelForCausalLM, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
 from tqdm import tqdm
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
@@ -24,7 +20,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex11_FULLDS_LLAMA2-7b_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"Ex1_LLAMA2-7b_MLP_cofacts_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -63,17 +59,6 @@ experiment = {
 
     }
 
-"""
-TOK_PATH = "/projects/misinfo_sp/.cache/token"
-
-with open(TOK_PATH, "r", encoding="utf8") as f:
-    token = f.read().strip()
-
-login(token)
-"""
-
-access_token = "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"
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 bnb_config = BitsAndBytesConfig(
@@ -82,7 +67,6 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_quant_type="nf4",
     bnb_4bit_compute_dtype=torch.bfloat16
     )
-
 
 
 #####################################################################################
@@ -240,7 +224,8 @@ lm = AutoModelForCausalLM.from_pretrained(
     "meta-llama/Llama-2-7b-hf",
     device_map="auto",
     quantization_config=bnb_config,
-    pad_token_id=tokenizer.pad_token_id
+    pad_token_id=tokenizer.pad_token_id,
+    output_hidden_states=True
     ).bfloat16()
 
 classifier = MlpHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
@@ -299,6 +284,7 @@ correct_predictions_val_epoch_list = []
 # correct_predictions_val_epoch : list[dict[int]:int] -- stores dictionaries of val correct predictions each epoch
 
 best_val_acc_so_far = 0.0
+last_loss = 100000
 epochs_without_improvement_counter = 0
 # best_val_acc_so_far : float -- stores the highest validation accuracy so far (for early stopping)
 # epochs_without_improvement_counter : int -- stores the number of epochs without any improvement in validation accuracy (for early stopping)
@@ -338,7 +324,7 @@ try:
             batch.to(device)
             optimizer.zero_grad()
 
-            lm_outputs = lm(batch["input_ids"], output_hidden_states=True)
+            lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
             loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
@@ -396,7 +382,7 @@ try:
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-                lm_outputs = lm(batch["input_ids"], output_hidden_states=True,)
+                lm_outputs = lm(batch["input_ids"])
                 classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
                 loss = loss_fn(classifier_outputs, batch["labels"])
@@ -456,7 +442,7 @@ try:
 
         # Early
         # early stopping:
-        if val_accuracy >= best_val_acc_so_far:
+        if val_mean_loss <= last_loss:
             best_classifier_so_far = copy.deepcopy(classifier)
             best_optimizer_state_so_far = copy.deepcopy(optimizer.state_dict())
             best_classifier_after_num_epochs = number_of_epochs_trained
@@ -465,6 +451,7 @@ try:
             best_classifier_training_loss = train_mean_loss
             best_classifier_training_acc = train_accuracy
             epochs_without_improvement_counter = 0
+            last_loss = val_mean_loss
         else:
             epochs_without_improvement_counter += 1
 
@@ -480,6 +467,7 @@ try:
             print(f"Model converged. Training stopped.")
             break
 
+    
 except KeyboardInterrupt:
     if PRINTING_FLAG: print("Training canceled!")
     pass
@@ -577,6 +565,35 @@ torch.save({
     }, best_checkpoint_filename)
 if PRINTING_FLAG: print(f"Best checkpoint saved at '{best_checkpoint_filename}'")
 
+#####################################################################################
+# Test eval
+#####################################################################################
+checkpoint = torch.load(best_checkpoint_filename)
+classifier.load_state_dict(checkpoint['classifier_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+
+seed = 42
+torch.manual_seed(seed)
+classifier.eval()
+with torch.no_grad():
+    losses = []
+    predictions = []
+    targets = []
+    for batch in tqdm(test_dataloader):
+        batch.to(device)
+        lm_outputs = lm(batch["input_ids"])
+        classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+        loss = loss_fn(classifier_outputs, batch["labels"])
+        losses.append(loss.item())
+        predictions.extend(classifier_outputs.detach().argmax(dim=1).to("cpu"))
+        targets.extend(batch["labels"].to("cpu"))
+test_acc = accuracy_score(targets, predictions)*100
+confusion_mat = confusion_matrix(targets, predictions)
+if PRINTING_FLAG:
+    print(f"model stopped improving at epoch {best_classifier_after_num_epochs}\n\
+            test accuracy: {accuracy_score(targets, predictions)*100}\n\
+            confusion matrix:\n {confusion_matrix(targets, predictions)}")
+
 
 #####################################################################################
 # Output log
@@ -602,12 +619,11 @@ for i in range(len(labels_predicted_train_epochs_list)):
     for label in labels_predicted_val_epochs_list[i]:
         output_log_string += f"{labels_predicted_val_epoch[label]} \t\t\t {true_targets_val_epoch[label]} \t\t\t {correct_predictions_val_epoch[label]} \n"
 
+output_log_string += f"model stopped improving at epoch {best_classifier_after_num_epochs}\n"
+output_log_string += f"test accuracy: {accuracy_score(targets, predictions)*100}\n"
+output_log_string += f"confusion matrix:\n {confusion_matrix(targets, predictions)}"
 
 output_log_filename = EXPERIMENT_NAME + "/" + "output_log_" + EXPERIMENT_NAME + ".txt"
 with open(output_log_filename, 'w') as file:
     file.write(output_log_string)
 if PRINTING_FLAG: print(f"Output logfile saved at {output_log_filename}")
-
-
-
-
