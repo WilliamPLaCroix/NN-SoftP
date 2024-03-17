@@ -38,12 +38,12 @@ PRINTING_FLAG = True
 ####
 experiment = {
     "LM" : "LLAMA 2 7B", # not used in code, define yourself
-    "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
-    "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
+    "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
+    "CLF_HEAD" : "LstmHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 4, # USED
     "NUM_EPOCHS" : 100, # USED
-    "EARLY_STOPPING_AFTER" : "NEVER", # USED
+    "EARLY_STOPPING_AFTER" : 5, # USED
     "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
@@ -195,10 +195,14 @@ def dataloader(datasplit, batch_size, columns_to_keep):
 # Define classification head here
 #####################################################################################
 
-class SimplestLinearHead(nn.Module):
+class LstmHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
-        super(SimplestLinearHead, self).__init__()
-        self.fc = nn.Linear(lm_output_size + 4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        super(LstmHead, self).__init__()
+
+        self.lstm = nn.LSTM(lm_output_size + 4, 100, num_layers=1, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.act = nn.LeakyReLU()
+        self.dropout = nn.Dropout(0.5)
+        self.score = nn.Linear(100, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
@@ -206,15 +210,16 @@ class SimplestLinearHead(nn.Module):
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
-        x = lm_output.hidden_states[-1]
+        x = torch.cat(
+            (
+                lm_output.hidden_states[-1],
+                subword_surp.unsqueeze(-1),
+                sentiment
+            ), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
 
-        x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
-
-        x = torch.mean(x, dim=1)
-
-        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
-                
-        x = self.fc(x)
+        x = self.act(self.lstm(x))
+        x = self.dropout(x)
+        x = self.score(x)
         return x
 
 #####################################################################################
@@ -240,7 +245,7 @@ lm = AutoModelForCausalLM.from_pretrained(
     pad_token_id=tokenizer.pad_token_id
     ).bfloat16()
 
-classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+classifier = LstmHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
 if experiment["FREEZE_LM"]:
