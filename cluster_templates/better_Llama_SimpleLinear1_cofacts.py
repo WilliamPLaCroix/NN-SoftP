@@ -198,7 +198,7 @@ def dataloader(datasplit, batch_size, columns_to_keep):
 class SimplestLinearHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(SimplestLinearHead, self).__init__()
-        self.fc = nn.Linear(lm_output_size, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.fc = nn.Linear(lm_output_size + 4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
