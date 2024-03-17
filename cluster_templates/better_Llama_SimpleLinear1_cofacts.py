@@ -186,15 +186,7 @@ def dataloader(datasplit, batch_size, columns_to_keep):
     """
     dataset = Dataset.from_pandas(datasplit)
     tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
-    global number_of_labels
-    number_of_labels = len(set(tokenized_dataset["label"]))
-#    dataset_length = len(tokenized_dataset)
-#    weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-#    class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
-#                                    dtype=bnb_config.bnb_4bit_compute_dtype)
-#    global class_weights
-#    class_weights = weights / class_proportions
-    tokenized_dataset.set_format(type='torch', columns=["input_ids", "attention_mask", "label"])
+    tokenized_dataset.set_format(type='torch', columns=["input_ids", "attention_mask", "sentiment", "label"])
     return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
@@ -208,10 +200,20 @@ class SimplestLinearHead(nn.Module):
         super(SimplestLinearHead, self).__init__()
         self.fc = nn.Linear(lm_output_size, num_classes)
 
-    def forward(self, lm_hidden_states):
-        pooled_output = torch.mean(lm_hidden_states, dim=1)
-        logits = self.fc(pooled_output)
-        return logits
+    def forward(self, lm_hidden_states, input_ids, attention_mask, sentiment):
+
+        logits = torch.nn.functional.softmax(lm_hidden_states.logits, dim=-1).detach()
+        probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
+        subword_surp = -1 * torch.log2(probs) * attention_mask
+
+        x = torch.cat((lm_hidden_states, subword_surp.unsqueeze(-1)), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
+
+        x = torch.mean(x, dim=1)
+
+        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
+                
+        x = self.fc(x)
+        return x
 
 #####################################################################################
 # Running everything defined above
@@ -332,7 +334,7 @@ try:
             optimizer.zero_grad()
 
             lm_outputs = lm(batch["input_ids"])
-            classifier_outputs = classifier(lm_outputs[0].float())
+            classifier_outputs = classifier(lm_outputs[0].float(), batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
             loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
             loss = loss_fn(classifier_outputs, batch["labels"])
@@ -390,7 +392,7 @@ try:
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
                 lm_outputs = lm(batch["input_ids"])
-                classifier_outputs = classifier(lm_outputs[0].float())
+                classifier_outputs = classifier(lm_outputs[0].float(), batch["input_ids"], batch["attention_mask"], batch["sentiment"])
 
                 loss = loss_fn(classifier_outputs, batch["labels"])
                 val_losses.append(loss.item())
