@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"13B_Llama_FULL_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"13B_Llama_1e-6_300_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -43,9 +43,9 @@ experiment = {
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 32, # USED
-    "NUM_EPOCHS" : 500, # USED
+    "NUM_EPOCHS" : 300, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
-    "LEARNING_RATE" : 0.00001, # USED
+    "LEARNING_RATE" : 0.000001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "Liar", # USED
