@@ -198,11 +198,12 @@ def dataloader(datasplit, batch_size, columns_to_keep):
 class LstmHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(LstmHead, self).__init__()
-
-        self.lstm = nn.LSTM(lm_output_size + 4, 100, num_layers=1, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype)
+        
+        hidden_size = 100
+        self.lstm = nn.LSTM(lm_output_size + 1, hidden_size, num_layers=1, batch_first=True, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.act = nn.LeakyReLU()
         self.dropout = nn.Dropout(0.5)
-        self.score = nn.Linear(100, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.score = nn.Linear(hidden_size + 3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
 
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
