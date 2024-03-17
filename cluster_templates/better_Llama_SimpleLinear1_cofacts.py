@@ -119,6 +119,8 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         validation = pd.DataFrame(cofacts_ds["validation"])
         test = pd.DataFrame(cofacts_ds["test"])
 
+        print(train.head())
+
         target_counts = train["label"].value_counts()
         global pos_weights
         pos_weights = len(train) / (2 * target_counts[1])  # Assuming positive label is 1 (fake news)
