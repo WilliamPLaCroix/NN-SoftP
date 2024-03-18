@@ -1,0 +1,26 @@
+000 (18930.000.000) 2024-03-07 16:37:42 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (18930.000.000) 2024-03-07 16:37:42 Job executing on host: <134.96.116.99:9618?addrs=134.96.116.99-9618&alias=cl18lx.lsv.uni-saarland.de&noUDP&sock=startd_3575_bb2a>
+...
+006 (18930.000.000) 2024-03-07 16:37:51 Image size of job updated: 66552
+	2  -  MemoryUsage of job (MB)
+	1688  -  ResidentSetSize of job (KB)
+...
+006 (18930.000.000) 2024-03-07 16:38:24 Image size of job updated: 66552
+	211  -  MemoryUsage of job (MB)
+	216448  -  ResidentSetSize of job (KB)
+...
+004 (18930.000.000) 2024-03-07 16:38:24 Job was evicted.
+	(0) CPU times
+		Usr 0 00:00:01, Sys 0 00:00:01  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated Assigned
+	   Cpus                 :        0        1         1 
+	   Disk (KB)            :     1250     1250  13876737 
+	   Gpus (Average)       :                 1         1 "GPU-487d51fe"
+	   Memory (MB)          :      211    10240     10240 
+...
+009 (18930.000.000) 2024-03-07 16:38:24 Job was aborted.
+...

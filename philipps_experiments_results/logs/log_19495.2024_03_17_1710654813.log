@@ -1,0 +1,83 @@
+000 (19495.000.000) 2024-03-17 06:53:33 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19495.000.000) 2024-03-17 06:53:53 Job executing on host: <134.96.116.99:9618?addrs=134.96.116.99-9618&alias=cl18lx.lsv.uni-saarland.de&noUDP&sock=startd_3575_bb2a>
+...
+006 (19495.000.000) 2024-03-17 06:54:02 Image size of job updated: 250
+	250  -  MemoryUsage of job (MB)
+	256868  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 06:59:02 Image size of job updated: 2821
+	2821  -  MemoryUsage of job (MB)
+	2889484  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 07:04:03 Image size of job updated: 3452
+	3452  -  MemoryUsage of job (MB)
+	3535048  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 07:14:03 Image size of job updated: 3452
+	3452  -  MemoryUsage of job (MB)
+	3535180  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 07:54:07 Image size of job updated: 3452
+	3452  -  MemoryUsage of job (MB)
+	3535312  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 10:34:30 Image size of job updated: 3452
+	3452  -  MemoryUsage of job (MB)
+	3535444  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 11:14:34 Image size of job updated: 3452
+	3452  -  MemoryUsage of job (MB)
+	3535576  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 11:44:38 Image size of job updated: 3452
+	3452  -  MemoryUsage of job (MB)
+	3535708  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 13:14:50 Image size of job updated: 3452
+	3452  -  MemoryUsage of job (MB)
+	3535840  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 14:15:00 Image size of job updated: 3453
+	3453  -  MemoryUsage of job (MB)
+	3535972  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 16:50:19 Image size of job updated: 3453
+	3453  -  MemoryUsage of job (MB)
+	3536104  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 17:05:19 Image size of job updated: 3453
+	3453  -  MemoryUsage of job (MB)
+	3536236  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 17:20:20 Image size of job updated: 3453
+	3453  -  MemoryUsage of job (MB)
+	3536368  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 19:05:33 Image size of job updated: 3453
+	3453  -  MemoryUsage of job (MB)
+	3536500  -  ResidentSetSize of job (KB)
+...
+006 (19495.000.000) 2024-03-17 20:16:44 Image size of job updated: 3454
+	3454  -  MemoryUsage of job (MB)
+	3537688  -  ResidentSetSize of job (KB)
+...
+005 (19495.000.000) 2024-03-17 20:16:44 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 05:15:46, Sys 0 08:03:59  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 05:15:46, Sys 0 08:03:59  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :        Usage  Request Allocated Assigned
+	   Cpus                 :         0.01        1         1 
+	   Disk (KB)            :         1           1  13876737 
+	   Gpus (Average)       : 206515229.83        1         1 "GPU-a9ded37b"
+	   GpusMemory (MB)      :     35305                       
+	   Memory (MB)          :      3454       16384     16384 
+
+	Job terminated of its own accord at 2024-03-17T19:16:45Z with exit-code 0.
+...

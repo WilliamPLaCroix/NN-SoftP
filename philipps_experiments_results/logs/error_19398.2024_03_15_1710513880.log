@@ -1,0 +1,10 @@
+Matplotlib created a temporary cache directory at /var/lib/condor/execute/dir_991182/matplotlib-ndgoprpp because the default path (/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Map:   0%|          | 0/10269 [00:00<?, ? examples/s]Map:  11%|█         | 1088/10269 [00:00<00:00, 10409.25 examples/s]Map:  22%|██▏       | 2208/10269 [00:00<00:00, 10628.78 examples/s]Map:  32%|███▏      | 3328/10269 [00:00<00:00, 10702.41 examples/s]Map:  43%|████▎     | 4416/10269 [00:00<00:00, 10673.39 examples/s]Map:  54%|█████▎    | 5504/10269 [00:00<00:00, 10613.11 examples/s]Map:  64%|██████▍   | 6592/10269 [00:00<00:00, 10640.81 examples/s]Map:  75%|███████▌  | 7712/10269 [00:00<00:00, 10695.93 examples/s]Map:  86%|████████▌ | 8832/10269 [00:00<00:00, 10736.61 examples/s]Map: 100%|██████████| 10269/10269 [00:00<00:00, 10490.99 examples/s]Map: 100%|██████████| 10269/10269 [00:00<00:00, 10557.84 examples/s]
+Map:   0%|          | 0/1284 [00:00<?, ? examples/s]Map:  87%|████████▋ | 1120/1284 [00:00<00:00, 10727.71 examples/s]Map: 100%|██████████| 1284/1284 [00:00<00:00, 10581.38 examples/s]
+Map:   0%|          | 0/1283 [00:00<?, ? examples/s]Map:  85%|████████▍ | 1088/1283 [00:00<00:00, 10552.93 examples/s]Map: 100%|██████████| 1283/1283 [00:00<00:00, 10488.66 examples/s]
+`low_cpu_mem_usage` was None, now set to True since model is quantized.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:06<00:06,  6.37s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:07<00:00,  3.12s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:07<00:00,  3.61s/it]
+Traceback (most recent call last):
+  File "/nethome/phawlitschek/NN-SoftP/cluster_templates/better_Llama_SimpleLinear1.py", line 272, in <module>
+    classifier.load_state_dict(previous_checkpoint['classifier_state_dict']) #################################################################
+TypeError: string indices must be integers

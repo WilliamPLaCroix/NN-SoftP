@@ -1,0 +1,2 @@
+/opt/nvidia/nvidia_entrypoint.sh: line 49: /nethome/phawlitschek/NN-SoftP/cluster_utils/run_script_phawlitschek.sh: Permission denied
+/opt/nvidia/nvidia_entrypoint.sh: line 49: exec: /nethome/phawlitschek/NN-SoftP/cluster_utils/run_script_phawlitschek.sh: cannot execute: Permission denied

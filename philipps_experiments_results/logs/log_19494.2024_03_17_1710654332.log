@@ -1,0 +1,55 @@
+000 (19494.000.000) 2024-03-17 06:45:32 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19494.000.000) 2024-03-17 06:45:33 Job executing on host: <134.96.116.99:9618?addrs=134.96.116.99-9618&alias=cl18lx.lsv.uni-saarland.de&noUDP&sock=startd_3575_bb2a>
+...
+006 (19494.000.000) 2024-03-17 06:45:41 Image size of job updated: 280
+	280  -  MemoryUsage of job (MB)
+	287044  -  ResidentSetSize of job (KB)
+...
+006 (19494.000.000) 2024-03-17 06:50:41 Image size of job updated: 820
+	820  -  MemoryUsage of job (MB)
+	840532  -  ResidentSetSize of job (KB)
+...
+006 (19494.000.000) 2024-03-17 06:55:41 Image size of job updated: 1154
+	1154  -  MemoryUsage of job (MB)
+	1182492  -  ResidentSetSize of job (KB)
+...
+006 (19494.000.000) 2024-03-17 07:00:43 Image size of job updated: 1155
+	1155  -  MemoryUsage of job (MB)
+	1182756  -  ResidentSetSize of job (KB)
+...
+006 (19494.000.000) 2024-03-17 09:41:03 Image size of job updated: 1155
+	1155  -  MemoryUsage of job (MB)
+	1182888  -  ResidentSetSize of job (KB)
+...
+006 (19494.000.000) 2024-03-17 18:12:00 Image size of job updated: 1155
+	1155  -  MemoryUsage of job (MB)
+	1183020  -  ResidentSetSize of job (KB)
+...
+006 (19494.000.000) 2024-03-17 23:02:40 Image size of job updated: 1155
+	1155  -  MemoryUsage of job (MB)
+	1183284  -  ResidentSetSize of job (KB)
+...
+006 (19494.000.000) 2024-03-18 03:43:13 Image size of job updated: 1155
+	1155  -  MemoryUsage of job (MB)
+	1183416  -  ResidentSetSize of job (KB)
+...
+005 (19494.000.000) 2024-03-18 06:44:50 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 10:50:40, Sys 0 13:03:46  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 10:50:40, Sys 0 13:03:46  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :        Usage  Request Allocated Assigned
+	   Cpus                 :         0.00        1         1 
+	   Disk (KB)            :         1           1  13876737 
+	   Gpus (Average)       : 207721503.59        1         1 "GPU-487d51fe"
+	   GpusMemory (MB)      :     17331                       
+	   Memory (MB)          :      1155       32768     32768 
+
+	Job terminated of its own accord at 2024-03-18T05:44:51Z with exit-code 0.
+...

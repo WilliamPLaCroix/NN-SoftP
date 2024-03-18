@@ -1,0 +1,10 @@
+Matplotlib created a temporary cache directory at /var/lib/condor/execute/dir_985904/matplotlib-uhfwc355 because the default path (/.config/matplotlib) is not a writable directory; it is highly recommended to set the MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib and to better support multiprocessing.
+Map:   0%|          | 0/10269 [00:00<?, ? examples/s]Map:  11%|█         | 1088/10269 [00:00<00:00, 10424.99 examples/s]Map:  22%|██▏       | 2240/10269 [00:00<00:00, 10740.48 examples/s]Map:  37%|███▋      | 3808/10269 [00:00<00:00, 10519.16 examples/s]Map:  48%|████▊     | 4896/10269 [00:00<00:00, 10547.88 examples/s]Map:  58%|█████▊    | 5984/10269 [00:00<00:00, 10610.65 examples/s]Map:  69%|██████▉   | 7072/10269 [00:00<00:00, 10668.98 examples/s]Map:  79%|███████▉  | 8160/10269 [00:00<00:00, 10619.41 examples/s]Map:  90%|█████████ | 9280/10269 [00:00<00:00, 10699.84 examples/s]Map: 100%|██████████| 10269/10269 [00:00<00:00, 10542.42 examples/s]
+Map:   0%|          | 0/1284 [00:00<?, ? examples/s]Map:  90%|████████▉ | 1152/1284 [00:00<00:00, 11006.52 examples/s]Map: 100%|██████████| 1284/1284 [00:00<00:00, 10875.73 examples/s]
+Map:   0%|          | 0/1283 [00:00<?, ? examples/s]Map:  90%|████████▉ | 1152/1283 [00:00<00:00, 11005.91 examples/s]Map: 100%|██████████| 1283/1283 [00:00<00:00, 10878.77 examples/s]
+`low_cpu_mem_usage` was None, now set to True since model is quantized.
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [06:48<06:48, 408.31s/it]Loading checkpoint shards: 100%|██████████| 2/2 [06:49<00:00, 168.74s/it]Loading checkpoint shards: 100%|██████████| 2/2 [06:49<00:00, 204.67s/it]
+Traceback (most recent call last):
+  File "/nethome/phawlitschek/NN-SoftP/cluster_templates/better_Llama_SimpleLinear1.py", line 270, in <module>
+    previous_checkpoint = "EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717/checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710465647.5477717.pth"
+TypeError: string indices must be integers

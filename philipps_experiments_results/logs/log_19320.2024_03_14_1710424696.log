@@ -1,0 +1,24 @@
+000 (19320.000.000) 2024-03-14 14:58:16 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19320.000.000) 2024-03-14 14:58:16 Job executing on host: <134.96.116.40:9618?addrs=134.96.116.40-9618&alias=cl16lx.lsv.uni-saarland.de&noUDP&sock=startd_1569_c82f>
+...
+006 (19320.000.000) 2024-03-14 14:58:26 Image size of job updated: 237308
+	2  -  MemoryUsage of job (MB)
+	1292  -  ResidentSetSize of job (KB)
+...
+004 (19320.000.000) 2024-03-14 15:20:24 Job was evicted.
+	(0) CPU times
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	Partitionable Resources :        Usage  Request Allocated Assigned
+	   Cpus                 :         0.00        1         1 
+	   Disk (KB)            :      1250        1250     82509 
+	   Gpus (Average)       : 165306604.35        1         1 "GPU-2fca945f"
+	   GpusMemory (MB)      :     31232                       
+	   Memory (MB)          :         2       20480     20480 
+...
+009 (19320.000.000) 2024-03-14 15:20:24 Job was aborted.
+	via condor_rm (by user phawlitschek)
+...

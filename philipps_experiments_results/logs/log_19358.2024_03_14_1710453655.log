@@ -1,0 +1,31 @@
+000 (19358.000.000) 2024-03-14 23:00:55 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19358.000.000) 2024-03-14 23:00:55 Job executing on host: <134.96.116.40:9618?addrs=134.96.116.40-9618&alias=cl16lx.lsv.uni-saarland.de&noUDP&sock=startd_1569_c82f>
+...
+006 (19358.000.000) 2024-03-14 23:01:04 Image size of job updated: 220
+	220  -  MemoryUsage of job (MB)
+	226072  -  ResidentSetSize of job (KB)
+...
+006 (19358.000.000) 2024-03-14 23:06:04 Image size of job updated: 1329
+	1329  -  MemoryUsage of job (MB)
+	1361168  -  ResidentSetSize of job (KB)
+...
+005 (19358.000.000) 2024-03-15 07:52:08 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 06:46:22, Sys 0 02:03:38  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 06:46:22, Sys 0 02:03:38  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :        Usage  Request Allocated Assigned
+	   Cpus                 :         0.00        1         1 
+	   Disk (KB)            :         1           1     82509 
+	   Gpus (Average)       : 208264399.69        1         1 "GPU-1bc28bc0"
+	   GpusMemory (MB)      :      5292                       
+	   Memory (MB)          :      1329       16384     16384 
+
+	Job terminated of its own accord at 2024-03-15T06:52:11Z with exit-code 0.
+...
