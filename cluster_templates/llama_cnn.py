@@ -46,7 +46,7 @@ experiment = {
     "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["text", "label", "sentiment"], # USED
-    "NUM_CLASSES" : 1, # USED # down projection to one for binary
+    "NUM_CLASSES" : 2, # USED # down projection to one for binary
     "LABEL_MAPPING" : { # USED
         0: 0,
         1: 1,
@@ -95,7 +95,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         test = pd.DataFrame(raw_liar_dataset_test)
     
     if name == "cofacts":
-        cofacts_ds = load_dataset("FNHQ/cofacts")
+        cofacts_ds = load_dataset("FNHQ/cofacts_undersampled")
 
         # to pandas df
         train = pd.DataFrame(cofacts_ds["train"])
@@ -188,7 +188,7 @@ class CnnHead(nn.Module):
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
         self.dropout = nn.Dropout(0.9)
 
-        self.score = nn.Linear(640 + 3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
+        self.score = nn.Linear(640 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 

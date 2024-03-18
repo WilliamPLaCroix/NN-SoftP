@@ -46,7 +46,7 @@ experiment = {
     "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["text", "label", "sentiment"], # USED
-    "NUM_CLASSES" : 1, # USED # down projection to one for binary
+    "NUM_CLASSES" : 2, # USED # down projection to one for binary
     "LABEL_MAPPING" : { # USED
         0: 0,
         1: 1,
@@ -95,7 +95,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         test = pd.DataFrame(raw_liar_dataset_test)
     
     if name == "cofacts":
-        cofacts_ds = load_dataset("FNHQ/cofacts")
+        cofacts_ds = load_dataset("FNHQ/cofacts_undersampled")
 
         # to pandas df
         train = pd.DataFrame(cofacts_ds["train"])
@@ -187,7 +187,7 @@ class LstmHead(nn.Module):
         self.lstm = nn.LSTM(lm_output_size + 1, hidden_size, num_layers=1, batch_first=True)
         self.act = nn.LeakyReLU()
         self.dropout = nn.Dropout(0.5)
-        self.score = nn.Linear(hidden_size + 3, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.score = nn.Linear(hidden_size + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
