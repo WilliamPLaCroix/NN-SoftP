@@ -338,7 +338,7 @@ try:
             classifier_outputs = classifier_outputs.view(-1).to(torch.float64)
             print(classifier_outputs)
             print(batch["labels"])
-            loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
+            loss_fn = nn.BCEWithLogitsLoss()#pos_weight=binary_weight)
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
