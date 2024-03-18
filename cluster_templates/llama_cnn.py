@@ -38,8 +38,8 @@ experiment = {
     "CLF_HEAD" : "CnnHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 4, # USED
-    "NUM_EPOCHS" : 100, # USED
-    "EARLY_STOPPING_AFTER" : 10, # USED
+    "NUM_EPOCHS" : 300, # USED
+    "EARLY_STOPPING_AFTER" : 20, # USED
     "LEARNING_RATE" : 0.000001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
