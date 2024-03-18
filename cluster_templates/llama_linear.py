@@ -112,7 +112,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         global neg_weights
         neg_weights = len(train) / (2 * target_counts[0])
         global binary_weight
-        binary_weight = target_counts[0] / target_counts[1]
+        binary_weight = torch.tensor(target_counts[0] / target_counts[1])
         print(binary_weight)
 
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
