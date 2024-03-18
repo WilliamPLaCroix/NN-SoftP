@@ -335,7 +335,7 @@ try:
 
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
-            classifier_outputs = classifier_outputs.view(-1)
+            classifier_outputs = classifier_outputs.view(-1).to(torch.float)
             print(classifier_outputs)
             print(batch["labels"])
             loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
