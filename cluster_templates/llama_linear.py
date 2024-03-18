@@ -50,7 +50,7 @@ experiment = {
     "DATASET" : "cofacts", # USED
     "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["text", "label", "sentiment"], # USED
-    "NUM_CLASSES" : 1, # USED # down projection to one for binary
+    "NUM_CLASSES" : 2, # USED # down projection to one for binary
     "LABEL_MAPPING" : { # USED
         0: 0,
         1: 1,
@@ -187,7 +187,7 @@ class SimplestLinearHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(SimplestLinearHead, self).__init__()
 
-        self.fc = nn.Linear(lm_output_size + 4, num_classes, dtype=bnb_config.bnb_4bit_compute_dtype)
+        self.fc = nn.Linear(lm_output_size + 4, 1, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
