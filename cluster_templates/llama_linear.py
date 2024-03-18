@@ -111,6 +111,8 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         pos_weights = len(train) / (2 * target_counts[1])  # Assuming positive label is 1 (fake news)
         global neg_weights
         neg_weights = len(train) / (2 * target_counts[0])
+        global binary_weight
+        binary_weight = target_counts[0] / target_counts[1]
 
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
         """
@@ -398,7 +400,7 @@ try:
                 classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
                 classifier_outputs = classifier_outputs.view(-1)
 
-                loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
+                loss_fn = nn.BCELoss(pos_weight=binary_weight, device=device, dtype=classifier_outputs.dtype))
                 loss = loss_fn(classifier_outputs, batch["labels"])
                 val_losses.append(loss.item())
 
