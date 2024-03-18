@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 
 import matplotlib.pyplot as plt
 
-
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
@@ -113,6 +113,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         neg_weights = len(train) / (2 * target_counts[0])
         global binary_weight
         binary_weight = target_counts[0] / target_counts[1]
+        print(binary_weight)
 
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
         """
@@ -337,7 +338,7 @@ try:
             classifier_outputs = classifier_outputs.view(-1)
             print(classifier_outputs)
             print(batch["labels"])
-            loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
+            loss_fn = nn.BCELoss(pos_weight=binary_weight, device=device, dtype=classifier_outputs.dtype)
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
