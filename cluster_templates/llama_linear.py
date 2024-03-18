@@ -344,7 +344,7 @@ try:
             loss.backward()
             optimizer.step()
 
-            train_predictions.extend(classifier_outputs.detach().to('cpu').tolist())
+            train_predictions.extend(classifier_outputs.detach().round().to('cpu').tolist())
             train_targets.extend(batch["labels"].to('cpu').tolist())
 
         train_accuracy = accuracy_score(train_targets, train_predictions)
