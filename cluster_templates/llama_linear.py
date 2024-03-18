@@ -332,7 +332,7 @@ try:
 
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
-
+            classifier_outputs = classifier_outputs.view(-1)
             loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
@@ -394,6 +394,7 @@ try:
 
                 lm_outputs = lm(batch["input_ids"])
                 classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+                classifier_outputs = classifier_outputs.view(-1)
 
                 loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
                 loss = loss_fn(classifier_outputs, batch["labels"])
@@ -601,6 +602,7 @@ with torch.no_grad():
         batch.to(device)
         lm_outputs = lm(batch["input_ids"])
         classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+        classifier_outputs = classifier_outputs.view(-1)
         loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
         loss = loss_fn(classifier_outputs, batch["labels"])
         losses.append(loss.item())
