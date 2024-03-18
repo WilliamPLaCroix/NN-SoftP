@@ -95,7 +95,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         test = pd.DataFrame(raw_liar_dataset_test)
     
     if name == "cofacts":
-        cofacts_ds = load_dataset("FNHQ/cofacts_undersampled")
+        cofacts_ds = load_dataset("FNHQ/cofacts")
 
         # to pandas df
         train = pd.DataFrame(cofacts_ds["train"])
