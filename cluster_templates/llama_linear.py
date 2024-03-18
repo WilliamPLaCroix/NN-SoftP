@@ -400,7 +400,7 @@ try:
                 classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
                 classifier_outputs = classifier_outputs.view(-1)
 
-                loss_fn = nn.BCELoss(pos_weight=binary_weight, device=device, dtype=classifier_outputs.dtype))
+                loss_fn = nn.BCELoss(pos_weight=binary_weight, device=device, dtype=classifier_outputs.dtype)
                 loss = loss_fn(classifier_outputs, batch["labels"])
                 val_losses.append(loss.item())
 
