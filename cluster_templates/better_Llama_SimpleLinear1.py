@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"binary_Llama-7b_1e-5_333_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"binary_Llama-7b_1e-6_333_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -46,7 +46,7 @@ experiment = {
     "BATCH_SIZE" : 32, # USED
     "NUM_EPOCHS" : 333, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
-    "LEARNING_RATE" : 0.00001, # USED
+    "LEARNING_RATE" : 0.000001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "Liar", # USED
