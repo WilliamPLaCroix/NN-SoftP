@@ -41,7 +41,7 @@ experiment = {
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 4, # USED
+    "BATCH_SIZE" : 8, # USED
     "NUM_EPOCHS" : 300, # USED
     "EARLY_STOPPING_AFTER" : 20, # USED
     "LEARNING_RATE" : 0.000001, # USED
