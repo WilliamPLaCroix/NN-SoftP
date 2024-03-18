@@ -26,11 +26,8 @@ PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-use bce loss + sigmoid
 
 combine datasets / undersample
-
-add eval metrics
 
 
 """
