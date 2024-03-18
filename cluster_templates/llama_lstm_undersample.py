@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex2_LLAMA2-7b_MLP_cofacts_{time.time()}"
+EXPERIMENT_NAME = f"Ex2_LLAMA2-7b_LSTM_cofacts_undersample_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -35,7 +35,7 @@ PRINTING_FLAG = True
 experiment = {
     "LM" : "LLAMA 2 7B", # not used in code, define yourself
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
-    "CLF_HEAD" : "MlpHead", # not used in code, define yourself
+    "CLF_HEAD" : "LstmHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 8, # USED
     "NUM_EPOCHS" : 300, # USED
@@ -95,7 +95,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         test = pd.DataFrame(raw_liar_dataset_test)
     
     if name == "cofacts":
-        cofacts_ds = load_dataset("FNHQ/cofacts")
+        cofacts_ds = load_dataset("FNHQ/cofacts_undersampled")
 
         # to pandas df
         train = pd.DataFrame(cofacts_ds["train"])
@@ -182,30 +182,31 @@ def dataloader(datasplit, batch_size, columns_to_keep):
 # Define classification head here
 #####################################################################################
 
-class MlpHead(nn.Module):
+class LstmHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
-        super(MlpHead, self).__init__()
-        hidden_size = int((lm_output_size + 1)/2)
-
-        self.dropout = nn.Dropout(0.3)
-        self.down_proj1 = nn.Linear(lm_output_size + 1, hidden_size, dtype=bnb_config.bnb_4bit_compute_dtype)
-        self.activation = nn.LeakyReLU()
+        super(LstmHead, self).__init__()
+        
+        hidden_size = 100
+        self.lstm = nn.LSTM(lm_output_size + 1, hidden_size, num_layers=1, batch_first=True)
+        self.act = nn.LeakyReLU()
+        self.dropout = nn.Dropout(0.5)
         self.score = nn.Linear(hidden_size + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
-        logits = nn.functional.softmax(lm_output.logits, dim=-1).detach()
+        logits = torch.nn.functional.softmax(lm_output.logits, dim=-1).detach()
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
-        x = lm_output.hidden_states[-1]
-        x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1).to(dtype=bnb_config.bnb_4bit_compute_dtype)
-        x = torch.mean(x, dim=1)
+        x = torch.cat(
+            (
+                lm_output.hidden_states[-1],
+                subword_surp.unsqueeze(-1)
+            ), dim=-1).to(torch.float)
+        x = self.act(self.lstm(x)[0][:, -1, :])
         x = self.dropout(x)
-        x = self.activation(self.down_proj1(x))
-        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
-                
-        x = self.sigmoid(self.fc(x))
+        x = torch.cat((x, sentiment), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
+        x = self.sigmoid(self.score(x))
         return x
 
 #####################################################################################
@@ -232,7 +233,7 @@ lm = AutoModelForCausalLM.from_pretrained(
     output_hidden_states=True
     ).bfloat16()
 
-classifier = MlpHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+classifier = LstmHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
 if experiment["FREEZE_LM"]:

@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex2_LLAMA2-7b_MLP_cofacts_{time.time()}"
+EXPERIMENT_NAME = f"Ex2_LLAMA2-7b_MLP_cofacts_undersample_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -95,7 +95,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         test = pd.DataFrame(raw_liar_dataset_test)
     
     if name == "cofacts":
-        cofacts_ds = load_dataset("FNHQ/cofacts")
+        cofacts_ds = load_dataset("FNHQ/cofacts_undersampled")
 
         # to pandas df
         train = pd.DataFrame(cofacts_ds["train"])
