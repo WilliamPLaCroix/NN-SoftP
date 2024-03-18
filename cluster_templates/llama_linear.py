@@ -335,10 +335,10 @@ try:
 
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
-            classifier_outputs = classifier_outputs.view(-1)
+            classifier_outputs = classifier_outputs.view(-1).to(torch.float64)
             print(classifier_outputs)
             print(batch["labels"])
-            loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight, dtype=bnb_config.bnb_4bit_compute_dtype)
+            loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
