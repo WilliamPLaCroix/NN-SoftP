@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 
 import matplotlib.pyplot as plt
 
-
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
@@ -107,6 +107,9 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         pos_weights = len(train) / (2 * target_counts[1])  # Assuming positive label is 1 (fake news)
         global neg_weights
         neg_weights = len(train) / (2 * target_counts[0])
+        global binary_weight
+        binary_weight = torch.tensor(target_counts[0] / target_counts[1])
+        print(binary_weight)
 
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
         """
@@ -333,15 +336,16 @@ try:
 
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
+            classifier_outputs = classifier_outputs.view(-1).float()
 
-            loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
-            loss = loss_fn(classifier_outputs, batch["labels"])
+            loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
+            loss = loss_fn(classifier_outputs, batch["labels"].float())
             train_losses.append(loss.item())
 
             loss.backward()
             optimizer.step()
 
-            train_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
+            train_predictions.extend(classifier_outputs.detach().round().to('cpu').tolist())
             train_targets.extend(batch["labels"].to('cpu').tolist())
 
         train_accuracy = accuracy_score(train_targets, train_predictions)
@@ -395,12 +399,13 @@ try:
 
                 lm_outputs = lm(batch["input_ids"])
                 classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
-
-                loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
-                loss = loss_fn(classifier_outputs, batch["labels"])
+                classifier_outputs = classifier_outputs.view(-1).float()
+                
+                loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
+                loss = loss_fn(classifier_outputs, batch["labels"].float())
                 val_losses.append(loss.item())
 
-                val_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
+                val_predictions.extend(classifier_outputs.detach().round().to('cpu').tolist())
                 val_targets.extend(batch["labels"].to('cpu').tolist())
 
         val_accuracy = accuracy_score(val_targets, val_predictions)
@@ -602,10 +607,12 @@ with torch.no_grad():
         batch.to(device)
         lm_outputs = lm(batch["input_ids"])
         classifier_outputs = classifier(lm_outputs, batch["input_ids"], batch["attention_mask"], batch["sentiment"])
-        loss_fn = nn.BCELoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
-        loss = loss_fn(classifier_outputs, batch["labels"])
+        classifier_outputs = classifier_outputs.view(-1).float()
+        
+        loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
+        loss = loss_fn(classifier_outputs, batch["labels"].float())
         losses.append(loss.item())
-        predictions.extend(classifier_outputs.detach().argmax(dim=1).to("cpu"))
+        predictions.extend(classifier_outputs.detach().round().to("cpu"))
         targets.extend(batch["labels"].to("cpu"))
 
 test_acc = accuracy_score(targets, predictions)
