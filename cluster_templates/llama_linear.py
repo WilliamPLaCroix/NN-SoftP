@@ -404,7 +404,7 @@ try:
                 loss = loss_fn(classifier_outputs, batch["labels"].float())
                 val_losses.append(loss.item())
 
-                val_predictions.extend(classifier_outputs.detach().to('cpu').tolist())
+                val_predictions.extend(classifier_outputs.detach().round().to('cpu').tolist())
                 val_targets.extend(batch["labels"].to('cpu').tolist())
 
         val_accuracy = accuracy_score(val_targets, val_predictions)
@@ -611,7 +611,7 @@ with torch.no_grad():
         loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
         loss = loss_fn(classifier_outputs, batch["labels"].float())
         losses.append(loss.item())
-        predictions.extend(classifier_outputs.detach().to("cpu"))
+        predictions.extend(classifier_outputs.detach().round().to("cpu"))
         targets.extend(batch["labels"].to("cpu"))
 
 test_acc = accuracy_score(targets, predictions)
