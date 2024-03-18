@@ -338,14 +338,14 @@ try:
             classifier_outputs = classifier_outputs.view(-1).float()
             print(classifier_outputs)
             print(batch["labels"])
-            loss_fn = nn.BCEWithLogitsLoss()#pos_weight=binary_weight)
+            loss_fn = nn.BCEWithLogitsLoss(pos_weight=binary_weight)
             loss = loss_fn(classifier_outputs, batch["labels"].float())
             train_losses.append(loss.item())
 
             loss.backward()
             optimizer.step()
 
-            train_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
+            train_predictions.extend(classifier_outputs.detach().to('cpu').tolist())
             train_targets.extend(batch["labels"].to('cpu').tolist())
 
         train_accuracy = accuracy_score(train_targets, train_predictions)
