@@ -1,0 +1,20 @@
+000 (19091.000.000) 2024-03-10 15:12:02 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19091.000.000) 2024-03-10 15:12:02 Job executing on host: <134.96.116.99:9618?addrs=134.96.116.99-9618&alias=cl18lx.lsv.uni-saarland.de&noUDP&sock=startd_3575_bb2a>
+...
+006 (19091.000.000) 2024-03-10 15:12:11 Image size of job updated: 66552
+	2  -  MemoryUsage of job (MB)
+	1600  -  ResidentSetSize of job (KB)
+...
+007 (19091.000.000) 2024-03-10 17:12:04 Shadow exception!
+	Error from slot1_5@cl18lx.lsv.uni-saarland.de: Interactive job ran longer than requested
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+...
+012 (19091.000.000) 2024-03-10 17:12:04 Job was held.
+	Error from slot1_5@cl18lx.lsv.uni-saarland.de: Interactive job ran longer than requested
+	Code 21 Subcode 0
+...
+009 (19091.000.000) 2024-03-12 07:29:55 Job was aborted.
+	via condor_rm (by user condor)
+...

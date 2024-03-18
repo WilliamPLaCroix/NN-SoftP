@@ -1,0 +1,97 @@
+Gemma-2b_Ex1_SimpleLinearHead_1710431761.7553854
+{'LM': 'Gemma 2B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 8, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 0.001, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 0.01, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 4 took 14.125116109848022s 
+The best validation result was obtained after 4 epochs 
+Checkpoint saved at: Gemma-2b_Ex1_SimpleLinearHead_1710431761.7553854/checkpoint_Gemma-2b_Ex1_SimpleLinearHead_1710431761.7553854.pthTraining took: 14.125116109848022s in total.
+
+Training Loss: 
+[2.133222277347858, 1.7207375489748442, 1.6840139535757213, 1.5045039745477529]
+
+Validation Loss: 
+[1.8774402141571045, 2.9607712030410767, 2.0526026487350464, 2.0010141134262085]
+
+Training Acc: 
+[0.14705882352941177, 0.3333333333333333, 0.3627450980392157, 0.4215686274509804]
+
+Validation Acc: 
+[0.25, 0.0, 0.08333333333333333, 0.25]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+6 			 4 			 1 
+6 			 4 			 2 
+0 			 0 			 0 
+0 			 2 			 0 
+0 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+6 			 4 			 1 
+6 			 4 			 2 
+0 			 0 			 0 
+0 			 2 			 0 
+0 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+6 			 4 			 1 
+6 			 4 			 2 
+0 			 0 			 0 
+0 			 2 			 0 
+0 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+6 			 4 			 1 
+6 			 4 			 2 
+0 			 0 			 0 
+0 			 2 			 0 
+0 			 1 			 0 
+0 			 1 			 0 

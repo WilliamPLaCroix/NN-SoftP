@@ -1,0 +1,881 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 24.01 (build 80741402)
+PyTorch Version 2.2.0a0+81ea7a4
+
+Container image Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+Copyright (c) 2014-2023 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+NOTE: CUDA Forward Compatibility mode ENABLED.
+  Using CUDA 12.3 driver version 545.23.08 with kernel driver version 525.85.12.
+  See https://docs.nvidia.com/deploy/cuda-compatibility/ for details.
+
+Language Model has hidden_size: 8192
+freezing Model... (AutoModel)
+Running on device: cuda
+Epoch [1/250] took 2570.145724773407s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.7409585066302171, train accuracy: 0.2303048008569481
+Val mean loss: 1.7128458654397745, val accuracy: 0.2538940809968847
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3097 			 1998 			 726
+3234 			 2123 			 746
+2451 			 1966 			 579
+658 			 1683 			 134
+826 			 1657 			 179
+3 			 842 			 1
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+622 			 263 			 158
+260 			 248 			 62
+312 			 251 			 86
+32 			 169 			 6
+58 			 237 			 14
+0 			 116 			 0
+Max memory allocated: 37432971264; Memory allocated: 36113792512
+Epoch [2/250] took 2562.5203924179077s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.6973935810854872, train accuracy: 0.26380368098159507
+Val mean loss: 1.7044964961916487, val accuracy: 0.26557632398753894
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3589 			 1998 			 909
+2661 			 2123 			 701
+2408 			 1966 			 668
+714 			 1683 			 185
+854 			 1657 			 228
+43 			 842 			 18
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+555 			 263 			 148
+359 			 248 			 90
+174 			 251 			 55
+152 			 169 			 32
+29 			 237 			 9
+15 			 116 			 7
+Max memory allocated: 37432971264; Memory allocated: 36091314176
+Epoch [3/250] took 2564.2014627456665s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.672711170026075, train accuracy: 0.2857142857142857
+Val mean loss: 1.6854137824703228, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3326 			 1998 			 896
+2613 			 2123 			 728
+2297 			 1966 			 697
+1025 			 1683 			 321
+892 			 1657 			 244
+116 			 842 			 48
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+428 			 263 			 115
+405 			 248 			 90
+244 			 251 			 74
+108 			 169 			 27
+92 			 237 			 23
+7 			 116 			 4
+Max memory allocated: 37432971264; Memory allocated: 36104750080
+Epoch [4/250] took 2565.891948223114s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.652797006558035, train accuracy: 0.29175187457396046
+Val mean loss: 1.6706365851969733, val accuracy: 0.2967289719626168
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3175 			 1998 			 875
+2579 			 2123 			 724
+2026 			 1966 			 621
+1258 			 1683 			 394
+1081 			 1657 			 306
+150 			 842 			 76
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+572 			 263 			 161
+244 			 248 			 68
+301 			 251 			 98
+82 			 169 			 21
+66 			 237 			 23
+19 			 116 			 10
+Max memory allocated: 37432971264; Memory allocated: 36111631360
+Epoch [5/250] took 2584.4774873256683s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.638700443775483, train accuracy: 0.31074106534229234
+Val mean loss: 1.6669648157844663, val accuracy: 0.29049844236760125
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3249 			 1998 			 928
+2553 			 2123 			 782
+2321 			 1966 			 727
+1022 			 1683 			 357
+924 			 1657 			 295
+200 			 842 			 102
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+418 			 263 			 117
+336 			 248 			 95
+223 			 251 			 71
+173 			 169 			 43
+99 			 237 			 33
+35 			 116 			 14
+Max memory allocated: 37432971264; Memory allocated: 36125394944
+Epoch [6/250] took 2584.4173996448517s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.6244170772973623, train accuracy: 0.32252410166520595
+Val mean loss: 1.6655390296026924, val accuracy: 0.29127725856697817
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3106 			 1998 			 937
+2473 			 2123 			 773
+2180 			 1966 			 708
+1181 			 1683 			 428
+1098 			 1657 			 351
+231 			 842 			 115
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+467 			 263 			 133
+182 			 248 			 57
+385 			 251 			 114
+129 			 169 			 27
+62 			 237 			 18
+59 			 116 			 25
+Max memory allocated: 37432971264; Memory allocated: 36090003456
+Epoch [7/250] took 2588.3103561401367s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.612573782695788, train accuracy: 0.33382023566072644
+Val mean loss: 1.6560336756186322, val accuracy: 0.29049844236760125
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3176 			 1998 			 958
+2452 			 2123 			 792
+2238 			 1966 			 765
+1195 			 1683 			 441
+957 			 1657 			 338
+251 			 842 			 134
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+532 			 263 			 150
+292 			 248 			 82
+228 			 251 			 73
+115 			 169 			 30
+66 			 237 			 17
+51 			 116 			 21
+Max memory allocated: 37432971264; Memory allocated: 36111631360
+Epoch [8/250] took 2587.7721230983734s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.6016019540737352, train accuracy: 0.3401499659168371
+Val mean loss: 1.6564360897860424, val accuracy: 0.29517133956386293
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3037 			 1998 			 941
+2432 			 2123 			 806
+2171 			 1966 			 748
+1256 			 1683 			 480
+1071 			 1657 			 364
+302 			 842 			 154
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+346 			 263 			 103
+299 			 248 			 80
+248 			 251 			 83
+151 			 169 			 40
+191 			 237 			 51
+49 			 116 			 22
+Max memory allocated: 37432971264; Memory allocated: 36133652480
+Epoch [9/250] took 2584.2695531845093s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.591775311255752, train accuracy: 0.3477456422241698
+Val mean loss: 1.6496734570862719, val accuracy: 0.30218068535825543
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3044 			 1998 			 953
+2425 			 2123 			 836
+2057 			 1966 			 735
+1347 			 1683 			 511
+1105 			 1657 			 386
+291 			 842 			 150
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+451 			 263 			 130
+255 			 248 			 77
+241 			 251 			 83
+174 			 169 			 45
+121 			 237 			 37
+42 			 116 			 16
+Max memory allocated: 37432971264; Memory allocated: 36104946688
+Epoch [10/250] took 2567.4046013355255s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.582276434820389, train accuracy: 0.3546596552731522
+Val mean loss: 1.6536858170946067, val accuracy: 0.3045171339563863
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3169 			 1998 			 1003
+2384 			 2123 			 835
+2061 			 1966 			 744
+1302 			 1683 			 506
+1044 			 1657 			 393
+309 			 842 			 161
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+385 			 263 			 116
+190 			 248 			 56
+325 			 251 			 101
+194 			 169 			 51
+131 			 237 			 43
+59 			 116 			 24
+Max memory allocated: 37432971264; Memory allocated: 36113007616
+Epoch [11/250] took 2568.22989821434s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.5722764024853335, train accuracy: 0.356022981789853
+Val mean loss: 1.650373659029928, val accuracy: 0.29361370716510904
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+3024 			 1998 			 969
+2295 			 2123 			 819
+2091 			 1966 			 764
+1401 			 1683 			 533
+1119 			 1657 			 393
+339 			 842 			 178
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+390 			 263 			 111
+266 			 248 			 79
+415 			 251 			 123
+78 			 169 			 20
+69 			 237 			 21
+66 			 116 			 23
+Max memory allocated: 37432971264; Memory allocated: 36110255104
+Epoch [12/250] took 2567.4576666355133s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.563657561334494, train accuracy: 0.36683221345798034
+Val mean loss: 1.6422005420161927, val accuracy: 0.3045171339563863
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2989 			 1998 			 993
+2361 			 2123 			 838
+2156 			 1966 			 795
+1364 			 1683 			 537
+1043 			 1657 			 414
+356 			 842 			 190
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+447 			 263 			 126
+258 			 248 			 76
+256 			 251 			 84
+124 			 169 			 34
+143 			 237 			 47
+56 			 116 			 24
+Max memory allocated: 37441689088; Memory allocated: 36117136384
+Epoch [13/250] took 2570.929069042206s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.555014569486413, train accuracy: 0.3709221930080826
+Val mean loss: 1.648117042961893, val accuracy: 0.3052959501557632
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2846 			 1998 			 978
+2439 			 2123 			 873
+2095 			 1966 			 767
+1363 			 1683 			 538
+1158 			 1657 			 454
+368 			 842 			 199
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+387 			 263 			 118
+142 			 248 			 46
+302 			 251 			 95
+225 			 169 			 54
+172 			 237 			 54
+56 			 116 			 25
+Max memory allocated: 37441689088; Memory allocated: 36101014528
+Epoch [14/250] took 2571.4895260334015s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.5478198242336048, train accuracy: 0.37968643490115883
+Val mean loss: 1.6435699180650563, val accuracy: 0.3037383177570093
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2957 			 1998 			 1003
+2281 			 2123 			 858
+2152 			 1966 			 806
+1398 			 1683 			 580
+1133 			 1657 			 451
+348 			 842 			 201
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+459 			 263 			 130
+259 			 248 			 72
+261 			 251 			 90
+171 			 169 			 49
+98 			 237 			 32
+36 			 116 			 17
+Max memory allocated: 37441689088; Memory allocated: 36103635968
+Epoch [15/250] took 2573.0848801136017s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.5401710967687061, train accuracy: 0.3835816535203038
+Val mean loss: 1.652381772192839, val accuracy: 0.3014018691588785
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2959 			 1998 			 1014
+2265 			 2123 			 881
+2133 			 1966 			 809
+1441 			 1683 			 594
+1110 			 1657 			 438
+361 			 842 			 203
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+268 			 263 			 84
+248 			 248 			 76
+178 			 251 			 56
+341 			 169 			 80
+139 			 237 			 49
+110 			 116 			 42
+Max memory allocated: 37441689088; Memory allocated: 36102325248
+Epoch [16/250] took 2573.500714302063s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.5321000889639989, train accuracy: 0.38952186191449995
+Val mean loss: 1.6407713113915512, val accuracy: 0.3115264797507788
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2936 			 1998 			 1031
+2306 			 2123 			 874
+2008 			 1966 			 806
+1486 			 1683 			 614
+1129 			 1657 			 453
+404 			 842 			 222
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+386 			 263 			 112
+269 			 248 			 83
+270 			 251 			 91
+144 			 169 			 40
+156 			 237 			 50
+59 			 116 			 24
+Max memory allocated: 37441689088; Memory allocated: 36097867776
+Epoch [17/250] took 2569.5816304683685s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.5243923301312412, train accuracy: 0.3968253968253968
+Val mean loss: 1.6459547312831582, val accuracy: 0.30218068535825543
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2879 			 1998 			 1036
+2274 			 2123 			 886
+2093 			 1966 			 832
+1480 			 1683 			 636
+1146 			 1657 			 464
+397 			 842 			 221
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+401 			 263 			 121
+207 			 248 			 64
+236 			 251 			 76
+206 			 169 			 57
+180 			 237 			 51
+54 			 116 			 19
+Max memory allocated: 37441689088; Memory allocated: 36105208832
+Epoch [18/250] took 2564.4574019908905s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.519835207065875, train accuracy: 0.39614373356704646
+Val mean loss: 1.6399942328254011, val accuracy: 0.3029595015576324
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2896 			 1998 			 1022
+2334 			 2123 			 901
+2032 			 1966 			 824
+1427 			 1683 			 617
+1186 			 1657 			 486
+394 			 842 			 218
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+455 			 263 			 132
+183 			 248 			 58
+268 			 251 			 85
+216 			 169 			 55
+114 			 237 			 39
+48 			 116 			 20
+Max memory allocated: 37441689088; Memory allocated: 36114383872
+Epoch [19/250] took 2563.8860931396484s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.5117447807038684, train accuracy: 0.4014996591683708
+Val mean loss: 1.635580592066328, val accuracy: 0.31386292834890966
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2859 			 1998 			 1037
+2264 			 2123 			 905
+2146 			 1966 			 846
+1483 			 1683 			 630
+1121 			 1657 			 475
+396 			 842 			 230
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+440 			 263 			 136
+323 			 248 			 93
+184 			 251 			 69
+188 			 169 			 51
+108 			 237 			 35
+41 			 116 			 19
+Max memory allocated: 37441689088; Memory allocated: 36082925568
+Epoch [20/250] took 2563.093540906906s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.5058094894635343, train accuracy: 0.4163014899211218
+Val mean loss: 1.6411537431482215, val accuracy: 0.308411214953271
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2904 			 1998 			 1071
+2277 			 2123 			 928
+2065 			 1966 			 869
+1465 			 1683 			 658
+1159 			 1657 			 512
+399 			 842 			 237
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+282 			 263 			 86
+271 			 248 			 76
+318 			 251 			 103
+198 			 169 			 49
+148 			 237 			 54
+67 			 116 			 28
+Max memory allocated: 37441689088; Memory allocated: 36113007616
+Epoch [21/250] took 2563.143664598465s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4995724852791643, train accuracy: 0.4147434024734638
+Val mean loss: 1.6467722814031107, val accuracy: 0.29205607476635514
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2882 			 1998 			 1080
+2292 			 2123 			 925
+2087 			 1966 			 868
+1478 			 1683 			 659
+1139 			 1657 			 494
+391 			 842 			 233
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+257 			 263 			 77
+371 			 248 			 101
+143 			 251 			 48
+251 			 169 			 62
+181 			 237 			 55
+81 			 116 			 32
+Max memory allocated: 37441689088; Memory allocated: 36090003456
+Epoch [22/250] took 2563.081454515457s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4930657812646617, train accuracy: 0.4186386210926088
+Val mean loss: 1.6483859117157362, val accuracy: 0.2967289719626168
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2755 			 1998 			 1039
+2184 			 2123 			 911
+2142 			 1966 			 885
+1538 			 1683 			 684
+1214 			 1657 			 528
+436 			 842 			 252
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+390 			 263 			 120
+418 			 248 			 111
+123 			 251 			 40
+199 			 169 			 55
+111 			 237 			 36
+43 			 116 			 19
+Max memory allocated: 37441689088; Memory allocated: 36101997568
+Epoch [23/250] took 2563.1620392799377s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4877462822282426, train accuracy: 0.41902814295452334
+Val mean loss: 1.6363435185215556, val accuracy: 0.3146417445482866
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2755 			 1998 			 1056
+2300 			 2123 			 947
+2050 			 1966 			 853
+1561 			 1683 			 689
+1187 			 1657 			 504
+416 			 842 			 254
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+525 			 263 			 149
+205 			 248 			 65
+265 			 251 			 90
+132 			 169 			 42
+108 			 237 			 36
+49 			 116 			 22
+Max memory allocated: 37441689088; Memory allocated: 36086857728
+Epoch [24/250] took 2560.3497631549835s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4799739047652836, train accuracy: 0.4282792871749927
+Val mean loss: 1.6312294871636268, val accuracy: 0.309190031152648
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2839 			 1998 			 1079
+2217 			 2123 			 956
+2077 			 1966 			 895
+1525 			 1683 			 697
+1190 			 1657 			 520
+421 			 842 			 251
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+330 			 263 			 102
+347 			 248 			 102
+224 			 251 			 72
+171 			 169 			 46
+151 			 237 			 50
+61 			 116 			 25
+Max memory allocated: 37441689088; Memory allocated: 36113269760
+Epoch [25/250] took 2561.664030313492s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.474985771275755, train accuracy: 0.4312980816048301
+Val mean loss: 1.6293639692933388, val accuracy: 0.3146417445482866
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2787 			 1998 			 1064
+2275 			 2123 			 972
+2047 			 1966 			 886
+1497 			 1683 			 679
+1257 			 1657 			 577
+406 			 842 			 251
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+328 			 263 			 102
+259 			 248 			 78
+308 			 251 			 99
+141 			 169 			 39
+164 			 237 			 53
+84 			 116 			 33
+Max memory allocated: 37441689088; Memory allocated: 36095246336
+Epoch [26/250] took 2561.5798885822296s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.470703220998758, train accuracy: 0.4370435290680689
+Val mean loss: 1.6427384657651836, val accuracy: 0.3029595015576324
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2817 			 1998 			 1111
+2202 			 2123 			 951
+2110 			 1966 			 912
+1514 			 1683 			 705
+1190 			 1657 			 551
+436 			 842 			 258
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+320 			 263 			 99
+410 			 248 			 111
+118 			 251 			 42
+238 			 169 			 65
+131 			 237 			 42
+67 			 116 			 30
+Max memory allocated: 37441689088; Memory allocated: 36132276224
+Epoch [27/250] took 2564.615340232849s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4633759671236124, train accuracy: 0.44210731327295744
+Val mean loss: 1.6379294154057251, val accuracy: 0.3099688473520249
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2685 			 1998 			 1070
+2323 			 2123 			 1000
+2073 			 1966 			 910
+1540 			 1683 			 710
+1212 			 1657 			 577
+436 			 842 			 273
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+446 			 263 			 128
+220 			 248 			 70
+194 			 251 			 66
+241 			 169 			 65
+114 			 237 			 41
+69 			 116 			 28
+Max memory allocated: 37441689088; Memory allocated: 36106257408
+Epoch [28/250] took 2562.7182655334473s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.457230873080986, train accuracy: 0.44093874768721397
+Val mean loss: 1.6378821669337906, val accuracy: 0.3029595015576324
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2810 			 1998 			 1124
+2238 			 2123 			 973
+2046 			 1966 			 900
+1521 			 1683 			 707
+1199 			 1657 			 549
+455 			 842 			 275
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+171 			 263 			 53
+221 			 248 			 70
+445 			 251 			 133
+89 			 169 			 24
+293 			 237 			 78
+65 			 116 			 31
+Max memory allocated: 37441689088; Memory allocated: 36118512640
+Epoch [29/250] took 2563.7116622924805s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4527060193389747, train accuracy: 0.44804752166715356
+Val mean loss: 1.639023043656275, val accuracy: 0.31230529595015577
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2644 			 1998 			 1083
+2266 			 2123 			 1012
+2092 			 1966 			 935
+1550 			 1683 			 714
+1275 			 1657 			 589
+442 			 842 			 268
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+424 			 263 			 126
+233 			 248 			 71
+242 			 251 			 84
+200 			 169 			 53
+128 			 237 			 43
+57 			 116 			 24
+Max memory allocated: 37441689088; Memory allocated: 36106257408
+Epoch [30/250] took 2581.195384979248s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4483324391680343, train accuracy: 0.4438601616515727
+Val mean loss: 1.6423862180977225, val accuracy: 0.308411214953271
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2798 			 1998 			 1104
+2184 			 2123 			 971
+2153 			 1966 			 939
+1501 			 1683 			 708
+1197 			 1657 			 576
+436 			 842 			 260
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+465 			 263 			 134
+299 			 248 			 82
+195 			 251 			 69
+167 			 169 			 53
+98 			 237 			 32
+60 			 116 			 26
+Max memory allocated: 37441689088; Memory allocated: 36114383872
+Epoch [31/250] took 2585.7167658805847s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4422131962493945, train accuracy: 0.45544843704352905
+Val mean loss: 1.641930563056209, val accuracy: 0.32087227414330216
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2763 			 1998 			 1146
+2208 			 2123 			 1000
+2140 			 1966 			 962
+1484 			 1683 			 725
+1209 			 1657 			 567
+465 			 842 			 277
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+327 			 263 			 104
+236 			 248 			 72
+243 			 251 			 88
+235 			 169 			 64
+164 			 237 			 50
+79 			 116 			 34
+Max memory allocated: 37441689088; Memory allocated: 36085547008
+Epoch [32/250] took 2585.4918806552887s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4360873022369136, train accuracy: 0.45924627519719546
+Val mean loss: 1.639935616392213, val accuracy: 0.3115264797507788
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2663 			 1998 			 1106
+2302 			 2123 			 1022
+2019 			 1966 			 954
+1528 			 1683 			 737
+1305 			 1657 			 612
+452 			 842 			 285
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+355 			 263 			 107
+281 			 248 			 83
+245 			 251 			 86
+217 			 169 			 62
+135 			 237 			 42
+51 			 116 			 20
+Max memory allocated: 37441689088; Memory allocated: 36117136384
+Epoch [33/250] took 2585.91534280777s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.432224575836339, train accuracy: 0.46226506962703284
+Val mean loss: 1.634407373046578, val accuracy: 0.3146417445482866
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2686 			 1998 			 1125
+2284 			 2123 			 1032
+2016 			 1966 			 941
+1620 			 1683 			 786
+1206 			 1657 			 574
+457 			 842 			 289
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+338 			 263 			 104
+352 			 248 			 104
+329 			 251 			 103
+57 			 169 			 16
+135 			 237 			 45
+73 			 116 			 32
+Max memory allocated: 37450471936; Memory allocated: 36084236288
+Epoch [34/250] took 2586.4687452316284s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4272538845737774, train accuracy: 0.4577855682150161
+Val mean loss: 1.635728233699858, val accuracy: 0.3052959501557632
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2675 			 1998 			 1110
+2238 			 2123 			 1019
+2190 			 1966 			 975
+1497 			 1683 			 731
+1203 			 1657 			 574
+466 			 842 			 292
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+323 			 263 			 97
+337 			 248 			 94
+206 			 251 			 67
+194 			 169 			 55
+160 			 237 			 55
+64 			 116 			 24
+Max memory allocated: 37450471936; Memory allocated: 36123559936
+Epoch [35/250] took 2587.5540776252747s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4202285795429042, train accuracy: 0.46547862498782744
+Val mean loss: 1.6538441938774608, val accuracy: 0.3014018691588785
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2735 			 1998 			 1140
+2209 			 2123 			 1021
+2067 			 1966 			 948
+1501 			 1683 			 747
+1277 			 1657 			 616
+480 			 842 			 308
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+270 			 263 			 85
+328 			 248 			 97
+139 			 251 			 51
+353 			 169 			 82
+117 			 237 			 39
+77 			 116 			 33
+Max memory allocated: 37450471936; Memory allocated: 36085547008
+Epoch [36/250] took 2586.1789932250977s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4187724028722706, train accuracy: 0.46986074593436555
+Val mean loss: 1.6499613146544245, val accuracy: 0.3099688473520249
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2668 			 1998 			 1140
+2260 			 2123 			 1035
+2018 			 1966 			 958
+1567 			 1683 			 774
+1271 			 1657 			 617
+485 			 842 			 301
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+321 			 263 			 103
+323 			 248 			 94
+234 			 251 			 80
+228 			 169 			 58
+127 			 237 			 40
+51 			 116 			 23
+Max memory allocated: 37450471936; Memory allocated: 36113007616
+Epoch [37/250] took 2577.320206642151s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4141857946448237, train accuracy: 0.47161359431298083
+Val mean loss: 1.639405722558684, val accuracy: 0.29361370716510904
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2739 			 1998 			 1150
+2170 			 2123 			 1008
+2034 			 1966 			 968
+1604 			 1683 			 791
+1256 			 1657 			 627
+466 			 842 			 299
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+284 			 263 			 81
+395 			 248 			 101
+292 			 251 			 94
+99 			 169 			 27
+150 			 237 			 45
+64 			 116 			 29
+Max memory allocated: 37450471936; Memory allocated: 36113007616
+Epoch [38/250] took 2576.327094554901s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4096211078475198, train accuracy: 0.47171097477845947
+Val mean loss: 1.6359593151514404, val accuracy: 0.309190031152648
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2619 			 1998 			 1118
+2292 			 2123 			 1067
+2098 			 1966 			 982
+1537 			 1683 			 761
+1246 			 1657 			 613
+477 			 842 			 303
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+423 			 263 			 125
+245 			 248 			 71
+258 			 251 			 88
+163 			 169 			 44
+142 			 237 			 44
+53 			 116 			 25
+Max memory allocated: 37450471936; Memory allocated: 36108878848
+Epoch [39/250] took 2571.891353368759s
+Experiment configuration: {'LM': 'LLAMA 2 70B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 250, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+Train mean loss: 1.4026027818520863, train accuracy: 0.48164378225727916
+Val mean loss: 1.6391516158885302, val accuracy: 0.2998442367601246
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2669 			 1998 			 1153
+2216 			 2123 			 1054

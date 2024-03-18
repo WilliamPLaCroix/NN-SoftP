@@ -1,4 +1,6 @@
 import os
+os.environ['HF_HOME'] = '/data/users/phawlitschek/.cache/'
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import copy
 import pandas as pd
@@ -15,7 +17,7 @@ from datasets import Dataset, load_dataset
 from huggingface_hub import login
 import accelerate
 from transformers import AutoModel, AutoModelForCausalLM, AutoModelForSequenceClassification, AutoTokenizer, DataCollatorWithPadding, BitsAndBytesConfig
-from tqdm import tqdm
+
 from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
 
 import matplotlib.pyplot as plt
@@ -24,33 +26,31 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex11_FULLDS_LLAMA2-7b_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"BERT_lr1e-5_1000_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
 #### Other experiment details:
 """
 
-
-
 """
 
 ####
 experiment = {
-    "LM" : "LLAMA 2 7B", # not used in code, define yourself
+    "LM" : "BERT", # not used in code, define yourself
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 4, # USED
-    "NUM_EPOCHS" : 100, # USED
+    "BATCH_SIZE" : 32, # USED
+    "NUM_EPOCHS" : 1000, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
-    "DATASET" : "cofacts", # USED
+    "DATASET" : "Liar", # USED
     "DATA_FRAC" : 1, # USED
-    "KEEP_COLUMNS" : ["text", "label"], # USED
-    "NUM_CLASSES" : 2, # USED
+    "KEEP_COLUMNS" : ["statement", "label"], # USED
+    "NUM_CLASSES" : 6, # USED
     "LABEL_MAPPING" : { # USED
         0: 0,
         1: 1,
@@ -71,6 +71,7 @@ with open(TOK_PATH, "r", encoding="utf8") as f:
 
 login(token)
 """
+
 
 access_token = "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"
 
@@ -101,28 +102,14 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         #raw_liar_dataset_validation = pd.read_csv("pickle_files/liar_val.csv")
         #raw_liar_dataset_test = pd.read_csv("pickle_files/liar_test.csv")
 
-        raw_liar_dataset_train = pd.read_csv("liar_train.csv")
-        raw_liar_dataset_validation = pd.read_csv("liar_val.csv")
-        raw_liar_dataset_test = pd.read_csv("liar_test.csv")
+        raw_liar_dataset_train = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_train.csv")
+        raw_liar_dataset_validation = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_val.csv")
+        raw_liar_dataset_test = pd.read_csv("/nethome/phawlitschek/NN-SoftP/cluster_templates/liar_test.csv")
 
         # convert into pandas dataframe
         train = pd.DataFrame(raw_liar_dataset_train)
         validation = pd.DataFrame(raw_liar_dataset_validation)
         test = pd.DataFrame(raw_liar_dataset_test)
-    
-    if name == "cofacts":
-        cofacts_ds = load_dataset("FNHQ/cofacts")
-
-        # to pandas df
-        train = pd.DataFrame(cofacts_ds["train"])
-        validation = pd.DataFrame(cofacts_ds["validation"])
-        test = pd.DataFrame(cofacts_ds["test"])
-
-        target_counts = train["label"].value_counts()
-        global pos_weights
-        pos_weights = len(train) / (2 * target_counts[1])  # Assuming positive label is 1 (fake news)
-        global neg_weights
-        neg_weights = len(train) / (2 * target_counts[0])
 
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
         """
@@ -175,7 +162,7 @@ def tokenize(data):
     """
     """
     label_mapping = experiment["LABEL_MAPPING"]
-    tokens = tokenizer(data["text"], truncation=True, max_length=1000)
+    tokens = tokenizer(data["statement"])
     binary_labels = [label_mapping[label] for label in data["label"]]
     tokens["label"] = binary_labels
     return tokens
@@ -188,13 +175,9 @@ def dataloader(datasplit, batch_size, columns_to_keep):
     tokenized_dataset = dataset.map(tokenize, batch_size=batch_size, batched=True)
     global number_of_labels
     number_of_labels = len(set(tokenized_dataset["label"]))
-#    dataset_length = len(tokenized_dataset)
-#    weights = torch.as_tensor(pd.Series([dataset_length for _ in range(number_of_labels)]), dtype=bnb_config.bnb_4bit_compute_dtype)
-#    class_proportions = torch.as_tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), 
-#                                    dtype=bnb_config.bnb_4bit_compute_dtype)
-#    global class_weights
-#    class_weights = weights / class_proportions
-    tokenized_dataset.set_format(type='torch', columns=["input_ids", "attention_mask", "label"])
+    global class_weights
+    #class_weights = torch.tensor(pd.Series(tokenized_dataset["label"]).value_counts(normalize=True, ascending=True), dtype=bnb_config.bnb_4bit_compute_dtype).to(device)
+    tokenized_dataset.set_format(type='torch', columns=["input_ids", "label"])
     return DataLoader(tokenized_dataset, batch_size=batch_size, shuffle=True, collate_fn=data_collator)
 
 
@@ -218,8 +201,10 @@ class SimplestLinearHead(nn.Module):
 #####################################################################################
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf")
+tokenizer = AutoTokenizer.from_pretrained("google-bert/bert-base-uncased", token=access_token)
 tokenizer.pad_token = tokenizer.eos_token
+tokenizer.pad_token = '</s>'
+#tokenizer.add_special_tokens({'pad_token': '</s>'})
 
 data_collator = DataCollatorWithPadding(tokenizer=tokenizer)
 
@@ -229,13 +214,7 @@ train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_
 val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
-lm = AutoModel.from_pretrained(
-    "meta-llama/Llama-2-7b-hf",
-    device_map="auto",
-    quantization_config=bnb_config,
-    pad_token_id=tokenizer.pad_token_id
-    ).bfloat16()
-
+lm = AutoModel.from_pretrained("google-bert/bert-base-uncased", token=access_token, quantization_config=bnb_config)
 classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
 if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 
@@ -249,6 +228,7 @@ if experiment["FREEZE_LM"]:
         for param in lm.base_model.parameters():
             param.requires_grad = False
 
+loss_fn = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
 
@@ -327,14 +307,13 @@ try:
 
         classifier.train()
 
-        for batch in tqdm(train_dataloader):
+        for batch_number, batch in enumerate(train_dataloader):
             batch.to(device)
             optimizer.zero_grad()
 
             lm_outputs = lm(batch["input_ids"])
             classifier_outputs = classifier(lm_outputs[0].float())
 
-            loss_fn = nn.CrossEntropyLoss(weight=torch.tensor([neg_weights, pos_weights], device=device, dtype=classifier_outputs.dtype))
             loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
@@ -384,7 +363,7 @@ try:
         with torch.no_grad():
             val_losses, val_predictions, val_targets = [], [], []
 
-            for batch in tqdm(val_dataloader):
+            for batch_number, batch in enumerate(val_dataloader):
                 batch.to(device)
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])

@@ -1,0 +1,35 @@
+000 (18928.000.000) 2024-03-07 16:34:22 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (18928.000.000) 2024-03-07 16:34:23 Job executing on host: <134.96.116.99:9618?addrs=134.96.116.99-9618&alias=cl18lx.lsv.uni-saarland.de&noUDP&sock=startd_3575_bb2a>
+...
+006 (18928.000.000) 2024-03-07 16:34:26 Image size of job updated: 1250
+	1  -  MemoryUsage of job (MB)
+	1004  -  ResidentSetSize of job (KB)
+...
+006 (18928.000.000) 2024-03-07 16:34:31 Image size of job updated: 67240
+	3  -  MemoryUsage of job (MB)
+	2736  -  ResidentSetSize of job (KB)
+...
+006 (18928.000.000) 2024-03-07 16:37:37 Image size of job updated: 86580
+	3  -  MemoryUsage of job (MB)
+	2736  -  ResidentSetSize of job (KB)
+...
+005 (18928.000.000) 2024-03-07 16:37:37 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated Assigned
+	   Cpus                 :     0.01        1         1 
+	   Disk (KB)            :  1250        1250  13876737 
+	   Gpus (Average)       :     0           1         1 "GPU-487d51fe"
+	   GpusMemory (MB)      :   593                       
+	   Memory (MB)          :     3       10240     10240 
+
+	Job terminated of its own accord at 2024-03-07T15:34:27Z with signal 15.
+...

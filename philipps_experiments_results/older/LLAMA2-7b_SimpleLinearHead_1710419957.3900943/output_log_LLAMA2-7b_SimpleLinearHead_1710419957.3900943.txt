@@ -1,0 +1,78 @@
+LLAMA2-7b_SimpleLinearHead_1710419957.3900943
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 32, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 0.001, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 0.1, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 3 took 339.4678018093109s 
+The best validation result was obtained after 2 epochs 
+Checkpoint saved at: LLAMA2-7b_SimpleLinearHead_1710419957.3900943/checkpoint_LLAMA2-7b_SimpleLinearHead_1710419957.3900943.pthTraining took: 339.4678018093109s in total.
+
+Training Loss: 
+[1.9449026042764836, 1.779301856503342, 1.667472532301238]
+
+Validation Loss: 
+[1.7407186329364777, 1.7858511209487915, 1.8835268914699554]
+
+Training Acc: 
+[0.19298245614035087, 0.2894736842105263, 0.31189083820662766]
+
+Validation Acc: 
+[0.25, 0.2578125, 0.1953125]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+36 			 26 			 10 
+12 			 29 			 3 
+11 			 19 			 2 
+55 			 17 			 8 
+2 			 25 			 0 
+12 			 12 			 2 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+36 			 26 			 10 
+12 			 29 			 3 
+11 			 19 			 2 
+55 			 17 			 8 
+2 			 25 			 0 
+12 			 12 			 2 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+36 			 26 			 10 
+12 			 29 			 3 
+11 			 19 			 2 
+55 			 17 			 8 
+2 			 25 			 0 
+12 			 12 			 2 

@@ -1,0 +1,2145 @@
+
+=============
+== PyTorch ==
+=============
+
+NVIDIA Release 24.01 (build 80741402)
+PyTorch Version 2.2.0a0+81ea7a4
+
+Container image Copyright (c) 2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+Copyright (c) 2014-2023 Facebook Inc.
+Copyright (c) 2011-2014 Idiap Research Institute (Ronan Collobert)
+Copyright (c) 2012-2014 Deepmind Technologies    (Koray Kavukcuoglu)
+Copyright (c) 2011-2012 NEC Laboratories America (Koray Kavukcuoglu)
+Copyright (c) 2011-2013 NYU                      (Clement Farabet)
+Copyright (c) 2006-2010 NEC Laboratories America (Ronan Collobert, Leon Bottou, Iain Melvin, Jason Weston)
+Copyright (c) 2006      Idiap Research Institute (Samy Bengio)
+Copyright (c) 2001-2004 Idiap Research Institute (Ronan Collobert, Samy Bengio, Johnny Mariethoz)
+Copyright (c) 2015      Google Inc.
+Copyright (c) 2015      Yangqing Jia
+Copyright (c) 2013-2016 The Caffe contributors
+All rights reserved.
+
+Various files include modifications (c) NVIDIA CORPORATION & AFFILIATES.  All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+NOTE: CUDA Forward Compatibility mode ENABLED.
+  Using CUDA 12.3 driver version 545.23.08 with kernel driver version 525.85.12.
+  See https://docs.nvidia.com/deploy/cuda-compatibility/ for details.
+
+Language Model has hidden_size: 768
+freezing Model... (AutoModel)
+Running on device: cuda
+Epoch [1/100] took 17.30408549308777s
+Train mean loss: 1.751661224900005, train accuracy: 0.21608725289706884
+Val mean loss: 1.7226662810255842, val accuracy: 0.2336448598130841
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2877 			 1998 			 628
+3396 			 2123 			 731
+2391 			 1966 			 535
+865 			 1683 			 176
+725 			 1657 			 145
+15 			 842 			 4
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+580 			 263 			 136
+475 			 248 			 108
+16 			 251 			 7
+26 			 169 			 5
+184 			 237 			 43
+3 			 116 			 1
+Max memory allocated: 180127232; Memory allocated: 112039936
+Epoch [2/100] took 16.578643083572388s
+Train mean loss: 1.7186741769499496, train accuracy: 0.24997565488363035
+Val mean loss: 1.7267820776962652, val accuracy: 0.2484423676012461
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2833 			 1998 			 724
+3198 			 2123 			 774
+2190 			 1966 			 577
+945 			 1683 			 227
+973 			 1657 			 235
+130 			 842 			 30
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+674 			 263 			 162
+90 			 248 			 25
+339 			 251 			 95
+155 			 169 			 28
+22 			 237 			 8
+4 			 116 			 1
+Max memory allocated: 180127232; Memory allocated: 112220672
+Epoch [3/100] took 16.732319831848145s
+Train mean loss: 1.7063303680806146, train accuracy: 0.2587398967767066
+Val mean loss: 1.7085927870215438, val accuracy: 0.2546728971962617
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2730 			 1998 			 743
+2756 			 2123 			 679
+2145 			 1966 			 592
+1195 			 1683 			 310
+1279 			 1657 			 286
+164 			 842 			 47
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+571 			 263 			 145
+70 			 248 			 18
+340 			 251 			 92
+143 			 169 			 26
+152 			 237 			 45
+8 			 116 			 1
+Max memory allocated: 180127232; Memory allocated: 112095744
+Epoch [4/100] took 16.559540271759033s
+Train mean loss: 1.6932562552508534, train accuracy: 0.271107215892492
+Val mean loss: 1.740867844442042, val accuracy: 0.2367601246105919
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2914 			 1998 			 788
+2480 			 2123 			 656
+2194 			 1966 			 622
+1103 			 1683 			 316
+1362 			 1657 			 346
+216 			 842 			 56
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+351 			 263 			 87
+462 			 248 			 104
+168 			 251 			 43
+195 			 169 			 44
+0 			 237 			 0
+108 			 116 			 26
+Max memory allocated: 180127232; Memory allocated: 112170496
+Epoch [5/100] took 16.72452211380005s
+Train mean loss: 1.6894662201961623, train accuracy: 0.2698412698412698
+Val mean loss: 1.7302854671710874, val accuracy: 0.2484423676012461
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2705 			 1998 			 757
+2654 			 2123 			 693
+2204 			 1966 			 584
+1174 			 1683 			 330
+1321 			 1657 			 336
+211 			 842 			 71
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+59 			 263 			 26
+71 			 248 			 20
+810 			 251 			 181
+110 			 169 			 24
+171 			 237 			 49
+63 			 116 			 19
+Max memory allocated: 180127232; Memory allocated: 112071168
+Epoch [6/100] took 16.587918519973755s
+Train mean loss: 1.6801824744245344, train accuracy: 0.28230596942253383
+Val mean loss: 1.6916555079018198, val accuracy: 0.26635514018691586
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2736 			 1998 			 777
+2668 			 2123 			 711
+2246 			 1966 			 643
+1195 			 1683 			 375
+1146 			 1657 			 305
+278 			 842 			 88
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+496 			 263 			 116
+225 			 248 			 59
+272 			 251 			 77
+54 			 169 			 17
+184 			 237 			 57
+53 			 116 			 16
+Max memory allocated: 180127232; Memory allocated: 112133632
+Epoch [7/100] took 16.574604511260986s
+Train mean loss: 1.6736441754106421, train accuracy: 0.2848378615249781
+Val mean loss: 1.730627740301737, val accuracy: 0.2235202492211838
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2832 			 1998 			 792
+2500 			 2123 			 708
+2165 			 1966 			 628
+1258 			 1683 			 376
+1252 			 1657 			 332
+262 			 842 			 89
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+63 			 263 			 16
+797 			 248 			 163
+127 			 251 			 35
+116 			 169 			 29
+176 			 237 			 42
+5 			 116 			 2
+Max memory allocated: 180127232; Memory allocated: 112046592
+Epoch [8/100] took 16.532564640045166s
+Train mean loss: 1.6724934273419723, train accuracy: 0.28698023176550785
+Val mean loss: 1.7133522760577318, val accuracy: 0.23442367601246106
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2639 			 1998 			 774
+2549 			 2123 			 712
+2295 			 1966 			 668
+1302 			 1683 			 375
+1189 			 1657 			 308
+295 			 842 			 110
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+392 			 263 			 96
+95 			 248 			 30
+70 			 251 			 17
+447 			 169 			 80
+237 			 237 			 65
+43 			 116 			 13
+Max memory allocated: 180127232; Memory allocated: 112071168
+Epoch [9/100] took 16.60776972770691s
+Train mean loss: 1.6664907754024612, train accuracy: 0.287467134092901
+Val mean loss: 1.723710074657347, val accuracy: 0.23909657320872274
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2747 			 1998 			 777
+2651 			 2123 			 747
+2094 			 1966 			 642
+1307 			 1683 			 380
+1146 			 1657 			 296
+324 			 842 			 110
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+152 			 263 			 46
+460 			 248 			 98
+68 			 251 			 23
+224 			 169 			 46
+361 			 237 			 88
+19 			 116 			 6
+Max memory allocated: 180146176; Memory allocated: 112071168
+Epoch [10/100] took 16.86558961868286s
+Train mean loss: 1.658014006332445, train accuracy: 0.29282305969422534
+Val mean loss: 1.7574643361859206, val accuracy: 0.22429906542056074
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2738 			 1998 			 781
+2501 			 2123 			 718
+2126 			 1966 			 643
+1253 			 1683 			 407
+1316 			 1657 			 347
+335 			 842 			 111
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+257 			 263 			 69
+148 			 248 			 38
+120 			 251 			 29
+658 			 169 			 113
+53 			 237 			 24
+48 			 116 			 15
+Max memory allocated: 180146176; Memory allocated: 112145920
+Epoch [11/100] took 16.499218702316284s
+Train mean loss: 1.659579363938804, train accuracy: 0.29321258155613983
+Val mean loss: 1.7367558304856463, val accuracy: 0.24065420560747663
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2809 			 1998 			 806
+2391 			 2123 			 694
+2105 			 1966 			 645
+1305 			 1683 			 399
+1328 			 1657 			 350
+331 			 842 			 117
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+552 			 263 			 131
+429 			 248 			 94
+36 			 251 			 13
+208 			 169 			 50
+10 			 237 			 6
+49 			 116 			 15
+Max memory allocated: 180146176; Memory allocated: 112152064
+Epoch [12/100] took 16.499820232391357s
+Train mean loss: 1.658363030706982, train accuracy: 0.29525757133119096
+Val mean loss: 1.7411627100735176, val accuracy: 0.25
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2751 			 1998 			 800
+2384 			 2123 			 679
+2186 			 1966 			 641
+1349 			 1683 			 436
+1236 			 1657 			 341
+363 			 842 			 135
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+518 			 263 			 130
+566 			 248 			 125
+102 			 251 			 32
+67 			 169 			 20
+3 			 237 			 1
+28 			 116 			 13
+Max memory allocated: 180146176; Memory allocated: 112220672
+Epoch [13/100] took 16.520654916763306s
+Train mean loss: 1.6543245274701222, train accuracy: 0.2925309182977895
+Val mean loss: 1.738925015054098, val accuracy: 0.24299065420560748
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2638 			 1998 			 805
+2382 			 2123 			 670
+2154 			 1966 			 646
+1340 			 1683 			 409
+1444 			 1657 			 370
+311 			 842 			 104
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+152 			 263 			 47
+496 			 248 			 109
+270 			 251 			 68
+263 			 169 			 54
+38 			 237 			 11
+65 			 116 			 23
+Max memory allocated: 180146176; Memory allocated: 112101888
+Epoch [14/100] took 16.301538944244385s
+Train mean loss: 1.6501743262430588, train accuracy: 0.30139254065634435
+Val mean loss: 1.7127683627896193, val accuracy: 0.2515576323987539
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2609 			 1998 			 762
+2594 			 2123 			 754
+2065 			 1966 			 659
+1387 			 1683 			 431
+1256 			 1657 			 358
+358 			 842 			 131
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+303 			 263 			 72
+83 			 248 			 26
+339 			 251 			 87
+261 			 169 			 53
+250 			 237 			 70
+48 			 116 			 15
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [15/100] took 16.507068872451782s
+Train mean loss: 1.6484392071810094, train accuracy: 0.30304800856948094
+Val mean loss: 1.7013090296489437, val accuracy: 0.25778816199376947
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2613 			 1998 			 773
+2338 			 2123 			 686
+2186 			 1966 			 699
+1412 			 1683 			 452
+1367 			 1657 			 374
+353 			 842 			 128
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+589 			 263 			 142
+250 			 248 			 53
+112 			 251 			 34
+134 			 169 			 34
+164 			 237 			 55
+35 			 116 			 13
+Max memory allocated: 180146176; Memory allocated: 112170496
+Epoch [16/100] took 16.42040777206421s
+Train mean loss: 1.6497274596371754, train accuracy: 0.30265848670756645
+Val mean loss: 1.735915687026047, val accuracy: 0.24065420560747663
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2655 			 1998 			 813
+2372 			 2123 			 705
+2194 			 1966 			 669
+1267 			 1683 			 411
+1419 			 1657 			 381
+362 			 842 			 129
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+124 			 263 			 38
+127 			 248 			 32
+137 			 251 			 31
+433 			 169 			 83
+352 			 237 			 93
+111 			 116 			 32
+Max memory allocated: 180146176; Memory allocated: 112101888
+Epoch [17/100] took 16.39560627937317s
+Train mean loss: 1.6442532691628762, train accuracy: 0.3045087155516603
+Val mean loss: 1.7048461902432326, val accuracy: 0.2468847352024922
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2601 			 1998 			 788
+2504 			 2123 			 723
+2170 			 1966 			 674
+1309 			 1683 			 442
+1274 			 1657 			 363
+411 			 842 			 137
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+460 			 263 			 104
+286 			 248 			 61
+199 			 251 			 54
+190 			 169 			 47
+85 			 237 			 34
+64 			 116 			 17
+Max memory allocated: 180146176; Memory allocated: 112040448
+Epoch [18/100] took 16.47460675239563s
+Train mean loss: 1.644143129806281, train accuracy: 0.30304800856948094
+Val mean loss: 1.7180589553786487, val accuracy: 0.24299065420560748
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2667 			 1998 			 823
+2460 			 2123 			 715
+2087 			 1966 			 640
+1469 			 1683 			 454
+1212 			 1657 			 346
+374 			 842 			 134
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+253 			 263 			 64
+142 			 248 			 36
+121 			 251 			 35
+251 			 169 			 49
+438 			 237 			 106
+79 			 116 			 22
+Max memory allocated: 180146176; Memory allocated: 112133632
+Epoch [19/100] took 16.46022915840149s
+Train mean loss: 1.640559767636926, train accuracy: 0.306943227188626
+Val mean loss: 1.7177089976101387, val accuracy: 0.2538940809968847
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2595 			 1998 			 795
+2362 			 2123 			 717
+2265 			 1966 			 687
+1258 			 1683 			 407
+1385 			 1657 			 394
+404 			 842 			 152
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+240 			 263 			 63
+525 			 248 			 114
+256 			 251 			 74
+92 			 169 			 20
+159 			 237 			 49
+12 			 116 			 6
+Max memory allocated: 180146176; Memory allocated: 112065024
+Epoch [20/100] took 16.39236068725586s
+Train mean loss: 1.6400117001429526, train accuracy: 0.3040218132242672
+Val mean loss: 1.703272595638182, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2578 			 1998 			 784
+2545 			 2123 			 737
+2118 			 1966 			 663
+1316 			 1683 			 439
+1265 			 1657 			 350
+447 			 842 			 149
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+617 			 263 			 147
+153 			 248 			 33
+242 			 251 			 65
+106 			 169 			 29
+147 			 237 			 51
+19 			 116 			 8
+Max memory allocated: 180146176; Memory allocated: 112108032
+Epoch [21/100] took 16.454952239990234s
+Train mean loss: 1.637459229086047, train accuracy: 0.3093777388255916
+Val mean loss: 1.710704314999464, val accuracy: 0.26090342679127726
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2629 			 1998 			 792
+2433 			 2123 			 745
+2108 			 1966 			 668
+1427 			 1683 			 455
+1237 			 1657 			 364
+435 			 842 			 153
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+620 			 263 			 151
+233 			 248 			 59
+300 			 251 			 82
+61 			 169 			 17
+34 			 237 			 13
+36 			 116 			 13
+Max memory allocated: 180146176; Memory allocated: 112108032
+Epoch [22/100] took 16.589442491531372s
+Train mean loss: 1.6395696583566637, train accuracy: 0.3085986951017626
+Val mean loss: 1.7544321199742758, val accuracy: 0.25
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2561 			 1998 			 784
+2485 			 2123 			 738
+2080 			 1966 			 673
+1404 			 1683 			 442
+1342 			 1657 			 384
+397 			 842 			 148
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+615 			 263 			 147
+206 			 248 			 54
+247 			 251 			 68
+162 			 169 			 34
+15 			 237 			 4
+39 			 116 			 14
+Max memory allocated: 180146176; Memory allocated: 112188928
+Epoch [23/100] took 16.434803009033203s
+Train mean loss: 1.6339609600673213, train accuracy: 0.3097672606875061
+Val mean loss: 1.727260057519122, val accuracy: 0.24922118380062305
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2700 			 1998 			 796
+2365 			 2123 			 746
+2152 			 1966 			 660
+1367 			 1683 			 455
+1284 			 1657 			 379
+401 			 842 			 145
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+510 			 263 			 126
+456 			 248 			 99
+113 			 251 			 36
+137 			 169 			 33
+42 			 237 			 16
+26 			 116 			 10
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [24/100] took 16.422513484954834s
+Train mean loss: 1.630038120293543, train accuracy: 0.3192131658389327
+Val mean loss: 1.7268055910017432, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2614 			 1998 			 793
+2371 			 2123 			 764
+2137 			 1966 			 686
+1418 			 1683 			 487
+1290 			 1657 			 387
+439 			 842 			 161
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+409 			 263 			 101
+358 			 248 			 87
+255 			 251 			 69
+109 			 169 			 26
+36 			 237 			 16
+117 			 116 			 34
+Max memory allocated: 180146176; Memory allocated: 112101888
+Epoch [25/100] took 16.504408359527588s
+Train mean loss: 1.6281945694272764, train accuracy: 0.3206738728211121
+Val mean loss: 1.7157294953741677, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2647 			 1998 			 835
+2517 			 2123 			 764
+2067 			 1966 			 697
+1337 			 1683 			 459
+1267 			 1657 			 385
+434 			 842 			 153
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+349 			 263 			 89
+460 			 248 			 103
+266 			 251 			 74
+117 			 169 			 31
+51 			 237 			 19
+41 			 116 			 17
+Max memory allocated: 180146176; Memory allocated: 112145920
+Epoch [26/100] took 16.501112699508667s
+Train mean loss: 1.6271177088360178, train accuracy: 0.3180446002531892
+Val mean loss: 1.7424645656492652, val accuracy: 0.25
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2641 			 1998 			 811
+2376 			 2123 			 740
+2109 			 1966 			 689
+1406 			 1683 			 482
+1315 			 1657 			 384
+422 			 842 			 160
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+379 			 263 			 90
+51 			 248 			 18
+397 			 251 			 97
+262 			 169 			 53
+110 			 237 			 40
+85 			 116 			 23
+Max memory allocated: 180146176; Memory allocated: 112058880
+Epoch [27/100] took 16.505056142807007s
+Train mean loss: 1.6259933996052014, train accuracy: 0.3150258058233518
+Val mean loss: 1.7274176812753446, val accuracy: 0.2601246105919003
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2600 			 1998 			 793
+2418 			 2123 			 747
+2144 			 1966 			 685
+1368 			 1683 			 455
+1276 			 1657 			 394
+463 			 842 			 161
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+740 			 263 			 173
+276 			 248 			 69
+75 			 251 			 27
+64 			 169 			 19
+99 			 237 			 36
+30 			 116 			 10
+Max memory allocated: 180146176; Memory allocated: 112133632
+Epoch [28/100] took 16.393341302871704s
+Train mean loss: 1.6258403623586875, train accuracy: 0.32018697049371897
+Val mean loss: 1.7196142673492432, val accuracy: 0.26791277258566976
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2648 			 1998 			 821
+2443 			 2123 			 768
+2101 			 1966 			 673
+1380 			 1683 			 476
+1278 			 1657 			 390
+419 			 842 			 160
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+418 			 263 			 107
+126 			 248 			 34
+362 			 251 			 90
+124 			 169 			 31
+136 			 237 			 51
+118 			 116 			 31
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [29/100] took 16.387667179107666s
+Train mean loss: 1.6245872784997815, train accuracy: 0.3172655565293602
+Val mean loss: 1.7249663690241372, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2639 			 1998 			 815
+2312 			 2123 			 731
+2194 			 1966 			 680
+1319 			 1683 			 457
+1347 			 1657 			 406
+458 			 842 			 169
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+192 			 263 			 52
+512 			 248 			 116
+266 			 251 			 69
+134 			 169 			 33
+129 			 237 			 44
+51 			 116 			 19
+Max memory allocated: 180146176; Memory allocated: 112164352
+Epoch [30/100] took 16.401108980178833s
+Train mean loss: 1.6234114155219723, train accuracy: 0.31473366442691597
+Val mean loss: 1.7477118794511004, val accuracy: 0.2484423676012461
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2540 			 1998 			 776
+2468 			 2123 			 782
+2053 			 1966 			 658
+1410 			 1683 			 455
+1342 			 1657 			 396
+456 			 842 			 165
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+249 			 263 			 63
+36 			 248 			 13
+251 			 251 			 67
+141 			 169 			 34
+586 			 237 			 135
+21 			 116 			 7
+Max memory allocated: 180146176; Memory allocated: 112040448
+Epoch [31/100] took 16.619763374328613s
+Train mean loss: 1.6202253418919454, train accuracy: 0.3224267211997273
+Val mean loss: 1.7316989637002713, val accuracy: 0.2515576323987539
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2688 			 1998 			 836
+2432 			 2123 			 762
+2109 			 1966 			 707
+1312 			 1683 			 458
+1315 			 1657 			 395
+413 			 842 			 153
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+56 			 263 			 17
+621 			 248 			 131
+266 			 251 			 71
+93 			 169 			 27
+188 			 237 			 58
+60 			 116 			 19
+Max memory allocated: 180146176; Memory allocated: 112139776
+Epoch [32/100] took 16.542943716049194s
+Train mean loss: 1.6213656385368276, train accuracy: 0.32203719933781283
+Val mean loss: 1.7161138348463105, val accuracy: 0.2515576323987539
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2589 			 1998 			 814
+2393 			 2123 			 764
+2170 			 1966 			 695
+1444 			 1683 			 481
+1250 			 1657 			 397
+423 			 842 			 156
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+152 			 263 			 46
+483 			 248 			 104
+241 			 251 			 62
+141 			 169 			 32
+236 			 237 			 65
+31 			 116 			 14
+Max memory allocated: 180146176; Memory allocated: 112139776
+Epoch [33/100] took 16.485060930252075s
+Train mean loss: 1.6202659261560886, train accuracy: 0.31385724023760836
+Val mean loss: 1.7128616251596591, val accuracy: 0.2554517133956386
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2491 			 1998 			 783
+2340 			 2123 			 719
+2208 			 1966 			 693
+1411 			 1683 			 481
+1361 			 1657 			 375
+458 			 842 			 172
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+433 			 263 			 104
+167 			 248 			 46
+100 			 251 			 27
+246 			 169 			 53
+312 			 237 			 87
+26 			 116 			 11
+Max memory allocated: 180146176; Memory allocated: 112083456
+Epoch [34/100] took 16.38809585571289s
+Train mean loss: 1.6181403755027557, train accuracy: 0.3237900477164281
+Val mean loss: 1.7210514836195039, val accuracy: 0.2601246105919003
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2517 			 1998 			 800
+2475 			 2123 			 783
+2085 			 1966 			 687
+1395 			 1683 			 481
+1355 			 1657 			 413
+442 			 842 			 161
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+484 			 263 			 113
+67 			 248 			 23
+471 			 251 			 120
+73 			 169 			 19
+91 			 237 			 33
+98 			 116 			 26
+Max memory allocated: 180146176; Memory allocated: 112108032
+Epoch [35/100] took 16.521009922027588s
+Train mean loss: 1.6120659844526248, train accuracy: 0.3250559937676502
+Val mean loss: 1.728248317067216, val accuracy: 0.2484423676012461
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2538 			 1998 			 815
+2463 			 2123 			 784
+2123 			 1966 			 698
+1330 			 1683 			 460
+1354 			 1657 			 408
+461 			 842 			 173
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+160 			 263 			 50
+562 			 248 			 118
+301 			 251 			 76
+167 			 169 			 41
+62 			 237 			 24
+32 			 116 			 10
+Max memory allocated: 180146176; Memory allocated: 112058880
+Epoch [36/100] took 16.586714506149292s
+Train mean loss: 1.6158860156840624, train accuracy: 0.32145291654494107
+Val mean loss: 1.7386306117220622, val accuracy: 0.2367601246105919
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2416 			 1998 			 761
+2597 			 2123 			 808
+2051 			 1966 			 673
+1464 			 1683 			 470
+1284 			 1657 			 417
+457 			 842 			 172
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+367 			 263 			 89
+300 			 248 			 59
+181 			 251 			 51
+264 			 169 			 56
+39 			 237 			 13
+133 			 116 			 36
+Max memory allocated: 180146176; Memory allocated: 112083456
+Epoch [37/100] took 17.10054326057434s
+Train mean loss: 1.6114993451911712, train accuracy: 0.32447171097477845
+Val mean loss: 1.7576073931484688, val accuracy: 0.24922118380062305
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2511 			 1998 			 800
+2430 			 2123 			 769
+2024 			 1966 			 665
+1393 			 1683 			 476
+1404 			 1657 			 444
+507 			 842 			 178
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+297 			 263 			 84
+561 			 248 			 122
+226 			 251 			 56
+142 			 169 			 36
+18 			 237 			 8
+40 			 116 			 14
+Max memory allocated: 180146176; Memory allocated: 112089600
+Epoch [38/100] took 17.220184564590454s
+Train mean loss: 1.6178316687497767, train accuracy: 0.32125815561398385
+Val mean loss: 1.7233716075013323, val accuracy: 0.2507788161993769
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2548 			 1998 			 822
+2264 			 2123 			 731
+2161 			 1966 			 701
+1457 			 1683 			 480
+1388 			 1657 			 405
+451 			 842 			 160
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+207 			 263 			 56
+690 			 248 			 148
+95 			 251 			 26
+78 			 169 			 21
+150 			 237 			 49
+64 			 116 			 22
+Max memory allocated: 180146176; Memory allocated: 112152064
+Epoch [39/100] took 17.084660291671753s
+Train mean loss: 1.6117210347333057, train accuracy: 0.3298276365761028
+Val mean loss: 1.7468061330841809, val accuracy: 0.23598130841121495
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2509 			 1998 			 812
+2495 			 2123 			 778
+2074 			 1966 			 688
+1420 			 1683 			 507
+1297 			 1657 			 405
+474 			 842 			 197
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+134 			 263 			 40
+533 			 248 			 114
+195 			 251 			 52
+278 			 169 			 54
+61 			 237 			 21
+83 			 116 			 22
+Max memory allocated: 180146176; Memory allocated: 112176640
+Epoch [40/100] took 16.840295791625977s
+Train mean loss: 1.6105473973669366, train accuracy: 0.32340052585451357
+Val mean loss: 1.7336013491560773, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2625 			 1998 			 826
+2462 			 2123 			 768
+2067 			 1966 			 675
+1409 			 1683 			 492
+1257 			 1657 			 383
+449 			 842 			 177
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+90 			 263 			 33
+217 			 248 			 55
+434 			 251 			 102
+216 			 169 			 44
+278 			 237 			 82
+49 			 116 			 17
+Max memory allocated: 180146176; Memory allocated: 112089600
+Epoch [41/100] took 16.768129348754883s
+Train mean loss: 1.6109679740537364, train accuracy: 0.3284643100594021
+Val mean loss: 1.7267758148472483, val accuracy: 0.2811526479750779
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2541 			 1998 			 837
+2381 			 2123 			 764
+2117 			 1966 			 698
+1488 			 1683 			 503
+1270 			 1657 			 396
+472 			 842 			 175
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+164 			 263 			 49
+210 			 248 			 56
+459 			 251 			 117
+66 			 169 			 23
+289 			 237 			 85
+96 			 116 			 31
+Max memory allocated: 180146176; Memory allocated: 112077312
+Epoch [42/100] took 16.95746397972107s
+Train mean loss: 1.6069225941863015, train accuracy: 0.32749050540461583
+Val mean loss: 1.7017372904754267, val accuracy: 0.27102803738317754
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2449 			 1998 			 764
+2567 			 2123 			 795
+2081 			 1966 			 721
+1410 			 1683 			 493
+1298 			 1657 			 401
+464 			 842 			 189
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+363 			 263 			 92
+118 			 248 			 37
+345 			 251 			 85
+126 			 169 			 30
+264 			 237 			 81
+68 			 116 			 23
+Max memory allocated: 180146176; Memory allocated: 112077312
+Epoch [43/100] took 16.906012058258057s
+Train mean loss: 1.6085010618435631, train accuracy: 0.3224267211997273
+Val mean loss: 1.7047899845169812, val accuracy: 0.26090342679127726
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2518 			 1998 			 805
+2351 			 2123 			 742
+2041 			 1966 			 664
+1537 			 1683 			 511
+1344 			 1657 			 410
+478 			 842 			 179
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+346 			 263 			 85
+187 			 248 			 48
+477 			 251 			 119
+75 			 169 			 21
+128 			 237 			 41
+71 			 116 			 21
+Max memory allocated: 180146176; Memory allocated: 112028160
+Epoch [44/100] took 16.816049098968506s
+Train mean loss: 1.6035303018546179, train accuracy: 0.32973025611062423
+Val mean loss: 1.711005993005706, val accuracy: 0.26557632398753894
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2564 			 1998 			 829
+2373 			 2123 			 778
+2151 			 1966 			 709
+1377 			 1683 			 476
+1333 			 1657 			 411
+471 			 842 			 183
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+474 			 263 			 116
+318 			 248 			 77
+303 			 251 			 83
+52 			 169 			 17
+85 			 237 			 32
+52 			 116 			 16
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [45/100] took 16.508668422698975s
+Train mean loss: 1.6018568652441196, train accuracy: 0.33304119193689746
+Val mean loss: 1.7277663102964076, val accuracy: 0.2562305295950156
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2554 			 1998 			 828
+2383 			 2123 			 771
+2085 			 1966 			 707
+1390 			 1683 			 506
+1377 			 1657 			 429
+480 			 842 			 179
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+249 			 263 			 58
+271 			 248 			 69
+447 			 251 			 113
+138 			 169 			 32
+78 			 237 			 26
+101 			 116 			 31
+Max memory allocated: 180146176; Memory allocated: 112182784
+Epoch [46/100] took 16.519184350967407s
+Train mean loss: 1.605619048775171, train accuracy: 0.33109358262732497
+Val mean loss: 1.7256669910942637, val accuracy: 0.2507788161993769
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2423 			 1998 			 801
+2364 			 2123 			 768
+2072 			 1966 			 677
+1603 			 1683 			 529
+1335 			 1657 			 439
+472 			 842 			 186
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+402 			 263 			 93
+107 			 248 			 30
+360 			 251 			 93
+237 			 169 			 47
+94 			 237 			 38
+84 			 116 			 21
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [47/100] took 16.469168186187744s
+Train mean loss: 1.6057968912094924, train accuracy: 0.328756451455838
+Val mean loss: 1.7193522540534414, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2501 			 1998 			 809
+2350 			 2123 			 755
+2132 			 1966 			 708
+1455 			 1683 			 510
+1333 			 1657 			 410
+498 			 842 			 184
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+236 			 263 			 62
+262 			 248 			 60
+513 			 251 			 120
+37 			 169 			 13
+142 			 237 			 46
+94 			 116 			 32
+Max memory allocated: 180146176; Memory allocated: 112139776
+Epoch [48/100] took 16.54019045829773s
+Train mean loss: 1.605148321742952, train accuracy: 0.3305092998344532
+Val mean loss: 1.728629874020088, val accuracy: 0.2484423676012461
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2443 			 1998 			 793
+2374 			 2123 			 744
+2135 			 1966 			 718
+1473 			 1683 			 514
+1337 			 1657 			 438
+507 			 842 			 187
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+308 			 263 			 80
+485 			 248 			 99
+107 			 251 			 29
+137 			 169 			 34
+203 			 237 			 62
+44 			 116 			 15
+Max memory allocated: 180146176; Memory allocated: 112152064
+Epoch [49/100] took 16.40641689300537s
+Train mean loss: 1.6021927368603763, train accuracy: 0.3289512123867952
+Val mean loss: 1.7463051226080917, val accuracy: 0.24221183800623053
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2510 			 1998 			 828
+2380 			 2123 			 751
+2067 			 1966 			 677
+1471 			 1683 			 526
+1359 			 1657 			 414
+482 			 842 			 182
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+289 			 263 			 74
+498 			 248 			 107
+147 			 251 			 38
+207 			 169 			 46
+86 			 237 			 27
+57 			 116 			 19
+Max memory allocated: 180146176; Memory allocated: 112145920
+Epoch [50/100] took 16.433093309402466s
+Train mean loss: 1.5946082831171815, train accuracy: 0.3387866394001363
+Val mean loss: 1.7421596341016816, val accuracy: 0.2538940809968847
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2477 			 1998 			 824
+2409 			 2123 			 800
+2062 			 1966 			 704
+1504 			 1683 			 533
+1292 			 1657 			 413
+525 			 842 			 205
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+478 			 263 			 121
+88 			 248 			 27
+416 			 251 			 97
+181 			 169 			 37
+83 			 237 			 31
+38 			 116 			 13
+Max memory allocated: 180146176; Memory allocated: 112121344
+Epoch [51/100] took 16.42985725402832s
+Train mean loss: 1.5979261520867036, train accuracy: 0.33732593241795694
+Val mean loss: 1.7475855757550496, val accuracy: 0.23909657320872274
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2521 			 1998 			 833
+2404 			 2123 			 806
+2106 			 1966 			 702
+1417 			 1683 			 508
+1329 			 1657 			 425
+492 			 842 			 190
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+274 			 263 			 68
+371 			 248 			 81
+36 			 251 			 9
+350 			 169 			 72
+181 			 237 			 53
+72 			 116 			 24
+Max memory allocated: 180146176; Memory allocated: 112127488
+Epoch [52/100] took 16.43097472190857s
+Train mean loss: 1.5985680978246195, train accuracy: 0.3335280942642906
+Val mean loss: 1.7191983345078259, val accuracy: 0.2484423676012461
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2539 			 1998 			 830
+2345 			 2123 			 782
+2183 			 1966 			 717
+1432 			 1683 			 492
+1280 			 1657 			 420
+490 			 842 			 184
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+437 			 263 			 100
+346 			 248 			 77
+231 			 251 			 61
+112 			 169 			 29
+87 			 237 			 30
+71 			 116 			 22
+Max memory allocated: 180146176; Memory allocated: 112077312
+Epoch [53/100] took 16.47622513771057s
+Train mean loss: 1.6038869084598861, train accuracy: 0.3280747881974876
+Val mean loss: 1.7355555121491595, val accuracy: 0.24065420560747663
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2454 			 1998 			 797
+2366 			 2123 			 734
+2140 			 1966 			 718
+1513 			 1683 			 511
+1308 			 1657 			 418
+488 			 842 			 191
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+458 			 263 			 103
+510 			 248 			 106
+121 			 251 			 32
+44 			 169 			 15
+69 			 237 			 25
+82 			 116 			 28
+Max memory allocated: 180146176; Memory allocated: 112139776
+Epoch [54/100] took 16.498652458190918s
+Train mean loss: 1.6001227600180843, train accuracy: 0.3331385724023761
+Val mean loss: 1.7256658309843482, val accuracy: 0.2616822429906542
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2467 			 1998 			 807
+2401 			 2123 			 764
+2094 			 1966 			 693
+1483 			 1683 			 537
+1315 			 1657 			 425
+509 			 842 			 195
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+186 			 263 			 45
+144 			 248 			 35
+300 			 251 			 82
+145 			 169 			 35
+429 			 237 			 113
+80 			 116 			 26
+Max memory allocated: 180146176; Memory allocated: 112182784
+Epoch [55/100] took 16.5537052154541s
+Train mean loss: 1.600805282964142, train accuracy: 0.33372285519524786
+Val mean loss: 1.728350694586591, val accuracy: 0.2531152647975078
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2511 			 1998 			 827
+2388 			 2123 			 778
+2107 			 1966 			 686
+1452 			 1683 			 511
+1279 			 1657 			 429
+532 			 842 			 196
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+186 			 263 			 45
+196 			 248 			 46
+241 			 251 			 66
+175 			 169 			 38
+291 			 237 			 81
+195 			 116 			 49
+Max memory allocated: 180146176; Memory allocated: 112176640
+Epoch [56/100] took 16.606090784072876s
+Train mean loss: 1.5969359923003248, train accuracy: 0.33605998636673484
+Val mean loss: 1.7219921495856307, val accuracy: 0.26557632398753894
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2437 			 1998 			 814
+2370 			 2123 			 781
+2191 			 1966 			 708
+1436 			 1683 			 520
+1301 			 1657 			 426
+534 			 842 			 202
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+264 			 263 			 70
+188 			 248 			 46
+552 			 251 			 136
+37 			 169 			 12
+217 			 237 			 68
+26 			 116 			 9
+Max memory allocated: 180146176; Memory allocated: 112170496
+Epoch [57/100] took 16.51917004585266s
+Train mean loss: 1.5987213170417, train accuracy: 0.33537832310838445
+Val mean loss: 1.7613816086838885, val accuracy: 0.24610591900311526
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2518 			 1998 			 814
+2354 			 2123 			 774
+2130 			 1966 			 734
+1445 			 1683 			 511
+1325 			 1657 			 417
+497 			 842 			 194
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+232 			 263 			 59
+118 			 248 			 31
+341 			 251 			 81
+306 			 169 			 58
+237 			 237 			 73
+50 			 116 			 14
+Max memory allocated: 180146176; Memory allocated: 112028160
+Epoch [58/100] took 16.587801933288574s
+Train mean loss: 1.5957681241436539, train accuracy: 0.3374233128834356
+Val mean loss: 1.7434591113067255, val accuracy: 0.22975077881619937
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2472 			 1998 			 829
+2430 			 2123 			 783
+2081 			 1966 			 703
+1441 			 1683 			 516
+1351 			 1657 			 439
+494 			 842 			 195
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+186 			 263 			 46
+291 			 248 			 68
+143 			 251 			 32
+479 			 169 			 89
+137 			 237 			 43
+48 			 116 			 17
+Max memory allocated: 180146176; Memory allocated: 112220672
+Epoch [59/100] took 16.700028896331787s
+Train mean loss: 1.5965514754951928, train accuracy: 0.3371311714869997
+Val mean loss: 1.735948309665773, val accuracy: 0.2601246105919003
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2437 			 1998 			 809
+2392 			 2123 			 795
+2113 			 1966 			 722
+1505 			 1683 			 523
+1316 			 1657 			 429
+506 			 842 			 184
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+191 			 263 			 54
+403 			 248 			 85
+95 			 251 			 30
+308 			 169 			 72
+155 			 237 			 52
+132 			 116 			 41
+Max memory allocated: 180146176; Memory allocated: 112052736
+Epoch [60/100] took 16.606378078460693s
+Train mean loss: 1.593377720529788, train accuracy: 0.33459927938455547
+Val mean loss: 1.7373102612611724, val accuracy: 0.2616822429906542
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2427 			 1998 			 803
+2379 			 2123 			 786
+2147 			 1966 			 728
+1428 			 1683 			 513
+1385 			 1657 			 420
+503 			 842 			 186
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+336 			 263 			 81
+145 			 248 			 40
+355 			 251 			 93
+230 			 169 			 49
+137 			 237 			 49
+81 			 116 			 24
+Max memory allocated: 180146176; Memory allocated: 112139776
+Epoch [61/100] took 16.42569375038147s
+Train mean loss: 1.594223198489608, train accuracy: 0.33567046450482035
+Val mean loss: 1.7514112431828568, val accuracy: 0.2398753894080997
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2459 			 1998 			 803
+2390 			 2123 			 782
+2073 			 1966 			 697
+1552 			 1683 			 555
+1314 			 1657 			 422
+481 			 842 			 188
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+215 			 263 			 52
+570 			 248 			 122
+143 			 251 			 36
+180 			 169 			 43
+69 			 237 			 24
+107 			 116 			 31
+Max memory allocated: 180146176; Memory allocated: 112101888
+Epoch [62/100] took 16.3027184009552s
+Train mean loss: 1.5897076868936653, train accuracy: 0.33567046450482035
+Val mean loss: 1.715505285960872, val accuracy: 0.2554517133956386
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2428 			 1998 			 812
+2341 			 2123 			 758
+2100 			 1966 			 702
+1484 			 1683 			 528
+1382 			 1657 			 443
+534 			 842 			 204
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+358 			 263 			 83
+178 			 248 			 44
+222 			 251 			 60
+259 			 169 			 51
+162 			 237 			 58
+105 			 116 			 32
+Max memory allocated: 180146176; Memory allocated: 112182784
+Epoch [63/100] took 16.418842792510986s
+Train mean loss: 1.59269442847956, train accuracy: 0.3374233128834356
+Val mean loss: 1.7420337142013922, val accuracy: 0.2546728971962617
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2475 			 1998 			 827
+2283 			 2123 			 756
+2134 			 1966 			 732
+1520 			 1683 			 518
+1336 			 1657 			 429
+521 			 842 			 203
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+252 			 263 			 59
+148 			 248 			 37
+155 			 251 			 46
+274 			 169 			 61
+365 			 237 			 95
+90 			 116 			 29
+Max memory allocated: 180146176; Memory allocated: 112139776
+Epoch [64/100] took 16.54709005355835s
+Train mean loss: 1.5895039452199253, train accuracy: 0.33800759567630734
+Val mean loss: 1.7117033499043162, val accuracy: 0.2523364485981308
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2428 			 1998 			 807
+2421 			 2123 			 788
+2079 			 1966 			 702
+1480 			 1683 			 528
+1341 			 1657 			 435
+520 			 842 			 211
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+287 			 263 			 71
+305 			 248 			 64
+276 			 251 			 70
+157 			 169 			 35
+168 			 237 			 54
+91 			 116 			 30
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [65/100] took 16.343432903289795s
+Train mean loss: 1.5860824971184182, train accuracy: 0.34355828220858897
+Val mean loss: 1.7703474498376615, val accuracy: 0.25778816199376947
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2489 			 1998 			 828
+2320 			 2123 			 783
+2143 			 1966 			 741
+1481 			 1683 			 542
+1336 			 1657 			 438
+500 			 842 			 196
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+726 			 263 			 183
+164 			 248 			 43
+177 			 251 			 44
+154 			 169 			 35
+42 			 237 			 17
+21 			 116 			 9
+Max memory allocated: 180146176; Memory allocated: 112220672
+Epoch [66/100] took 16.517975568771362s
+Train mean loss: 1.59099024032878, train accuracy: 0.33430713798811956
+Val mean loss: 1.7328893120695905, val accuracy: 0.24376947040498442
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2459 			 1998 			 819
+2330 			 2123 			 775
+2068 			 1966 			 700
+1464 			 1683 			 506
+1448 			 1657 			 430
+500 			 842 			 203
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+270 			 263 			 60
+267 			 248 			 61
+342 			 251 			 86
+189 			 169 			 40
+93 			 237 			 32
+123 			 116 			 34
+Max memory allocated: 180146176; Memory allocated: 112089600
+Epoch [67/100] took 16.556147813796997s
+Train mean loss: 1.5864451677999765, train accuracy: 0.34151329243353784
+Val mean loss: 1.7439929973788377, val accuracy: 0.23130841121495327
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2473 			 1998 			 833
+2443 			 2123 			 798
+2053 			 1966 			 730
+1441 			 1683 			 517
+1339 			 1657 			 431
+520 			 842 			 198
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+153 			 263 			 44
+438 			 248 			 84
+100 			 251 			 27
+311 			 169 			 61
+216 			 237 			 57
+66 			 116 			 24
+Max memory allocated: 180146176; Memory allocated: 112040448
+Epoch [68/100] took 16.43073344230652s
+Train mean loss: 1.5876182692815952, train accuracy: 0.3336254747297692
+Val mean loss: 1.724364178936656, val accuracy: 0.2398753894080997
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2474 			 1998 			 827
+2354 			 2123 			 756
+2171 			 1966 			 707
+1478 			 1683 			 529
+1296 			 1657 			 410
+496 			 842 			 197
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+476 			 263 			 115
+376 			 248 			 75
+87 			 251 			 26
+177 			 169 			 34
+119 			 237 			 40
+49 			 116 			 18
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [69/100] took 16.45631170272827s
+Train mean loss: 1.5891592554585585, train accuracy: 0.3431687603466745
+Val mean loss: 1.7252648574549978, val accuracy: 0.2601246105919003
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2460 			 1998 			 819
+2419 			 2123 			 802
+2072 			 1966 			 716
+1502 			 1683 			 549
+1296 			 1657 			 431
+520 			 842 			 207
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+417 			 263 			 101
+288 			 248 			 64
+184 			 251 			 52
+133 			 169 			 31
+150 			 237 			 52
+112 			 116 			 34
+Max memory allocated: 180146176; Memory allocated: 112089600
+Epoch [70/100] took 16.441707372665405s
+Train mean loss: 1.5860708814543727, train accuracy: 0.3477456422241698
+Val mean loss: 1.7365157080859672, val accuracy: 0.2585669781931464
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2491 			 1998 			 856
+2370 			 2123 			 800
+2042 			 1966 			 716
+1479 			 1683 			 526
+1374 			 1657 			 465
+513 			 842 			 208
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+381 			 263 			 96
+296 			 248 			 69
+285 			 251 			 72
+146 			 169 			 33
+120 			 237 			 41
+56 			 116 			 21
+Max memory allocated: 180146176; Memory allocated: 112077312
+Epoch [71/100] took 16.428053379058838s
+Train mean loss: 1.5864226840366826, train accuracy: 0.34083162917518744
+Val mean loss: 1.7252820235926931, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2490 			 1998 			 831
+2403 			 2123 			 783
+2116 			 1966 			 715
+1452 			 1683 			 555
+1297 			 1657 			 420
+511 			 842 			 196
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+334 			 263 			 85
+256 			 248 			 60
+159 			 251 			 46
+207 			 169 			 45
+245 			 237 			 70
+83 			 116 			 27
+Max memory allocated: 180146176; Memory allocated: 112170496
+Epoch [72/100] took 16.356788396835327s
+Train mean loss: 1.5876200299396692, train accuracy: 0.3377154542798715
+Val mean loss: 1.7290638045566837, val accuracy: 0.24610591900311526
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2540 			 1998 			 824
+2297 			 2123 			 766
+2053 			 1966 			 695
+1447 			 1683 			 528
+1442 			 1657 			 469
+490 			 842 			 186
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+154 			 263 			 41
+392 			 248 			 84
+231 			 251 			 57
+131 			 169 			 35
+319 			 237 			 79
+57 			 116 			 20
+Max memory allocated: 180146176; Memory allocated: 112115200
+Epoch [73/100] took 16.39079236984253s
+Train mean loss: 1.5824340652453937, train accuracy: 0.35008277339565685
+Val mean loss: 1.7334190345391995, val accuracy: 0.27102803738317754
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2433 			 1998 			 856
+2356 			 2123 			 795
+2175 			 1966 			 743
+1481 			 1683 			 553
+1274 			 1657 			 431
+550 			 842 			 217
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+382 			 263 			 99
+149 			 248 			 39
+427 			 251 			 106
+97 			 169 			 26
+210 			 237 			 69
+19 			 116 			 9
+Max memory allocated: 180146176; Memory allocated: 112145920
+Epoch [74/100] took 16.572326183319092s
+Train mean loss: 1.5826706804590434, train accuracy: 0.3422923361573668
+Val mean loss: 1.801325327012597, val accuracy: 0.23442367601246106
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2454 			 1998 			 837
+2305 			 2123 			 772
+2093 			 1966 			 719
+1491 			 1683 			 524
+1412 			 1657 			 454
+514 			 842 			 209
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+189 			 263 			 52
+525 			 248 			 116
+190 			 251 			 44
+289 			 169 			 60
+10 			 237 			 5
+81 			 116 			 24
+Max memory allocated: 180146176; Memory allocated: 112101888
+Epoch [75/100] took 16.479865550994873s
+Train mean loss: 1.5872522250885532, train accuracy: 0.34083162917518744
+Val mean loss: 1.7400942633791667, val accuracy: 0.2538940809968847
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2426 			 1998 			 817
+2377 			 2123 			 793
+2082 			 1966 			 700
+1519 			 1683 			 544
+1333 			 1657 			 441
+532 			 842 			 205
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+176 			 263 			 52
+454 			 248 			 100
+202 			 251 			 52
+188 			 169 			 44
+165 			 237 			 47
+99 			 116 			 31
+Max memory allocated: 180146176; Memory allocated: 112052736
+Epoch [76/100] took 16.4275541305542s
+Train mean loss: 1.583250704584092, train accuracy: 0.34472684779433244
+Val mean loss: 1.7368829802768986, val accuracy: 0.2531152647975078
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2430 			 1998 			 834
+2338 			 2123 			 795
+2132 			 1966 			 735
+1518 			 1683 			 551
+1306 			 1657 			 416
+545 			 842 			 209
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+262 			 263 			 69
+296 			 248 			 68
+310 			 251 			 78
+200 			 169 			 46
+156 			 237 			 48
+60 			 116 			 16
+Max memory allocated: 180146176; Memory allocated: 112139776
+Epoch [77/100] took 16.469806671142578s
+Train mean loss: 1.5828566198408418, train accuracy: 0.3398578245204012
+Val mean loss: 1.7400843021346302, val accuracy: 0.2562305295950156
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2442 			 1998 			 825
+2320 			 2123 			 775
+2071 			 1966 			 707
+1505 			 1683 			 529
+1407 			 1657 			 451
+524 			 842 			 203
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+554 			 263 			 135
+192 			 248 			 47
+367 			 251 			 93
+78 			 169 			 21
+49 			 237 			 18
+44 			 116 			 15
+Max memory allocated: 180146176; Memory allocated: 112188928
+Epoch [78/100] took 16.506316423416138s
+Train mean loss: 1.580545816466073, train accuracy: 0.34190281429545233
+Val mean loss: 1.730789155494876, val accuracy: 0.2616822429906542
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2409 			 1998 			 819
+2341 			 2123 			 770
+2068 			 1966 			 705
+1568 			 1683 			 571
+1340 			 1657 			 435
+543 			 842 			 211
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+164 			 263 			 45
+325 			 248 			 77
+318 			 251 			 80
+108 			 169 			 30
+329 			 237 			 86
+40 			 116 			 18
+Max memory allocated: 180424704; Memory allocated: 112127488
+Epoch [79/100] took 16.508803367614746s
+Train mean loss: 1.5842495855884018, train accuracy: 0.34326614081215306
+Val mean loss: 1.7057206892385715, val accuracy: 0.2515576323987539
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2416 			 1998 			 800
+2287 			 2123 			 762
+2239 			 1966 			 779
+1397 			 1683 			 522
+1393 			 1657 			 459
+537 			 842 			 203
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+395 			 263 			 94
+328 			 248 			 72
+315 			 251 			 81
+92 			 169 			 25
+85 			 237 			 29
+69 			 116 			 22
+Max memory allocated: 180424704; Memory allocated: 112065024
+Epoch [80/100] took 16.51807403564453s
+Train mean loss: 1.5796763113354597, train accuracy: 0.3457980329145973
+Val mean loss: 1.7268873424064823, val accuracy: 0.2546728971962617
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2411 			 1998 			 823
+2392 			 2123 			 781
+2136 			 1966 			 742
+1523 			 1683 			 547
+1295 			 1657 			 445
+512 			 842 			 213
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+354 			 263 			 81
+235 			 248 			 61
+169 			 251 			 45
+119 			 169 			 31
+312 			 237 			 81
+95 			 116 			 28
+Max memory allocated: 180424704; Memory allocated: 112071168
+Epoch [81/100] took 16.60854983329773s
+Train mean loss: 1.5804491986366818, train accuracy: 0.3496932515337423
+Val mean loss: 1.7246485367053892, val accuracy: 0.2570093457943925
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2441 			 1998 			 839
+2276 			 2123 			 781
+2214 			 1966 			 753
+1475 			 1683 			 546
+1328 			 1657 			 457
+535 			 842 			 215
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+355 			 263 			 84
+280 			 248 			 65
+276 			 251 			 72
+104 			 169 			 24
+218 			 237 			 67
+51 			 116 			 18
+Max memory allocated: 180424704; Memory allocated: 112071168
+Epoch [82/100] took 16.532333612442017s
+Train mean loss: 1.5785708059774382, train accuracy: 0.35018015386113543
+Val mean loss: 1.737592133080087, val accuracy: 0.25778816199376947
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2456 			 1998 			 860
+2424 			 2123 			 815
+2073 			 1966 			 718
+1485 			 1683 			 557
+1289 			 1657 			 432
+542 			 842 			 214
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+262 			 263 			 65
+130 			 248 			 37
+293 			 251 			 78
+253 			 169 			 50
+245 			 237 			 71
+101 			 116 			 30
+Max memory allocated: 180424704; Memory allocated: 112145920
+Epoch [83/100] took 16.58041548728943s
+Train mean loss: 1.578134639983608, train accuracy: 0.3459927938455546
+Val mean loss: 1.754910690028493, val accuracy: 0.2507788161993769
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2439 			 1998 			 835
+2310 			 2123 			 779
+2138 			 1966 			 733
+1421 			 1683 			 544
+1403 			 1657 			 448
+558 			 842 			 214
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+440 			 263 			 109
+357 			 248 			 79
+131 			 251 			 36
+191 			 169 			 42
+138 			 237 			 48
+27 			 116 			 8
+Max memory allocated: 180424704; Memory allocated: 112220672
+Epoch [84/100] took 16.507299184799194s
+Train mean loss: 1.5793272962451352, train accuracy: 0.33849449800370046
+Val mean loss: 1.7555279121166323, val accuracy: 0.2398753894080997
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2442 			 1998 			 818
+2314 			 2123 			 777
+2104 			 1966 			 686
+1543 			 1683 			 542
+1333 			 1657 			 444
+533 			 842 			 209
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+285 			 263 			 72
+311 			 248 			 70
+186 			 251 			 45
+342 			 169 			 68
+72 			 237 			 24
+88 			 116 			 29
+Max memory allocated: 180424704; Memory allocated: 112145920
+Epoch [85/100] took 16.61761164665222s
+Train mean loss: 1.5769383892463376, train accuracy: 0.3449216087252897
+Val mean loss: 1.749611712083584, val accuracy: 0.25
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2450 			 1998 			 819
+2440 			 2123 			 798
+2114 			 1966 			 745
+1424 			 1683 			 532
+1304 			 1657 			 442
+537 			 842 			 206
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+381 			 263 			 93
+198 			 248 			 50
+243 			 251 			 66
+327 			 169 			 67
+98 			 237 			 32
+37 			 116 			 13
+Max memory allocated: 180424704; Memory allocated: 112071168
+Epoch [86/100] took 16.448493242263794s
+Train mean loss: 1.5768999340378236, train accuracy: 0.3486220664134775
+Val mean loss: 1.7380998890574386, val accuracy: 0.2546728971962617
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2475 			 1998 			 847
+2271 			 2123 			 763
+2155 			 1966 			 758
+1476 			 1683 			 540
+1391 			 1657 			 453
+501 			 842 			 219
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+163 			 263 			 45
+412 			 248 			 93
+252 			 251 			 61
+141 			 169 			 36
+151 			 237 			 47
+165 			 116 			 45
+Max memory allocated: 180424704; Memory allocated: 112089600
+Epoch [87/100] took 16.553552627563477s
+Train mean loss: 1.5757698838213152, train accuracy: 0.3440451845359821
+Val mean loss: 1.74288170802884, val accuracy: 0.24065420560747663
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2401 			 1998 			 824
+2344 			 2123 			 785
+2132 			 1966 			 739
+1526 			 1683 			 546
+1320 			 1657 			 426
+546 			 842 			 213
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+338 			 263 			 83
+423 			 248 			 92
+127 			 251 			 34
+219 			 169 			 47
+125 			 237 			 35
+52 			 116 			 18
+Max memory allocated: 180424704; Memory allocated: 112065024
+Epoch [88/100] took 16.545530319213867s
+Train mean loss: 1.5796621347142157, train accuracy: 0.3433635212776317
+Val mean loss: 1.7609949867899826, val accuracy: 0.24143302180685358
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2333 			 1998 			 794
+2454 			 2123 			 813
+2115 			 1966 			 717
+1514 			 1683 			 558
+1307 			 1657 			 431
+546 			 842 			 213
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+501 			 263 			 113
+323 			 248 			 72
+174 			 251 			 44
+175 			 169 			 38
+38 			 237 			 19
+73 			 116 			 24
+Max memory allocated: 180424704; Memory allocated: 112145920
+Epoch [89/100] took 16.572068214416504s
+Train mean loss: 1.5768806147055463, train accuracy: 0.34628493524199044
+Val mean loss: 1.784557441385781, val accuracy: 0.24766355140186916
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2398 			 1998 			 839
+2355 			 2123 			 800
+2103 			 1966 			 716
+1502 			 1683 			 550
+1415 			 1657 			 451
+496 			 842 			 200
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+80 			 263 			 25
+545 			 248 			 123
+340 			 251 			 78
+174 			 169 			 40
+69 			 237 			 26
+76 			 116 			 26
+Max memory allocated: 180424704; Memory allocated: 112170496
+Epoch [90/100] took 16.615931510925293s
+Train mean loss: 1.5750001449822637, train accuracy: 0.3484273054825202
+Val mean loss: 1.7563261142591151, val accuracy: 0.24610591900311526
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2370 			 1998 			 835
+2368 			 2123 			 809
+2109 			 1966 			 735
+1535 			 1683 			 544
+1365 			 1657 			 448
+522 			 842 			 207
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+418 			 263 			 93
+123 			 248 			 35
+381 			 251 			 94
+177 			 169 			 36
+76 			 237 			 26
+109 			 116 			 32
+Max memory allocated: 180424704; Memory allocated: 112145920
+Epoch [91/100] took 16.479692935943604s
+Train mean loss: 1.5787216918862126, train accuracy: 0.3438504236050248
+Val mean loss: 1.7303009789164474, val accuracy: 0.2554517133956386
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2401 			 1998 			 830
+2393 			 2123 			 801
+2125 			 1966 			 719
+1455 			 1683 			 539
+1370 			 1657 			 427
+525 			 842 			 215
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+333 			 263 			 80
+313 			 248 			 69
+291 			 251 			 76
+164 			 169 			 40
+147 			 237 			 49
+36 			 116 			 14
+Max memory allocated: 180424704; Memory allocated: 112121344
+Epoch [92/100] took 16.537099838256836s
+Train mean loss: 1.5775089241633906, train accuracy: 0.35027753432661407
+Val mean loss: 1.7341814448193806, val accuracy: 0.26401869158878505
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2430 			 1998 			 842
+2342 			 2123 			 801
+2131 			 1966 			 747
+1488 			 1683 			 548
+1378 			 1657 			 449
+500 			 842 			 210
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+367 			 263 			 89
+150 			 248 			 38
+311 			 251 			 84
+158 			 169 			 35
+184 			 237 			 59
+114 			 116 			 34
+Max memory allocated: 180424704; Memory allocated: 112083456
+Epoch [93/100] took 16.482933521270752s
+Train mean loss: 1.574693651585564, train accuracy: 0.3507644366540072
+Val mean loss: 1.7609973041022695, val accuracy: 0.24922118380062305
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2406 			 1998 			 810
+2360 			 2123 			 820
+2123 			 1966 			 743
+1449 			 1683 			 553
+1381 			 1657 			 459
+550 			 842 			 217
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+427 			 263 			 103
+239 			 248 			 58
+130 			 251 			 38
+324 			 169 			 66
+94 			 237 			 32
+70 			 116 			 23
+Max memory allocated: 180424704; Memory allocated: 112095744
+Epoch [94/100] took 16.5472731590271s
+Train mean loss: 1.5760843820661028, train accuracy: 0.34716135943129806
+Val mean loss: 1.7388093122621862, val accuracy: 0.2554517133956386
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2414 			 1998 			 814
+2361 			 2123 			 799
+2066 			 1966 			 725
+1537 			 1683 			 579
+1363 			 1657 			 433
+528 			 842 			 215
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+172 			 263 			 49
+418 			 248 			 93
+299 			 251 			 73
+79 			 169 			 24
+246 			 237 			 65
+70 			 116 			 24
+Max memory allocated: 180424704; Memory allocated: 112071168
+Epoch [95/100] took 16.56401562690735s
+Train mean loss: 1.5737986063288751, train accuracy: 0.3457006524491187
+Val mean loss: 1.7360919190616142, val accuracy: 0.25934579439252337
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2358 			 1998 			 830
+2461 			 2123 			 813
+2068 			 1966 			 714
+1481 			 1683 			 545
+1359 			 1657 			 432
+542 			 842 			 216
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+601 			 263 			 148
+222 			 248 			 49
+143 			 251 			 42
+142 			 169 			 35
+134 			 237 			 47
+42 			 116 			 12
+Max memory allocated: 180424704; Memory allocated: 112108032
+Epoch [96/100] took 16.464053869247437s
+Train mean loss: 1.5737768199956306, train accuracy: 0.3523225241016652
+Val mean loss: 1.7251745665945657, val accuracy: 0.2780373831775701
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2433 			 1998 			 831
+2371 			 2123 			 813
+2138 			 1966 			 760
+1479 			 1683 			 555
+1307 			 1657 			 433
+541 			 842 			 226
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+478 			 263 			 119
+142 			 248 			 44
+284 			 251 			 81
+138 			 169 			 33
+166 			 237 			 57
+76 			 116 			 23
+Max memory allocated: 180424704; Memory allocated: 112089600
+Epoch [97/100] took 16.479259252548218s
+Train mean loss: 1.5758692382652069, train accuracy: 0.3463823157074691
+Val mean loss: 1.764794061823589, val accuracy: 0.24766355140186916
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2414 			 1998 			 806
+2336 			 2123 			 791
+2085 			 1966 			 741
+1462 			 1683 			 537
+1462 			 1657 			 473
+510 			 842 			 209
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+178 			 263 			 50
+308 			 248 			 75
+594 			 251 			 133
+87 			 169 			 22
+78 			 237 			 24
+39 			 116 			 14
+Max memory allocated: 180424704; Memory allocated: 112214528
+Epoch [98/100] took 16.480819702148438s
+Train mean loss: 1.569057252548194, train accuracy: 0.34745350082773396
+Val mean loss: 1.7482404708862305, val accuracy: 0.2554517133956386
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2449 			 1998 			 852
+2358 			 2123 			 798
+2125 			 1966 			 722
+1484 			 1683 			 546
+1326 			 1657 			 446
+527 			 842 			 204
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+210 			 263 			 57
+313 			 248 			 75
+286 			 251 			 71
+201 			 169 			 43
+137 			 237 			 44
+137 			 116 			 38
+Max memory allocated: 180424704; Memory allocated: 112046592
+Epoch [99/100] took 16.54591155052185s
+Train mean loss: 1.5755735884574344, train accuracy: 0.3473561203622553
+Val mean loss: 1.7578179981650375, val accuracy: 0.24143302180685358
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2326 			 1998 			 816
+2350 			 2123 			 794
+2136 			 1966 			 729
+1536 			 1683 			 554
+1402 			 1657 			 460
+519 			 842 			 214
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+358 			 263 			 82
+426 			 248 			 89
+169 			 251 			 47
+190 			 169 			 45
+74 			 237 			 23
+67 			 116 			 24
+Max memory allocated: 180424704; Memory allocated: 112034304
+Epoch [100/100] took 16.45771288871765s
+Train mean loss: 1.5726750454055929, train accuracy: 0.35066705618852856
+Val mean loss: 1.747525238409275, val accuracy: 0.24065420560747663
+
+TRAINING:
+Labels predicted: 	 True targets: 	 Correct labels:
+2466 			 1998 			 858
+2368 			 2123 			 788
+2093 			 1966 			 742
+1551 			 1683 			 561
+1280 			 1657 			 443
+511 			 842 			 209
+VALIDATION:
+Labels predicted: 	 True targets: 	 Correct labels:
+285 			 263 			 69
+467 			 248 			 96
+118 			 251 			 33
+188 			 169 			 45
+144 			 237 			 42
+82 			 116 			 24
+Max memory allocated: 180424704; Memory allocated: 112101888
+Training finished! Training for 100 epochs took: 1655.0350184440613s
+Training loss: [1.751661224900005, 1.7186741769499496, 1.7063303680806146, 1.6932562552508534, 1.6894662201961623, 1.6801824744245344, 1.6736441754106421, 1.6724934273419723, 1.6664907754024612, 1.658014006332445, 1.659579363938804, 1.658363030706982, 1.6543245274701222, 1.6501743262430588, 1.6484392071810094, 1.6497274596371754, 1.6442532691628762, 1.644143129806281, 1.640559767636926, 1.6400117001429526, 1.637459229086047, 1.6395696583566637, 1.6339609600673213, 1.630038120293543, 1.6281945694272764, 1.6271177088360178, 1.6259933996052014, 1.6258403623586875, 1.6245872784997815, 1.6234114155219723, 1.6202253418919454, 1.6213656385368276, 1.6202659261560886, 1.6181403755027557, 1.6120659844526248, 1.6158860156840624, 1.6114993451911712, 1.6178316687497767, 1.6117210347333057, 1.6105473973669366, 1.6109679740537364, 1.6069225941863015, 1.6085010618435631, 1.6035303018546179, 1.6018568652441196, 1.605619048775171, 1.6057968912094924, 1.605148321742952, 1.6021927368603763, 1.5946082831171815, 1.5979261520867036, 1.5985680978246195, 1.6038869084598861, 1.6001227600180843, 1.600805282964142, 1.5969359923003248, 1.5987213170417, 1.5957681241436539, 1.5965514754951928, 1.593377720529788, 1.594223198489608, 1.5897076868936653, 1.59269442847956, 1.5895039452199253, 1.5860824971184182, 1.59099024032878, 1.5864451677999765, 1.5876182692815952, 1.5891592554585585, 1.5860708814543727, 1.5864226840366826, 1.5876200299396692, 1.5824340652453937, 1.5826706804590434, 1.5872522250885532, 1.583250704584092, 1.5828566198408418, 1.580545816466073, 1.5842495855884018, 1.5796763113354597, 1.5804491986366818, 1.5785708059774382, 1.578134639983608, 1.5793272962451352, 1.5769383892463376, 1.5768999340378236, 1.5757698838213152, 1.5796621347142157, 1.5768806147055463, 1.5750001449822637, 1.5787216918862126, 1.5775089241633906, 1.574693651585564, 1.5760843820661028, 1.5737986063288751, 1.5737768199956306, 1.5758692382652069, 1.569057252548194, 1.5755735884574344, 1.5726750454055929]
+Validation loss: [1.7226662810255842, 1.7267820776962652, 1.7085927870215438, 1.740867844442042, 1.7302854671710874, 1.6916555079018198, 1.730627740301737, 1.7133522760577318, 1.723710074657347, 1.7574643361859206, 1.7367558304856463, 1.7411627100735176, 1.738925015054098, 1.7127683627896193, 1.7013090296489437, 1.735915687026047, 1.7048461902432326, 1.7180589553786487, 1.7177089976101387, 1.703272595638182, 1.710704314999464, 1.7544321199742758, 1.727260057519122, 1.7268055910017432, 1.7157294953741677, 1.7424645656492652, 1.7274176812753446, 1.7196142673492432, 1.7249663690241372, 1.7477118794511004, 1.7316989637002713, 1.7161138348463105, 1.7128616251596591, 1.7210514836195039, 1.728248317067216, 1.7386306117220622, 1.7576073931484688, 1.7233716075013323, 1.7468061330841809, 1.7336013491560773, 1.7267758148472483, 1.7017372904754267, 1.7047899845169812, 1.711005993005706, 1.7277663102964076, 1.7256669910942637, 1.7193522540534414, 1.728629874020088, 1.7463051226080917, 1.7421596341016816, 1.7475855757550496, 1.7191983345078259, 1.7355555121491595, 1.7256658309843482, 1.728350694586591, 1.7219921495856307, 1.7613816086838885, 1.7434591113067255, 1.735948309665773, 1.7373102612611724, 1.7514112431828568, 1.715505285960872, 1.7420337142013922, 1.7117033499043162, 1.7703474498376615, 1.7328893120695905, 1.7439929973788377, 1.724364178936656, 1.7252648574549978, 1.7365157080859672, 1.7252820235926931, 1.7290638045566837, 1.7334190345391995, 1.801325327012597, 1.7400942633791667, 1.7368829802768986, 1.7400843021346302, 1.730789155494876, 1.7057206892385715, 1.7268873424064823, 1.7246485367053892, 1.737592133080087, 1.754910690028493, 1.7555279121166323, 1.749611712083584, 1.7380998890574386, 1.74288170802884, 1.7609949867899826, 1.784557441385781, 1.7563261142591151, 1.7303009789164474, 1.7341814448193806, 1.7609973041022695, 1.7388093122621862, 1.7360919190616142, 1.7251745665945657, 1.764794061823589, 1.7482404708862305, 1.7578179981650375, 1.747525238409275]
+Training accuracy: [0.21608725289706884, 0.24997565488363035, 0.2587398967767066, 0.271107215892492, 0.2698412698412698, 0.28230596942253383, 0.2848378615249781, 0.28698023176550785, 0.287467134092901, 0.29282305969422534, 0.29321258155613983, 0.29525757133119096, 0.2925309182977895, 0.30139254065634435, 0.30304800856948094, 0.30265848670756645, 0.3045087155516603, 0.30304800856948094, 0.306943227188626, 0.3040218132242672, 0.3093777388255916, 0.3085986951017626, 0.3097672606875061, 0.3192131658389327, 0.3206738728211121, 0.3180446002531892, 0.3150258058233518, 0.32018697049371897, 0.3172655565293602, 0.31473366442691597, 0.3224267211997273, 0.32203719933781283, 0.31385724023760836, 0.3237900477164281, 0.3250559937676502, 0.32145291654494107, 0.32447171097477845, 0.32125815561398385, 0.3298276365761028, 0.32340052585451357, 0.3284643100594021, 0.32749050540461583, 0.3224267211997273, 0.32973025611062423, 0.33304119193689746, 0.33109358262732497, 0.328756451455838, 0.3305092998344532, 0.3289512123867952, 0.3387866394001363, 0.33732593241795694, 0.3335280942642906, 0.3280747881974876, 0.3331385724023761, 0.33372285519524786, 0.33605998636673484, 0.33537832310838445, 0.3374233128834356, 0.3371311714869997, 0.33459927938455547, 0.33567046450482035, 0.33567046450482035, 0.3374233128834356, 0.33800759567630734, 0.34355828220858897, 0.33430713798811956, 0.34151329243353784, 0.3336254747297692, 0.3431687603466745, 0.3477456422241698, 0.34083162917518744, 0.3377154542798715, 0.35008277339565685, 0.3422923361573668, 0.34083162917518744, 0.34472684779433244, 0.3398578245204012, 0.34190281429545233, 0.34326614081215306, 0.3457980329145973, 0.3496932515337423, 0.35018015386113543, 0.3459927938455546, 0.33849449800370046, 0.3449216087252897, 0.3486220664134775, 0.3440451845359821, 0.3433635212776317, 0.34628493524199044, 0.3484273054825202, 0.3438504236050248, 0.35027753432661407, 0.3507644366540072, 0.34716135943129806, 0.3457006524491187, 0.3523225241016652, 0.3463823157074691, 0.34745350082773396, 0.3473561203622553, 0.35066705618852856]
+Validation accuracy: [0.2336448598130841, 0.2484423676012461, 0.2546728971962617, 0.2367601246105919, 0.2484423676012461, 0.26635514018691586, 0.2235202492211838, 0.23442367601246106, 0.23909657320872274, 0.22429906542056074, 0.24065420560747663, 0.25, 0.24299065420560748, 0.2515576323987539, 0.25778816199376947, 0.24065420560747663, 0.2468847352024922, 0.24299065420560748, 0.2538940809968847, 0.25934579439252337, 0.26090342679127726, 0.25, 0.24922118380062305, 0.25934579439252337, 0.25934579439252337, 0.25, 0.2601246105919003, 0.26791277258566976, 0.25934579439252337, 0.2484423676012461, 0.2515576323987539, 0.2515576323987539, 0.2554517133956386, 0.2601246105919003, 0.2484423676012461, 0.2367601246105919, 0.24922118380062305, 0.2507788161993769, 0.23598130841121495, 0.25934579439252337, 0.2811526479750779, 0.27102803738317754, 0.26090342679127726, 0.26557632398753894, 0.2562305295950156, 0.2507788161993769, 0.25934579439252337, 0.2484423676012461, 0.24221183800623053, 0.2538940809968847, 0.23909657320872274, 0.2484423676012461, 0.24065420560747663, 0.2616822429906542, 0.2531152647975078, 0.26557632398753894, 0.24610591900311526, 0.22975077881619937, 0.2601246105919003, 0.2616822429906542, 0.2398753894080997, 0.2554517133956386, 0.2546728971962617, 0.2523364485981308, 0.25778816199376947, 0.24376947040498442, 0.23130841121495327, 0.2398753894080997, 0.2601246105919003, 0.2585669781931464, 0.25934579439252337, 0.24610591900311526, 0.27102803738317754, 0.23442367601246106, 0.2538940809968847, 0.2531152647975078, 0.2562305295950156, 0.2616822429906542, 0.2515576323987539, 0.2546728971962617, 0.2570093457943925, 0.25778816199376947, 0.2507788161993769, 0.2398753894080997, 0.25, 0.2546728971962617, 0.24065420560747663, 0.24143302180685358, 0.24766355140186916, 0.24610591900311526, 0.2554517133956386, 0.26401869158878505, 0.24922118380062305, 0.2554517133956386, 0.25934579439252337, 0.2780373831775701, 0.24766355140186916, 0.2554517133956386, 0.24143302180685358, 0.24065420560747663]
+Accuracy plot saved at 'BERT_FULL1_SimpleLinearHead_1710453083.0920072/accuracy_BERT_FULL1_SimpleLinearHead_1710453083.0920072.png'
+Loss plot saved at 'BERT_FULL1_SimpleLinearHead_1710453083.0920072/loss_BERT_FULL1_SimpleLinearHead_1710453083.0920072.png'
+Checkpoint saved at 'BERT_FULL1_SimpleLinearHead_1710453083.0920072/checkpoint_BERT_FULL1_SimpleLinearHead_1710453083.0920072.pth'
+Output logfile saved at BERT_FULL1_SimpleLinearHead_1710453083.0920072/output_log_BERT_FULL1_SimpleLinearHead_1710453083.0920072.txt

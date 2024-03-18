@@ -1,0 +1,781 @@
+BERT_Ex1_SimpleLinearHead_1710433617.4247987
+{'LM': 'BERT', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModel', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 8, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 'NEVER', 'LEARNING_RATE': 0.001, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'Liar', 'DATA_FRAC': 0.01, 'KEEP_COLUMNS': ['statement', 'label'], 'NUM_CLASSES': 6, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 40 took 21.664010763168335s 
+The best validation result was obtained after 1 epochs 
+Checkpoint saved at: BERT_Ex1_SimpleLinearHead_1710433617.4247987/checkpoint_BERT_Ex1_SimpleLinearHead_1710433617.4247987.pthTraining took: 21.664010763168335s in total.
+
+Training Loss: 
+[1.7780749522722685, 1.7059999520962055, 1.6338413128486047, 1.6192005139130812, 1.560901009119474, 1.5064766223614032, 1.4482664970251231, 1.438981028703543, 1.383037466269273, 1.3827718954819899, 1.3195454432414129, 1.316543230643639, 1.2878393118198102, 1.2575640678405762, 1.2194145184296827, 1.2026846775641808, 1.1652953991523156, 1.1814359701596773, 1.1465733005450323, 1.1333386393693776, 1.082530943246988, 1.039500823387733, 1.043083750284635, 1.0152732408963716, 1.0229949676073515, 0.982902875313392, 0.9677361525022067, 0.9502443533677322, 0.9184001913437476, 0.9061451829396762, 0.9190992850523728, 0.854139350927793, 0.8733329635400039, 0.8534314586566045, 0.8456421402784494, 0.8185759461843051, 0.8271869604404156, 0.7702144980430603, 0.8012071206019475, 0.8026002920590914]
+
+Validation Loss: 
+[1.780095398426056, 1.791675865650177, 1.869863748550415, 1.7540130019187927, 1.8927564024925232, 1.8633030652999878, 1.82282155752182, 1.9281119108200073, 1.9501035809516907, 1.9031209349632263, 1.9507877826690674, 1.9194790720939636, 1.9929067492485046, 1.967970371246338, 1.993102490901947, 1.958970069885254, 1.944434642791748, 2.0155030488967896, 1.973924696445465, 1.9381185173988342, 1.9852883219718933, 1.966051459312439, 2.014524221420288, 2.003831207752228, 1.8992105722427368, 2.077431559562683, 2.077747166156769, 2.0495777130126953, 2.0467337369918823, 2.137041687965393, 2.041738986968994, 2.1032227277755737, 2.0102187395095825, 2.0792402625083923, 2.093619465827942, 2.0944472551345825, 2.115935444831848, 2.212039589881897, 2.099398612976074, 2.2016501426696777]
+
+Training Acc: 
+[0.1568627450980392, 0.28431372549019607, 0.4019607843137255, 0.3235294117647059, 0.45098039215686275, 0.49019607843137253, 0.5882352941176471, 0.5882352941176471, 0.6274509803921569, 0.5882352941176471, 0.6372549019607843, 0.6274509803921569, 0.6666666666666666, 0.6666666666666666, 0.6666666666666666, 0.6862745098039216, 0.7352941176470589, 0.6568627450980392, 0.7058823529411765, 0.7352941176470589, 0.7450980392156863, 0.7941176470588235, 0.7549019607843137, 0.7647058823529411, 0.803921568627451, 0.8431372549019608, 0.7843137254901961, 0.7941176470588235, 0.8235294117647058, 0.8431372549019608, 0.8235294117647058, 0.8921568627450981, 0.8725490196078431, 0.8529411764705882, 0.8529411764705882, 0.8823529411764706, 0.8431372549019608, 0.8823529411764706, 0.8627450980392157, 0.8921568627450981]
+
+Validation Acc: 
+[0.16666666666666666, 0.0, 0.0, 0.08333333333333333, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 27: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 28: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 29: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 30: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 31: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 32: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 33: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 34: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 35: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 36: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 37: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 38: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 
+
+ Epoch 39: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+0 			 0 			 0 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 4 			 0 
+3 			 4 			 0 
+4 			 0 			 0 
+2 			 2 			 0 
+1 			 1 			 0 
+0 			 1 			 0 

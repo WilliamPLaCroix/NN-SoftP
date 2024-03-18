@@ -26,25 +26,24 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"binary_Llama-7b_1e-6_333_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"13B_Llama_1e-6_300_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-ADJUSTED TO BINARY
-NOT LOADING ANY PREVIOUS CHECKPOINT
+commented out loading Classifier previous state
 
 """
 
 ####
 experiment = {
-    "LM" : "LLAMA 2 7B", # not used in code, define yourself
+    "LM" : "LLAMA 2 13B", # not used in code, define yourself
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 32, # USED
-    "NUM_EPOCHS" : 333, # USED
+    "NUM_EPOCHS" : 300, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.000001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
@@ -54,12 +53,12 @@ experiment = {
     "KEEP_COLUMNS" : ["statement", "label"], # USED
     "NUM_CLASSES" : 6, # USED
     "LABEL_MAPPING" : { # USED
-        0: 0,   # false
-        1: 1,   # half true
-        2: 1,   # mostly true
-        3: 1,   # true
-        4: 0,   # barely true
-        5: 0    # pants fire
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5
         },
 
 
@@ -202,7 +201,7 @@ class SimplestLinearHead(nn.Module):
 #####################################################################################
 #LLAMA_PATH = "/home/pj/Schreibtisch/LLAMA/LLAMA_hf/"
 
-tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-7b-hf", token=access_token)
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-2-13b-hf", token=access_token)
 tokenizer.pad_token = tokenizer.eos_token
 tokenizer.add_special_tokens({'pad_token': '</s>'})
 
@@ -214,7 +213,7 @@ train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_
 val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
-lm = AutoModel.from_pretrained("meta-llama/Llama-2-7b-hf", token=access_token, quantization_config=bnb_config)
+lm = AutoModel.from_pretrained("meta-llama/Llama-2-13b-hf", token=access_token, quantization_config=bnb_config)
 ###
 ####
 #####

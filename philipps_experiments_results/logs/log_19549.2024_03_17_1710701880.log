@@ -1,0 +1,123 @@
+000 (19549.000.000) 2024-03-17 19:58:00 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19549.000.000) 2024-03-17 19:58:00 Job executing on host: <134.96.116.40:9618?addrs=134.96.116.40-9618&alias=cl16lx.lsv.uni-saarland.de&noUDP&sock=startd_1569_c82f>
+...
+006 (19549.000.000) 2024-03-17 19:58:08 Image size of job updated: 211
+	211  -  MemoryUsage of job (MB)
+	216528  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:03:09 Image size of job updated: 989
+	989  -  MemoryUsage of job (MB)
+	1013748  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:08:10 Image size of job updated: 990
+	990  -  MemoryUsage of job (MB)
+	1013880  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:13:10 Image size of job updated: 990
+	990  -  MemoryUsage of job (MB)
+	1014012  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:23:10 Image size of job updated: 990
+	990  -  MemoryUsage of job (MB)
+	1014144  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:33:10 Image size of job updated: 990
+	990  -  MemoryUsage of job (MB)
+	1014276  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:38:11 Image size of job updated: 990
+	990  -  MemoryUsage of job (MB)
+	1014408  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:53:14 Image size of job updated: 990
+	990  -  MemoryUsage of job (MB)
+	1014540  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 20:58:14 Image size of job updated: 990
+	990  -  MemoryUsage of job (MB)
+	1014672  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 21:08:15 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1014804  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 21:18:15 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1014936  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 21:33:16 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1015068  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 22:03:21 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1015200  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 22:18:21 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1015332  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 22:28:22 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1015464  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 22:38:24 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1015596  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 22:48:26 Image size of job updated: 991
+	991  -  MemoryUsage of job (MB)
+	1015728  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 22:53:26 Image size of job updated: 994
+	994  -  MemoryUsage of job (MB)
+	1018764  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 23:03:26 Image size of job updated: 995
+	995  -  MemoryUsage of job (MB)
+	1018896  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 23:13:27 Image size of job updated: 995
+	995  -  MemoryUsage of job (MB)
+	1019028  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 23:23:29 Image size of job updated: 995
+	995  -  MemoryUsage of job (MB)
+	1019160  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 23:38:32 Image size of job updated: 995
+	995  -  MemoryUsage of job (MB)
+	1019424  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 23:43:33 Image size of job updated: 995
+	995  -  MemoryUsage of job (MB)
+	1019688  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-17 23:58:36 Image size of job updated: 995
+	995  -  MemoryUsage of job (MB)
+	1019820  -  ResidentSetSize of job (KB)
+...
+006 (19549.000.000) 2024-03-18 00:03:36 Image size of job updated: 996
+	996  -  MemoryUsage of job (MB)
+	1020084  -  ResidentSetSize of job (KB)
+...
+005 (19549.000.000) 2024-03-18 00:32:52 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 04:15:10, Sys 0 00:15:27  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 04:15:10, Sys 0 00:15:27  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :        Usage  Request Allocated Assigned
+	   Cpus                 :         0.00        1         1 
+	   Disk (KB)            :         1           1     82509 
+	   Gpus (Average)       : 180018689.03        1         1 "GPU-6a875de7"
+	   GpusMemory (MB)      :       860                       
+	   Memory (MB)          :       996       10240     10240 
+
+	Job terminated of its own accord at 2024-03-17T23:32:55Z with exit-code 0.
+...

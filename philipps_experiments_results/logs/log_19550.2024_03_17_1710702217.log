@@ -1,0 +1,47 @@
+000 (19550.000.000) 2024-03-17 20:03:37 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19550.000.000) 2024-03-17 20:03:37 Job executing on host: <134.96.116.99:9618?addrs=134.96.116.99-9618&alias=cl18lx.lsv.uni-saarland.de&noUDP&sock=startd_3575_bb2a>
+...
+006 (19550.000.000) 2024-03-17 20:03:46 Image size of job updated: 202
+	202  -  MemoryUsage of job (MB)
+	207360  -  ResidentSetSize of job (KB)
+...
+006 (19550.000.000) 2024-03-17 20:08:46 Image size of job updated: 1146
+	1146  -  MemoryUsage of job (MB)
+	1173816  -  ResidentSetSize of job (KB)
+...
+006 (19550.000.000) 2024-03-17 20:13:46 Image size of job updated: 1146
+	1146  -  MemoryUsage of job (MB)
+	1174344  -  ResidentSetSize of job (KB)
+...
+006 (19550.000.000) 2024-03-17 20:48:50 Image size of job updated: 1146
+	1146  -  MemoryUsage of job (MB)
+	1174476  -  ResidentSetSize of job (KB)
+...
+006 (19550.000.000) 2024-03-17 21:08:51 Image size of job updated: 1147
+	1147  -  MemoryUsage of job (MB)
+	1174608  -  ResidentSetSize of job (KB)
+...
+006 (19550.000.000) 2024-03-18 03:09:34 Image size of job updated: 1147
+	1147  -  MemoryUsage of job (MB)
+	1174740  -  ResidentSetSize of job (KB)
+...
+005 (19550.000.000) 2024-03-18 10:33:09 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 06:35:39, Sys 0 07:50:54  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 06:35:39, Sys 0 07:50:54  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :        Usage  Request Allocated Assigned
+	   Cpus                 :         0.00        1         1 
+	   Disk (KB)            :         1           1  13876737 
+	   Gpus (Average)       : 207958890.71        1         1 "GPU-eb2843a0"
+	   GpusMemory (MB)      :     17267                       
+	   Memory (MB)          :      1147       32768     32768 
+
+	Job terminated of its own accord at 2024-03-18T09:33:10Z with exit-code 0.
+...

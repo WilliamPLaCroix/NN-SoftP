@@ -1,0 +1,51 @@
+000 (19388.000.000) 2024-03-15 13:29:03 Job submitted from host: <134.96.116.41:9618?addrs=134.96.116.41-9618&alias=submit.lsv.uni-saarland.de&noUDP&sock=schedd_1587_20e3>
+...
+001 (19388.000.000) 2024-03-15 13:29:19 Job executing on host: <134.96.116.40:9618?addrs=134.96.116.40-9618&alias=cl16lx.lsv.uni-saarland.de&noUDP&sock=startd_1569_c82f>
+...
+006 (19388.000.000) 2024-03-15 13:29:27 Image size of job updated: 231
+	231  -  MemoryUsage of job (MB)
+	237216  -  ResidentSetSize of job (KB)
+...
+006 (19388.000.000) 2024-03-15 13:34:28 Image size of job updated: 1161
+	1161  -  MemoryUsage of job (MB)
+	1189172  -  ResidentSetSize of job (KB)
+...
+006 (19388.000.000) 2024-03-15 13:39:28 Image size of job updated: 1161
+	1161  -  MemoryUsage of job (MB)
+	1189304  -  ResidentSetSize of job (KB)
+...
+006 (19388.000.000) 2024-03-15 13:44:29 Image size of job updated: 1161
+	1161  -  MemoryUsage of job (MB)
+	1189436  -  ResidentSetSize of job (KB)
+...
+006 (19388.000.000) 2024-03-15 14:29:32 Image size of job updated: 1161
+	1161  -  MemoryUsage of job (MB)
+	1189568  -  ResidentSetSize of job (KB)
+...
+006 (19388.000.000) 2024-03-15 15:04:35 Image size of job updated: 1161
+	1161  -  MemoryUsage of job (MB)
+	1189700  -  ResidentSetSize of job (KB)
+...
+006 (19388.000.000) 2024-03-15 17:54:51 Image size of job updated: 1161
+	1161  -  MemoryUsage of job (MB)
+	1189832  -  ResidentSetSize of job (KB)
+...
+005 (19388.000.000) 2024-03-15 22:16:54 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 06:43:57, Sys 0 02:04:10  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 06:43:57, Sys 0 02:04:10  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+	Partitionable Resources :        Usage  Request Allocated Assigned
+	   Cpus                 :         0.00        1         1 
+	   Disk (KB)            :         1           1     82509 
+	   Gpus (Average)       : 209510696.41        1         1 "GPU-6a875de7"
+	   GpusMemory (MB)      :      5292                       
+	   Memory (MB)          :      1161       16384     16384 
+
+	Job terminated of its own accord at 2024-03-15T21:16:58Z with exit-code 0.
+...
