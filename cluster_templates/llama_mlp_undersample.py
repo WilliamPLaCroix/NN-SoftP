@@ -37,7 +37,7 @@ experiment = {
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModelForCausalLM", # USED
     "CLF_HEAD" : "MlpHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 8, # USED
+    "BATCH_SIZE" : 4, # USED
     "NUM_EPOCHS" : 300, # USED
     "EARLY_STOPPING_AFTER" : 20, # USED
     "LEARNING_RATE" : 0.000001, # USED
@@ -205,7 +205,7 @@ class MlpHead(nn.Module):
         x = self.activation(self.down_proj1(x))
         x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
                 
-        x = self.sigmoid(self.fc(x))
+        x = self.sigmoid(self.score(x))
         return x
 
 #####################################################################################
