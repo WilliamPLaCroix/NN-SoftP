@@ -40,7 +40,7 @@ experiment = {
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 4, # USED
     "NUM_EPOCHS" : 300, # USED
-    "EARLY_STOPPING_AFTER" : 20, # USED
+    "EARLY_STOPPING_AFTER" : 10, # USED
     "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
