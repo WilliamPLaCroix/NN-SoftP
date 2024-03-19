@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex2_LLAMA2-7b_Linear_cofacts_augment_{time.time()}"
+EXPERIMENT_NAME = f"Ex4_LLAMA2-7b_Linear_cofacts_augment_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -44,7 +44,7 @@ experiment = {
     "BATCH_SIZE" : 4, # USED
     "NUM_EPOCHS" : 300, # USED
     "EARLY_STOPPING_AFTER" : 20, # USED
-    "LEARNING_RATE" : 0.000001, # USED
+    "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
     "QUANTIZATION" : True, # not used in code, define yourself
     "DATASET" : "cofacts", # USED
