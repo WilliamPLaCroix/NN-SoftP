@@ -193,7 +193,7 @@ class CnnHead(nn.Module):
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
         self.dropout = nn.Dropout(0.3)
 
-        self.score = nn.Linear(256 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
+        self.score = nn.Linear(320 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
