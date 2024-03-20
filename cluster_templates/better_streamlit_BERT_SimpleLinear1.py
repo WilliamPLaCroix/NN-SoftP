@@ -32,22 +32,17 @@ PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-- max pooling
-- forward pass different
-- unfrozen
-- training loop different
-- binary labels
 
 """
 
 ####
 experiment = {
-    "LM" : "BERT, together with classifier in 1 NN", # not used in code, define yourself
+    "LM" : "BERT", # not used in code, define yourself
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
-    "BATCH_SIZE" : 64, # USED
-    "NUM_EPOCHS" : 300, # USED
+    "BATCH_SIZE" : 32, # USED
+    "NUM_EPOCHS" : 200, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.0001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
@@ -191,30 +186,16 @@ def dataloader(datasplit, batch_size, columns_to_keep):
 #####################################################################################
 # Define classification head here
 #####################################################################################
-"""
+
 class SimplestLinearHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(SimplestLinearHead, self).__init__()
         self.fc = nn.Linear(lm_output_size, num_classes)
 
     def forward(self, lm_hidden_states):
-        pooled_output = torch.mean(lm_hidden_states, dim=1)
+        pooled_output = torch.max(lm_hidden_states, dim=1)[0]
         logits = self.fc(pooled_output)
         return logits
-"""
-
-class SimplestLinearHead(nn.Module):
-    def __init__(self):
-        super(SimplestLinearHead, self).__init__()  # Call this before anything else
-        self.bert = AutoModel.from_pretrained("google-bert/bert-base-uncased", output_hidden_states=True)
-        self.fc = nn.Linear(self.bert.config.hidden_size, 2)
-
-    def forward(self, tokenized_input):
-        bert_output = self.bert(tokenized_input)  # Ensure you unpack the tokenized input
-        # pooled_output = torch.mean(bert_output[0], dim=1)  # Assuming you're averaging over the sequence dimension
-        pooled_output = torch.max(bert_output.last_hidden_state, dim=1)[0]
-        logits = self.fc(pooled_output)
-        return logits, bert_output.last_hidden_state
 
 #####################################################################################
 # Running everything defined above
@@ -235,10 +216,10 @@ val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KE
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
 #lm = AutoModel.from_pretrained("google-bert/bert-base-uncased", token=access_token, quantization_config=bnb_config)
-#classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
-classifier = SimplestLinearHead().to(device)
-#if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
-"""
+lm = AutoModel.from_pretrained("google-bert/bert-base-uncased", token=access_token).to(device)
+classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
+
 if experiment["FREEZE_LM"]:
     if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
         if PRINTING_FLAG: print("freezing Model... (AutoModel)")
@@ -248,7 +229,7 @@ if experiment["FREEZE_LM"]:
         if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
         for param in lm.base_model.parameters():
             param.requires_grad = False
-"""
+
 loss_fn = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
@@ -332,19 +313,16 @@ try:
             batch.to(device)
             optimizer.zero_grad()
 
+            lm_outputs = lm(batch["input_ids"])
+            classifier_outputs = classifier(lm_outputs[0].float())
 
-            #lm_outputs = lm(batch["input_ids"])
-            #classifier_outputs = classifier(lm_outputs[0].float())
-            logits, hidden_states = classifier(batch["input_ids"])
-
-
-            loss = loss_fn(logits, batch["labels"])
+            loss = loss_fn(classifier_outputs, batch["labels"])
             train_losses.append(loss.item())
 
             loss.backward()
             optimizer.step()
 
-            train_predictions.extend(logits.detach().argmax(dim=1).to('cpu').tolist())
+            train_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
             train_targets.extend(batch["labels"].to('cpu').tolist())
 
         train_predictions = np.array(train_predictions)
@@ -392,14 +370,13 @@ try:
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-                #lm_outputs = lm(batch["input_ids"])
-                #classifier_outputs = classifier(lm_outputs[0].float())
-                logits, hidden_states = classifier(batch["input_ids"])
+                lm_outputs = lm(batch["input_ids"])
+                classifier_outputs = classifier(lm_outputs[0].float())
 
-                loss = loss_fn(logits, batch["labels"])
+                loss = loss_fn(classifier_outputs, batch["labels"])
                 val_losses.append(loss.item())
 
-                val_predictions.extend(logits.detach().argmax(dim=1).to('cpu').tolist())
+                val_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
                 val_targets.extend(batch["labels"].to('cpu').tolist())
 
 
@@ -527,7 +504,7 @@ plt.plot(epochs_trained_list, epochs_train_acc_list, color="blue", label="Train 
 plt.plot(epochs_validated_list, epochs_val_acc_list, color="red", label="Validation Accuracy")
 plt.xlabel("Number of Epochs")
 plt.ylabel("Accuracy")
-plt.title("Training and Validation Accuracy (BERT unfrozen binary)")
+plt.title("Training and Validation Accuracy")
 plt.legend()
 acc_plot_filename = EXPERIMENT_NAME + "/" + "accuracy_" + EXPERIMENT_NAME + ".png"
 plt.savefig(acc_plot_filename)
@@ -539,7 +516,7 @@ plt.plot(epochs_trained_list, epochs_train_loss_list, color="blue", label="Train
 plt.plot(epochs_validated_list, epochs_val_loss_list, color="red", label="Validation Loss")
 plt.xlabel("Number of Epochs")
 plt.ylabel("Loss")
-plt.title("Training and Validation Loss (BERT unfrozen binary)")
+plt.title("Training and Validation Loss")
 plt.legend()
 loss_plot_filename = EXPERIMENT_NAME + "/" + "loss_" + EXPERIMENT_NAME + ".png"
 plt.savefig(loss_plot_filename)
