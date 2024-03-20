@@ -514,6 +514,7 @@ with torch.no_grad():
     test_accuracy = num_predictions_test_epoch_correct / num_predictions_test_epoch
     #epochs_test_acc_list.append(test_accuracy)
 
+
     test_mean_loss = np.mean(test_losses)
 
     print(f"{EXPERIMENT_NAME}")
