@@ -269,7 +269,7 @@ if experiment["FREEZE_LM"]:
 
 loss_fn = nn.CrossEntropyLoss()
 
-previous_checkpoint_file = "best_checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710505393.4497905.pth"
+previous_checkpoint_file = "/nethome/phawlitschek/NN-SoftP/philipps_experiments_results/newer/EXP2Llama-7b_FULL_SimpleLinearHead_1710505393.4497905/best_checkpoint_EXP2Llama-7b_FULL_SimpleLinearHead_1710505393.4497905.pth"
 previous_checkpoint = torch.load(previous_checkpoint_file)
 classifier.load_state_dict(previous_checkpoint['classifier_state_dict']) #################################################################
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
