@@ -236,7 +236,7 @@ test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_CO
 
 #lm = AutoModel.from_pretrained("google-bert/bert-base-uncased", token=access_token, quantization_config=bnb_config)
 #classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
-classifier = SimplestLinearHead()
+classifier = SimplestLinearHead().to(device)
 #if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
 """
 if experiment["FREEZE_LM"]:
