@@ -187,13 +187,13 @@ class CnnHead(nn.Module):
         super(CnnHead, self).__init__()
 
         self.conv1 = nn.Conv1d(in_channels=lm_output_size + 1, out_channels=400, kernel_size=5, padding=2)
-        self.conv2 = nn.Conv1d(in_channels=2000, out_channels=128, kernel_size=5, padding=2)
-        self.conv3 = nn.Conv1d(in_channels=640, out_channels=32, kernel_size=5, padding=2)
+        self.conv2 = nn.Conv1d(in_channels=400, out_channels=128, kernel_size=5, padding=2)
+        self.conv3 = nn.Conv1d(in_channels=128, out_channels=64, kernel_size=5, padding=2)
         self.act = nn.ReLU()
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
         self.dropout = nn.Dropout(0.3)
 
-        self.score = nn.Linear(160 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
+        self.score = nn.Linear(256 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
