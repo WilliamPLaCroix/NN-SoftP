@@ -32,6 +32,11 @@ PRINTING_FLAG = True
 
 #### Other experiment details:
 """
+- max pooling
+- forward pass different
+- unfrozen
+- training loop different
+- binary labels
 
 """
 
@@ -42,7 +47,7 @@ experiment = {
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 64, # USED
-    "NUM_EPOCHS" : 200, # USED
+    "NUM_EPOCHS" : 300, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.0001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
@@ -202,7 +207,7 @@ class SimplestLinearHead(nn.Module):
     def __init__(self):
         super(SimplestLinearHead, self).__init__()  # Call this before anything else
         self.bert = AutoModel.from_pretrained("google-bert/bert-base-uncased", output_hidden_states=True)
-        self.fc = nn.Linear(self.bert.config.hidden_size, 6)
+        self.fc = nn.Linear(self.bert.config.hidden_size, 2)
 
     def forward(self, tokenized_input):
         bert_output = self.bert(tokenized_input)  # Ensure you unpack the tokenized input
@@ -229,10 +234,11 @@ train_dataloader = dataloader(train, experiment["BATCH_SIZE"], experiment["KEEP_
 val_dataloader = dataloader(validation, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 test_dataloader = dataloader(test, experiment["BATCH_SIZE"], experiment["KEEP_COLUMNS"])
 
-lm = AutoModel.from_pretrained("google-bert/bert-base-uncased", token=access_token, quantization_config=bnb_config)
-classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
-if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
-
+#lm = AutoModel.from_pretrained("google-bert/bert-base-uncased", token=access_token, quantization_config=bnb_config)
+#classifier = SimplestLinearHead(lm.config.hidden_size, experiment["NUM_CLASSES"]).to(device)
+classifier = SimplestLinearHead()
+#if PRINTING_FLAG: print(f"Language Model has hidden_size: {lm.config.hidden_size}")
+"""
 if experiment["FREEZE_LM"]:
     if experiment["HUGGINGFACE_IMPLEMENTATION"] == "AutoModel":
         if PRINTING_FLAG: print("freezing Model... (AutoModel)")
@@ -242,7 +248,7 @@ if experiment["FREEZE_LM"]:
         if PRINTING_FLAG: print(f"freezing Model... For CausalLM or SequenceClassification")
         for param in lm.base_model.parameters():
             param.requires_grad = False
-
+"""
 loss_fn = nn.CrossEntropyLoss()
 
 optimizer = optim.Adam(classifier.parameters(), lr=experiment["LEARNING_RATE"])
@@ -326,16 +332,19 @@ try:
             batch.to(device)
             optimizer.zero_grad()
 
-            lm_outputs = lm(batch["input_ids"])
-            classifier_outputs = classifier(lm_outputs[0].float())
 
-            loss = loss_fn(classifier_outputs, batch["labels"])
+            #lm_outputs = lm(batch["input_ids"])
+            #classifier_outputs = classifier(lm_outputs[0].float())
+            logits, hidden_states = classifier(batch["input_ids"])
+
+
+            loss = loss_fn(logits, batch["labels"])
             train_losses.append(loss.item())
 
             loss.backward()
             optimizer.step()
 
-            train_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
+            train_predictions.extend(logits.detach().argmax(dim=1).to('cpu').tolist())
             train_targets.extend(batch["labels"].to('cpu').tolist())
 
         train_predictions = np.array(train_predictions)
@@ -383,13 +392,14 @@ try:
 
                 #outputs = model(batch["input_ids"], batch["attention_mask"], batch["sentiment"], batch["perplexity"])
 
-                lm_outputs = lm(batch["input_ids"])
-                classifier_outputs = classifier(lm_outputs[0].float())
+                #lm_outputs = lm(batch["input_ids"])
+                #classifier_outputs = classifier(lm_outputs[0].float())
+                logits, hidden_states = classifier(batch["input_ids"])
 
-                loss = loss_fn(classifier_outputs, batch["labels"])
+                loss = loss_fn(logits, batch["labels"])
                 val_losses.append(loss.item())
 
-                val_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
+                val_predictions.extend(logits.detach().argmax(dim=1).to('cpu').tolist())
                 val_targets.extend(batch["labels"].to('cpu').tolist())
 
 
