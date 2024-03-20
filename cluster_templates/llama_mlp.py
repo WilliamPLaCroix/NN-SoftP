@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex4_LLAMA2-7b_MLP_cofacts_{time.time()}"
+EXPERIMENT_NAME = f"Ex5_LLAMA2-7b_MLP_cofacts_reverse_weight_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -108,7 +108,7 @@ def prepare_dataset (name:str, frac:float, columns:list[str]) -> (object, object
         global neg_weights
         neg_weights = len(train) / (2 * target_counts[0])
         global binary_weight
-        binary_weight = torch.tensor(target_counts[0] / target_counts[1])
+        binary_weight = torch.tensor(target_counts[1] / target_counts[0])
         print(binary_weight)
 
     def take_top_n_rows (frac:float, train:object, val:object, test:object) -> (object, object, object):
