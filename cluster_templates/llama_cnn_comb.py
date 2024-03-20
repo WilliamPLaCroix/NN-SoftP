@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex4_LLAMA2-7b_CNN_cofacts_comb_{time.time()}"
+EXPERIMENT_NAME = f"Ex5_LLAMA2-7b_CNN_cofacts_extend_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -38,7 +38,7 @@ experiment = {
     "CLF_HEAD" : "CnnHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 4, # USED
-    "NUM_EPOCHS" : 100, # USED
+    "NUM_EPOCHS" : 150, # USED
     "EARLY_STOPPING_AFTER" : 10, # USED
     "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
@@ -186,12 +186,14 @@ class CnnHead(nn.Module):
     def __init__(self, lm_output_size:int, num_classes:int):
         super(CnnHead, self).__init__()
 
-        self.conv1 = nn.Conv1d(in_channels=lm_output_size + 1, out_channels=128, kernel_size=5, padding=2)
+        self.conv1 = nn.Conv1d(in_channels=lm_output_size + 1, out_channels=400, kernel_size=5, padding=2)
+        self.conv2 = nn.Conv1d(in_channels=2000, out_channels=128, kernel_size=5, padding=2)
+        self.conv3 = nn.Conv1d(in_channels=640, out_channels=32, kernel_size=5, padding=2)
         self.act = nn.ReLU()
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
-        self.dropout = nn.Dropout(0.9)
+        self.dropout = nn.Dropout(0.3)
 
-        self.score = nn.Linear(640 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
+        self.score = nn.Linear(160 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
@@ -203,6 +205,10 @@ class CnnHead(nn.Module):
         x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1)
         x = x.permute(0, 2, 1).to(torch.float)
         x = self.pool(self.act(self.conv1(x)))
+        x = self.dropout(x)
+        x = self.pool(self.act(self.conv2(x)))
+        x = self.dropout(x)
+        x = self.pool(self.act(self.conv3(x)))
         x = self.dropout(x)
         x = x.view(x.size(0), -1)
         x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
