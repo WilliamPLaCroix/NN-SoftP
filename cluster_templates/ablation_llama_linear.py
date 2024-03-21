@@ -164,7 +164,7 @@ def tokenize(data):
     """
     """
 #    label_mapping = experiment["LABEL_MAPPING"]
-    tokens = tokenizer(data["text"], truncation=True, max_length=2000)
+    tokens = tokenizer(data["statement"], truncation=True, max_length=2000)
 #    binary_labels = [label_mapping[label] for label in data["label"]]
 #    tokens["label"] = binary_labels
     return tokens
