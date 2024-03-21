@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"aggregation_Gemma-2b_EXP5_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"aggregation_Gemma-2b_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
