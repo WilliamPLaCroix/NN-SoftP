@@ -191,6 +191,7 @@ class LstmHead(nn.Module):
         self.conv2 = nn.Conv1d(in_channels=400, out_channels=64, kernel_size=5, padding=2)
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
         self.lstm = nn.LSTM(320, hidden_size, num_layers=1, batch_first=True)
+        self.lstm.flatten_parameters()
         self.act = nn.ReLU()
         self.dropout = nn.Dropout(0.3)
 
@@ -215,7 +216,9 @@ class LstmHead(nn.Module):
         x = self.dropout(x)
         x = self.pool(self.act(self.conv2(x)))
         x = self.dropout(x)
+        print(x.shape)
         x = self.act(self.lstm(x)[0][:, -1, :])
+        print(x.shape)
         x = self.dropout(x)
         x = torch.cat((x, sentiment), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
         x = self.sigmoid(self.score(x))
