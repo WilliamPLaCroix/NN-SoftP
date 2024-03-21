@@ -202,12 +202,15 @@ class LstmHead(nn.Module):
         probs = torch.gather(logits, dim=2, index=input_ids.unsqueeze(dim=2)).squeeze(-1)
         subword_surp = -1 * torch.log2(probs) * attention_mask
 
-        x = torch.cat(
-            (
-                lm_output.hidden_states[-1],
-                subword_surp.unsqueeze(-1)
-            ), dim=-1).to(torch.float)
+#        x = torch.cat(
+#            (
+#                lm_output.hidden_states[-1],
+#                subword_surp.unsqueeze(-1)
+#            ), dim=-1).to(torch.float)
 
+        x = lm_output.hidden_states[-1]
+        x = torch.cat((x, subword_surp.unsqueeze(-1)), dim=-1)
+        x = x.permute(0, 2, 1).to(torch.float)
         x = self.pool(self.act(self.conv1(x)))
         x = self.dropout(x)
         x = self.pool(self.act(self.conv2(x)))
