@@ -1,0 +1,1679 @@
+Ex2_LLAMA2-7b_LSTM_cofacts_augment_1710825417.7513592
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'LstmHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 300, 'EARLY_STOPPING_AFTER': 20, 'LEARNING_RATE': 1e-06, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 150 took 122942.73259568214s 
+The best validation result was obtained after 130 epochs 
+Checkpoint saved at: Ex2_LLAMA2-7b_LSTM_cofacts_augment_1710825417.7513592/checkpoint_Ex2_LLAMA2-7b_LSTM_cofacts_augment_1710825417.7513592.pthTraining took: 122942.73259568214s in total.
+
+Training Loss: 
+[0.4009104626240401, 0.39834953461227746, 0.39601986006416123, 0.3948166800161888, 0.39426974793960307, 0.39332393772643187, 0.3934287346025993, 0.3918503495125935, 0.3921154855962457, 0.3912092459304579, 0.390843402424763, 0.3895585338514427, 0.3897099684435746, 0.3896356097274813, 0.38895623550332825, 0.38945476351113156, 0.3889053884148598, 0.38849427528422453, 0.38746853955860794, 0.3879823415752115, 0.38815815673819903, 0.3875545855945554, 0.38692140706654254, 0.38747615348676157, 0.3870528506718833, 0.38815610640007875, 0.38662931658070665, 0.38679404070665097, 0.38660138405602557, 0.3865570017695427, 0.38628773269982175, 0.3864835438440586, 0.3869321766392938, 0.38592815272766967, 0.3862234542390396, 0.38577436162479994, 0.3863490994223233, 0.38578644632265485, 0.3849600416319124, 0.3852847481493292, 0.3851764469311155, 0.38521142467342573, 0.38513071177334623, 0.3846208617913312, 0.3854137232077533, 0.38491150722421447, 0.3847707889922734, 0.38422714021699184, 0.3852003745786075, 0.38480032201471, 0.3851531467252764, 0.38367174890534633, 0.3842546562182492, 0.38454352385011215, 0.3846788838300212, 0.3841324088696776, 0.38394314551147923, 0.3835458183288574, 0.38367414882470824, 0.3848692744867555, 0.38418284250744456, 0.38389766459834984, 0.3840376893096957, 0.38368315996794866, 0.3840384464942176, 0.38376208465674827, 0.3837112189572433, 0.3831064458756611, 0.3838020024525708, 0.3826755365729332, 0.3838535529991676, 0.3835547232627869, 0.38317061861013546, 0.3833709162062612, 0.38301676206547636, 0.38351811923857393, 0.3831227826455544, 0.3835000575102609, 0.3827698242458804, 0.382470792963587, 0.38268712874116567, 0.38324578528774195, 0.38245646423306956, 0.38190808988850694, 0.38237650483846664, 0.38282617435373106, 0.3821817625493839, 0.38178626097481827, 0.3817671130854508, 0.3815498025047368, 0.38174004197120665, 0.3821551112984789, 0.3816266488823397, 0.381829881205641, 0.3812385811990705, 0.38234523101099605, 0.3812000073646677, 0.38156559588580297, 0.38139502687700866, 0.38133273288093766, 0.38207760626899784, 0.3808294561094251, 0.3812719331424812, 0.3807555083673576, 0.38136303970526003, 0.38161786284939997, 0.3815491063327625, 0.381052446807253, 0.3802360269530066, 0.3809219548003427, 0.3806481400851546, 0.379627565710709, 0.3809826665911181, 0.38091918545550313, 0.38102626056506717, 0.3805269745506089, 0.38116626949145876, 0.38068709700272, 0.38060097328547776, 0.3806537354197995, 0.3802548995922352, 0.38012171033127556, 0.3799609245411281, 0.3801180427547159, 0.38007814287111674, 0.3801755693452112, 0.3801998464711781, 0.3802107417480699, 0.3796712398734586, 0.3799458112490588, 0.3800564401108643, 0.38004860248031286, 0.38020529401713404, 0.37912744383359775, 0.3801294021257039, 0.3794739229822981, 0.38022068410084164, 0.37941637761633973, 0.3793262240701708, 0.37908606031845354, 0.3794044867260703, 0.37905136277963375, 0.3789919378634157, 0.3790343330851917, 0.3788533395528793, 0.37954373353514176, 0.37963890376789816, 0.37919923507961734, 0.3785838497301628, 0.37945346648323125]
+
+Validation Loss: 
+[0.3987363630107471, 0.3966575085625544, 0.3951399802834123, 0.3966831589465613, 0.3924921145969695, 0.3919679336659201, 0.39097197165528497, 0.3911243394672216, 0.38986791572073004, 0.3945289945209419, 0.39321591197461875, 0.38847640500618863, 0.38855664833233905, 0.39048327587463044, 0.38849127538256595, 0.3894161656498909, 0.3874080832024197, 0.3892484405538538, 0.3874110057131275, 0.3915338260786874, 0.38611784479120276, 0.38960763582816493, 0.38533683072079666, 0.3858420062032375, 0.38636392191216185, 0.3855331792281224, 0.3871083827791633, 0.38931049193654743, 0.39029857025041687, 0.3868045063464196, 0.3887266596103763, 0.3858310149593668, 0.38582760324844945, 0.3883163578562684, 0.3845246216425529, 0.3849144364287565, 0.3846548528789164, 0.3854120344251067, 0.3842920787878089, 0.38471312018541187, 0.38519501702471093, 0.3851489700622611, 0.3843728740300451, 0.3859928753022309, 0.3848898888125524, 0.38808366132306527, 0.38931752307401907, 0.38392151007940484, 0.38436699552195414, 0.38785777060867666, 0.383871140388342, 0.38448679070551317, 0.38331882991306077, 0.383557596049466, 0.3836955210337272, 0.3849261322846779, 0.38472074008249973, 0.38821812661794514, 0.38792852124015054, 0.38394642891464653, 0.38263060733839704, 0.38444327268299167, 0.38389787339902187, 0.3838614664234958, 0.38422293813674, 0.3843054868854009, 0.38278059800575065, 0.38485652331140013, 0.3841555003117729, 0.3848632899941979, 0.38480269540469725, 0.38085054401512985, 0.3864143982038393, 0.38746407832745666, 0.386084316605395, 0.38605036512835994, 0.38214466041261025, 0.3869551012476722, 0.38388068924893387, 0.38173408544325566, 0.3874987705232023, 0.3817611668299843, 0.38499555859591933, 0.38138756974712834, 0.3830167204960362, 0.38076612787259806, 0.382349102133578, 0.38210883531924134, 0.38187762325281627, 0.38273714695658, 0.3804047453206974, 0.3813351545032564, 0.384061431655517, 0.38217131130315446, 0.3858066852112393, 0.380576127914937, 0.38405451211300523, 0.38406771683430935, 0.3844106660766916, 0.3854682998179079, 0.3809890259916966, 0.3817302924427357, 0.38519467184176814, 0.3816398364174497, 0.37985854661399193, 0.38165942211072523, 0.38477257983042645, 0.38398112454912164, 0.38174876881824743, 0.384159375841801, 0.3830849177071026, 0.37977308206833327, 0.38202404525581296, 0.37917704298928545, 0.3809934420572532, 0.3803202231506725, 0.3807445017846076, 0.381024491082836, 0.3813731353525277, 0.38510026045880474, 0.38036771085891097, 0.3796192176721908, 0.38136813601294717, 0.3822538837135493, 0.38047272474556176, 0.3811234085114448, 0.3801848192463864, 0.37990697022977765, 0.3846484023954842, 0.3784701688276542, 0.38373417407274246, 0.3822955504714788, 0.38047600455664016, 0.38422756118106316, 0.37944035666002024, 0.3798570646034492, 0.38078543142630505, 0.380323829968552, 0.38164663052820896, 0.37904035357328564, 0.3803192298490923, 0.38100032393748945, 0.3797149731890186, 0.3812673246631256, 0.3802617935688941, 0.3814549674535846, 0.3793316446654089, 0.3824478947035559, 0.37928105636939896, 0.37948255519290547]
+
+Training Acc: 
+[0.30062090375991724, 0.2914798206278027, 0.29061745429458435, 0.28647809589513623, 0.2878578820282856, 0.28475336322869954, 0.2863056226284926, 0.2921697136943774, 0.29406691962745773, 0.30096585029320455, 0.3004484304932735, 0.3051052086926526, 0.30958951362538806, 0.32114522249051397, 0.3249396343566747, 0.3270093135563988, 0.33218351155570885, 0.3395998620213867, 0.34270438082097276, 0.3449465332873405, 0.3521904104863746, 0.35253535701966193, 0.3621938599517075, 0.36357364608485687, 0.3642635391514315, 0.3642635391514315, 0.3668506381510866, 0.36633321835115557, 0.37133494308382203, 0.3665056916177992, 0.37702656088306313, 0.371852362883753, 0.37737150741635045, 0.37530182821662644, 0.3778889272162815, 0.3828906519489479, 0.37512935494998273, 0.37961365988271817, 0.38392549154880995, 0.38565022421524664, 0.3887547430148327, 0.38927216281476373, 0.3944463608140738, 0.3887547430148327, 0.39065194894791305, 0.39134184201448774, 0.3897895826146947, 0.3970334598137289, 0.38668506381510864, 0.3944463608140738, 0.39461883408071746, 0.3956536736805795, 0.39392894101414283, 0.3927216281476371, 0.3961710934805105, 0.3997930320800276, 0.3987581924801656, 0.403242497412901, 0.4049672300793377, 0.39599862021386684, 0.3977233528803035, 0.4020351845463953, 0.403242497412901, 0.4023801310796826, 0.4015177647464643, 0.401690238013108, 0.3987581924801656, 0.403759917212832, 0.39927561228009656, 0.4120386340117282, 0.4061745429458434, 0.4044498102794067, 0.4077268023456364, 0.40479475681269406, 0.4034149706795447, 0.40358744394618834, 0.40945153501207315, 0.403242497412901, 0.40582959641255606, 0.4108313211452225, 0.41152121421179716, 0.4030700241462573, 0.4066919627457744, 0.41221110727837185, 0.4084166954122111, 0.4099689548120041, 0.41410831321145225, 0.4106588478785788, 0.4163504656778199, 0.41876509141083135, 0.4106588478785788, 0.4113487409451535, 0.41186616074508453, 0.41755777854432563, 0.41617799241117626, 0.41048637461193516, 0.4213521904104864, 0.4123835805450155, 0.41290100034494653, 0.4153156260779579, 0.41410831321145225, 0.419972404277337, 0.41876509141083135, 0.41393583994480854, 0.41859261814418763, 0.41583304587788894, 0.41221110727837185, 0.41686788547775094, 0.42480165574335976, 0.4170403587443946, 0.419972404277337, 0.4249741290100035, 0.4223870300103484, 0.4256640220765781, 0.41979993101069335, 0.4213521904104864, 0.419972404277337, 0.4182476716109003, 0.4249741290100035, 0.42669886167644017, 0.419454984477406, 0.4249741290100035, 0.42324939634356673, 0.42842359434287686, 0.4287685408761642, 0.42273197654363576, 0.4285960676095205, 0.42273197654363576, 0.42842359434287686, 0.4268713349430838, 0.4260089686098655, 0.4260089686098655, 0.4216971369437737, 0.42324939634356673, 0.42376681614349776, 0.4296309072093826, 0.4256640220765781, 0.4263539151431528, 0.4303208002759572, 0.4287685408761642, 0.4299758537426699, 0.4353225250086237, 0.4317005864091066, 0.433597792342187, 0.43515005174198, 0.42618144187650914, 0.4282511210762332, 0.43239047947568127, 0.4325629527423249, 0.43014832700931355]
+
+Validation Acc: 
+[0.28, 0.2786206896551724, 0.2786206896551724, 0.2786206896551724, 0.2786206896551724, 0.2786206896551724, 0.2786206896551724, 0.2786206896551724, 0.28, 0.28, 0.2827586206896552, 0.2813793103448276, 0.2910344827586207, 0.2924137931034483, 0.2896551724137931, 0.2993103448275862, 0.2979310344827586, 0.31310344827586206, 0.3117241379310345, 0.32275862068965516, 0.3296551724137931, 0.3310344827586207, 0.34758620689655173, 0.3489655172413793, 0.34206896551724136, 0.34758620689655173, 0.3406896551724138, 0.3627586206896552, 0.3586206896551724, 0.3586206896551724, 0.3641379310344828, 0.3682758620689655, 0.35586206896551725, 0.3586206896551724, 0.36551724137931035, 0.3737931034482759, 0.3627586206896552, 0.3696551724137931, 0.3793103448275862, 0.36551724137931035, 0.36137931034482756, 0.3793103448275862, 0.37103448275862067, 0.36, 0.38620689655172413, 0.38068965517241377, 0.37517241379310345, 0.38482758620689655, 0.383448275862069, 0.3931034482758621, 0.38482758620689655, 0.3820689655172414, 0.3972413793103448, 0.38482758620689655, 0.37655172413793103, 0.3820689655172414, 0.3889655172413793, 0.37655172413793103, 0.38068965517241377, 0.3875862068965517, 0.3986206896551724, 0.38068965517241377, 0.38620689655172413, 0.38620689655172413, 0.383448275862069, 0.3820689655172414, 0.3903448275862069, 0.3793103448275862, 0.38482758620689655, 0.37655172413793103, 0.3972413793103448, 0.40413793103448276, 0.39448275862068966, 0.37103448275862067, 0.3903448275862069, 0.3986206896551724, 0.3917241379310345, 0.38068965517241377, 0.3917241379310345, 0.3875862068965517, 0.3779310344827586, 0.40413793103448276, 0.3931034482758621, 0.38482758620689655, 0.3917241379310345, 0.3972413793103448, 0.3889655172413793, 0.38620689655172413, 0.3986206896551724, 0.37517241379310345, 0.4, 0.3986206896551724, 0.383448275862069, 0.3917241379310345, 0.3903448275862069, 0.39448275862068966, 0.3986206896551724, 0.39448275862068966, 0.38620689655172413, 0.3917241379310345, 0.4027586206896552, 0.4013793103448276, 0.39448275862068966, 0.38482758620689655, 0.40413793103448276, 0.3931034482758621, 0.3889655172413793, 0.3986206896551724, 0.39586206896551723, 0.383448275862069, 0.40827586206896554, 0.40413793103448276, 0.3917241379310345, 0.4096551724137931, 0.39586206896551723, 0.4124137931034483, 0.4027586206896552, 0.39586206896551723, 0.39448275862068966, 0.3889655172413793, 0.40413793103448276, 0.4110344827586207, 0.38620689655172413, 0.40413793103448276, 0.3931034482758621, 0.4, 0.4, 0.4096551724137931, 0.39448275862068966, 0.4124137931034483, 0.4096551724137931, 0.4110344827586207, 0.3986206896551724, 0.4027586206896552, 0.40551724137931033, 0.4096551724137931, 0.40413793103448276, 0.3986206896551724, 0.3972413793103448, 0.4110344827586207, 0.3986206896551724, 0.39586206896551723, 0.4110344827586207, 0.39586206896551723, 0.40827586206896554, 0.40413793103448276, 0.4027586206896552, 0.39586206896551723, 0.4096551724137931, 0.4110344827586207]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 27: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 28: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 29: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 30: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 31: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 32: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 33: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 34: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 35: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 36: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 37: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 38: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 39: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 40: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 41: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 42: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 43: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 44: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 45: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 46: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 47: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 48: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 49: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 50: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 51: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 52: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 53: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 54: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 55: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 56: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 57: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 58: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 59: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 60: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 61: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 62: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 63: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 64: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 65: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 66: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 67: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 68: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 69: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 70: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 71: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 72: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 73: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 74: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 75: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 76: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 77: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 78: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 79: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 80: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 81: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 82: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 83: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 84: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 85: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 86: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 87: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 88: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 89: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 90: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 91: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 92: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 93: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 94: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 95: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 96: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 97: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 98: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 99: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 100: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 101: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 102: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 103: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 104: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 105: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 106: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 107: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 108: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 109: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 110: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 111: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 112: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 113: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 114: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 115: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 116: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 117: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 118: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 119: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 120: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 121: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 122: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 123: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 124: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 125: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 126: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 127: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 128: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 129: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 130: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 131: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 132: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 133: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 134: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 135: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 136: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 137: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 138: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 139: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 140: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 141: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 142: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 143: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 144: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 145: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 146: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 147: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 148: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+
+ Epoch 149: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4743 			 1615 			 1527 
+1055 			 4183 			 967 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+601 			 202 			 188 
+124 			 523 			 110 
+model stopped improving at epoch 130
+test accuracy: 0.40771349862258954
+test precision: 0.872
+test recall: 0.2084130019120459
+test f1-score: 0.33641975308641975
+confusion matrix:
+ [[187  16]
+ [414 109]]

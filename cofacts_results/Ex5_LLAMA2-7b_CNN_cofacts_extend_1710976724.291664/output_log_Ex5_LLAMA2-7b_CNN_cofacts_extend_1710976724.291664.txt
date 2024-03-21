@@ -1,0 +1,326 @@
+Ex5_LLAMA2-7b_CNN_cofacts_extend_1710976724.291664
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'CnnHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 150, 'EARLY_STOPPING_AFTER': 10, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 27 took 30644.603730916977s 
+The best validation result was obtained after 17 epochs 
+Checkpoint saved at: Ex5_LLAMA2-7b_CNN_cofacts_extend_1710976724.291664/checkpoint_Ex5_LLAMA2-7b_CNN_cofacts_extend_1710976724.291664.pthTraining took: 30644.603730916977s in total.
+
+Training Loss: 
+[0.5102629779683392, 0.4989115234942074, 0.49313820003643605, 0.4889878514614987, 0.4854991103148862, 0.48315882956850525, 0.4809759999979153, 0.47860587259960075, 0.4757994598244506, 0.4712937930044992, 0.4669803281539738, 0.4605880465170246, 0.4569129592294995, 0.45242790783054027, 0.44714891947434504, 0.4430107511976979, 0.4382106097253093, 0.4341648441690397, 0.4309321429443425, 0.4280665974696505, 0.4262306971437704, 0.42368603378134767, 0.4223857168255495, 0.42104326129656305, 0.41840495127671035, 0.41678422939924903, 0.416212487815991]
+
+Validation Loss: 
+[0.5005540389281052, 0.49650785900079286, 0.4921363380911586, 0.4879897903282564, 0.4873651026205702, 0.4857551940194853, 0.48791522098766577, 0.48646314679593833, 0.4853942885503664, 0.4837199994823435, 0.48109628477103106, 0.4796815115426268, 0.4818348283623601, 0.4741287201970488, 0.4763512031717615, 0.4785051713851127, 0.4727472353030692, 0.4812108996314007, 0.47738978741588173, 0.48069829862196367, 0.4762166844946997, 0.47887505062825075, 0.4782890442472238, 0.4885080404743388, 0.48286649032117246, 0.5030560493059866, 0.47869221149728847]
+
+Training Acc: 
+[0.610948779649364, 0.661481608800275, 0.6638019938123066, 0.6688724647645239, 0.67918528704022, 0.6807322103815744, 0.6865761430044689, 0.6927638363698866, 0.7068580268133379, 0.733585424544517, 0.7533516672396012, 0.7801650051564112, 0.7899621863183225, 0.809126847713991, 0.8290649707803369, 0.839807493984187, 0.8589721553798556, 0.8686833963561361, 0.8821760055001718, 0.8906840838776212, 0.8966998968717772, 0.9046063939498109, 0.908903403231351, 0.9128566517703678, 0.9224819525610175, 0.9276383636988655, 0.9308181505672052]
+
+Validation Acc: 
+[0.6570446735395189, 0.6707903780068728, 0.6687285223367697, 0.6742268041237114, 0.6735395189003437, 0.6790378006872853, 0.6776632302405499, 0.6893470790378007, 0.7237113402061855, 0.7024054982817869, 0.7044673539518901, 0.7161512027491409, 0.7601374570446735, 0.7546391752577319, 0.7367697594501719, 0.7670103092783506, 0.7621993127147766, 0.777319587628866, 0.7615120274914089, 0.7786941580756014, 0.7505154639175258, 0.7738831615120275, 0.7676975945017183, 0.768384879725086, 0.7745704467353952, 0.7532646048109966, 0.7697594501718213]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4923 			 4534 			 4326 
+6713 			 7102 			 6505 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+660 			 567 			 446 
+795 			 888 			 674 
+model stopped improving at epoch 17
+test accuracy: 0.7376373626373627
+test precision: 0.856338028169014
+test recall: 0.6846846846846847
+test f1-score: 0.7609511889862328
+confusion matrix:
+ [[466 102]
+ [280 608]]

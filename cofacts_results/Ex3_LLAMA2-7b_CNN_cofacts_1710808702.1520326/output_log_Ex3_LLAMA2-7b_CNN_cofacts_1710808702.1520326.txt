@@ -1,0 +1,1514 @@
+Ex3_LLAMA2-7b_CNN_cofacts_1710808702.1520326
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'CnnHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 300, 'EARLY_STOPPING_AFTER': 20, 'LEARNING_RATE': 1e-06, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 135 took 102066.67334294319s 
+The best validation result was obtained after 115 epochs 
+Checkpoint saved at: Ex3_LLAMA2-7b_CNN_cofacts_1710808702.1520326/checkpoint_Ex3_LLAMA2-7b_CNN_cofacts_1710808702.1520326.pthTraining took: 102066.67334294319s in total.
+
+Training Loss: 
+[0.24111407613218874, 0.23748063153938193, 0.23567192807840998, 0.23550106452360442, 0.2342591928066434, 0.23451758574084372, 0.23240948201931527, 0.23360487502453248, 0.23377546173518907, 0.23321633409880493, 0.23408814654678153, 0.233203230209542, 0.23285513207766514, 0.23399584431834933, 0.23261777175936865, 0.23440044853593472, 0.2327346031884226, 0.23323214736978845, 0.23349044020087806, 0.23342297764551279, 0.23288016912596973, 0.23262734490258705, 0.23228256877612424, 0.23276461412114446, 0.23225643752299735, 0.23165971377719377, 0.2321834800223004, 0.23266347637474064, 0.23272077568076752, 0.2316758999384833, 0.2325008590194872, 0.23154019774641066, 0.2312113570141205, 0.2314628208965205, 0.23058347021998019, 0.2309337780767954, 0.23138327293086128, 0.22991931665280096, 0.22923798925452088, 0.229560138719876, 0.2297108919020677, 0.22996249038056843, 0.2298580933368168, 0.22720589928790952, 0.22777371940651644, 0.22960423841030117, 0.2275193117748478, 0.22829390630505042, 0.22775307763219826, 0.22705468701847217, 0.22677021498520916, 0.22653234514314532, 0.22630962249134418, 0.22621723844274427, 0.2263166943775262, 0.22436562317330241, 0.2243670490592576, 0.2250304974153614, 0.22401721144186862, 0.2237459810684614, 0.22383871768114108, 0.2241432563548342, 0.22365884892701723, 0.22310839499834043, 0.22231970858332273, 0.22279096231906895, 0.22304813205508814, 0.22343376295460426, 0.22209764491109288, 0.2231247288801238, 0.22183802161241373, 0.2214374127301768, 0.2210614961973245, 0.22105159647822, 0.22053255950395367, 0.2201401979287876, 0.22100359234005354, 0.22027588405295473, 0.22026695800272952, 0.22089870436345072, 0.21958912569075964, 0.21992621268182755, 0.2196166994959258, 0.2185752305345808, 0.22035881605692242, 0.21920821369760365, 0.21826204727440834, 0.21818997008527596, 0.2178223997603255, 0.21708322317592668, 0.21727165642574975, 0.2182790003539269, 0.217921086520383, 0.21738387469575401, 0.21821664042759017, 0.217041250288676, 0.218010627515081, 0.21782944111571023, 0.2167636437818337, 0.21666365797336795, 0.2165432708465238, 0.21624691639279145, 0.21581373308061227, 0.216513032694784, 0.21577134985470808, 0.21593539270502773, 0.21597885509245157, 0.21530231422432275, 0.21466126757864923, 0.21480267996557756, 0.21531793115059408, 0.2150777726891689, 0.21522790949276407, 0.2159771641600871, 0.2152566958355032, 0.21392615775567358, 0.21494299116498525, 0.2147850485456388, 0.2135451782512551, 0.21286786331044472, 0.21416271627186212, 0.21453553708255385, 0.21415292182034074, 0.21339308003789859, 0.21234402973767494, 0.21308470427374013, 0.21306890037816925, 0.21401868023227053, 0.2133908203206305, 0.21195451369796345, 0.21159256725247788, 0.21332585393482248, 0.2118886858047192, 0.21187559185351212, 0.21187082665049972]
+
+Validation Loss: 
+[0.23330016735988326, 0.23563161831867846, 0.23299812940479833, 0.23304674698959424, 0.2330592154890676, 0.23305392152146448, 0.23303495441810995, 0.23304142425709132, 0.23303786052178732, 0.2330256927805611, 0.23304230521751357, 0.23303766576926918, 0.2356657614059086, 0.23304391803243493, 0.2330164633031133, 0.23302901979488663, 0.23301192297588422, 0.23564542811128159, 0.23566549403380743, 0.23298731832941877, 0.23290164674384684, 0.23283048068420797, 0.23271969064504286, 0.23273461142295523, 0.2325322252662876, 0.2320418891650212, 0.23458938451507425, 0.23469446674932407, 0.2319545097932031, 0.2314022800213174, 0.2313855717642398, 0.23210598316185083, 0.23114938312504865, 0.23386148693440836, 0.23037202708140203, 0.2302229824134066, 0.2340941059438488, 0.2289216409472725, 0.2286960751855675, 0.22819456703300717, 0.22818481884425199, 0.22883762240032607, 0.22948512963101833, 0.22997663141805916, 0.22690906620855572, 0.22685826211413251, 0.2336422489319421, 0.22666893168529378, 0.2308810974789571, 0.22696228910096083, 0.2266503121185152, 0.22548760737799392, 0.23164845385317562, 0.22756879828587362, 0.22737562788438193, 0.22660494888130622, 0.22649045882722998, 0.2264905773763415, 0.22417141935681995, 0.22505537321484542, 0.22461201759833324, 0.22580331266869472, 0.22448093175322195, 0.22816629971884475, 0.2245922111729278, 0.2248514203614072, 0.22800992254780816, 0.2245226391131365, 0.22403174186054664, 0.22816749497116368, 0.22423106012276456, 0.22390835109768034, 0.22452706174005435, 0.22381253243435786, 0.2237086803475513, 0.22475961119502405, 0.2238045104696781, 0.22346115942242778, 0.22476568959559065, 0.22229135069477407, 0.22311581647660159, 0.22379310603571845, 0.22438412456761433, 0.22589861554435536, 0.22331077940290486, 0.2225991463925265, 0.22678556033893477, 0.22386935904999322, 0.22687577361924738, 0.22297449103450473, 0.22253291728564456, 0.22243756593405445, 0.22365932930496674, 0.22762371637398685, 0.223503330746029, 0.22774617241907724, 0.2224836083058315, 0.22200153607733641, 0.22239987853961654, 0.22259127593870404, 0.22233203077052213, 0.22621186483132688, 0.22256914969486527, 0.2215989817735515, 0.22224931649958032, 0.22348163998391055, 0.22262449746456328, 0.2216924649627903, 0.22241793884129463, 0.22291430067035217, 0.22227324559530126, 0.22178623372618156, 0.22211516073232965, 0.22546030948810938, 0.2212795657636244, 0.22679557231596753, 0.22371709148717833, 0.22234884508048433, 0.22138760922641693, 0.22186060759085643, 0.22195420329329335, 0.22855397455299956, 0.22647840963511529, 0.22264162804695625, 0.2226136727140674, 0.2261095885894721, 0.2229023318313345, 0.2223363301799267, 0.22557158282474626, 0.22227673671102222, 0.221943654167124, 0.22700040358342702, 0.22850674395508405, 0.2227084694218032, 0.22165706253881695]
+
+Training Acc: 
+[0.3397614314115308, 0.2610337972166998, 0.23041749502982106, 0.20934393638170976, 0.2021868787276342, 0.19284294234592445, 0.19483101391650098, 0.19502982107355865, 0.19165009940357852, 0.19324055666003975, 0.1878727634194831, 0.18846918489065606, 0.19244532803180914, 0.19105367793240557, 0.1926441351888668, 0.18846918489065606, 0.19343936381709742, 0.19244532803180914, 0.19204771371769383, 0.19423459244532804, 0.19403578528827037, 0.2029821073558648, 0.20834990059642147, 0.2099403578528827, 0.21451292246520876, 0.22286282306163022, 0.23658051689860835, 0.23518886679920478, 0.2389662027833002, 0.23757455268389663, 0.2355864811133201, 0.23916500994035786, 0.24333996023856858, 0.25646123260437376, 0.25725646123260437, 0.258051689860835, 0.2578528827037773, 0.2719681908548708, 0.29165009940357856, 0.2932405566600398, 0.28906560636182904, 0.2980119284294235, 0.29184890656063617, 0.31610337972166996, 0.31988071570576543, 0.31332007952286284, 0.33021868787276343, 0.33916500994035786, 0.3242544731610338, 0.34095427435387676, 0.33479125248508945, 0.34433399602385684, 0.3538767395626243, 0.3576540755467197, 0.3596421471172962, 0.37037773359840953, 0.37296222664015904, 0.384493041749503, 0.38866799204771374, 0.4069582504970179, 0.4121272365805169, 0.4033797216699801, 0.40715705765407556, 0.41749502982107356, 0.4180914512922465, 0.4220675944333996, 0.41371769383697815, 0.40198807157057653, 0.4254473161033797, 0.41232604373757453, 0.4242544731610338, 0.4415506958250497, 0.4385685884691849, 0.44552683896620277, 0.45009940357852884, 0.4749502982107356, 0.4572564612326044, 0.46560636182902587, 0.46421471172962225, 0.4570576540755467, 0.4628230616302187, 0.48986083499005967, 0.4644135188866799, 0.48807157057654077, 0.48747514910536777, 0.5021868787276342, 0.509145129224652, 0.48767395626242543, 0.49403578528827036, 0.512127236580517, 0.5159045725646123, 0.4952286282306163, 0.49304174950298213, 0.500596421471173, 0.509145129224652, 0.5143141153081511, 0.49801192842942343, 0.525844930417495, 0.520675944333996, 0.5228628230616302, 0.5163021868787276, 0.537375745526839, 0.5520874751491054, 0.5200795228628231, 0.531013916500994, 0.5449304174950298, 0.5369781312127236, 0.5391650099403579, 0.563220675944334, 0.5666003976143141, 0.5532803180914513, 0.5604373757455269, 0.5644135188866799, 0.5594433399602385, 0.5594433399602385, 0.5743538767395626, 0.5642147117296222, 0.5648111332007952, 0.5761431411530815, 0.5705765407554672, 0.5697813121272366, 0.5749502982107356, 0.5753479125248508, 0.5938369781312127, 0.5910536779324056, 0.6043737574552683, 0.5833001988071571, 0.589662027833002, 0.5914512922465208, 0.6019880715705765, 0.5996023856858846, 0.5910536779324056, 0.6013916500994035, 0.6133200795228628, 0.6089463220675945]
+
+Validation Acc: 
+[0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.1685214626391097, 0.17329093799682035, 0.17170111287758347, 0.17488076311605724, 0.178060413354531, 0.17329093799682035, 0.178060413354531, 0.17488076311605724, 0.17488076311605724, 0.17329093799682035, 0.18124006359300476, 0.18441971383147854, 0.17965023847376788, 0.18124006359300476, 0.18600953895071543, 0.1971383147853736, 0.23052464228934816, 0.2082670906200318, 0.1971383147853736, 0.21303656597774245, 0.23529411764705882, 0.2559618441971383, 0.24165341812400637, 0.2845786963434022, 0.2718600953895072, 0.2543720190779014, 0.27821939586645467, 0.29411764705882354, 0.3036565977742448, 0.3052464228934817, 0.3004769475357711, 0.3052464228934817, 0.3052464228934817, 0.314785373608903, 0.3370429252782194, 0.3767885532591415, 0.35453100158982515, 0.3465818759936407, 0.3624801271860095, 0.35930047694753575, 0.383147853736089, 0.35453100158982515, 0.383147853736089, 0.3847376788553259, 0.37360890302066774, 0.37042925278219396, 0.3847376788553259, 0.3751987281399046, 0.4149443561208267, 0.397456279809221, 0.37201907790143085, 0.44038155802861684, 0.42130365659777425, 0.43243243243243246, 0.43720190779014306, 0.43720190779014306, 0.4419713831478537, 0.4562798092209857, 0.41971383147853736, 0.41812400635930047, 0.46899841017488075, 0.4610492845786963, 0.44038155802861684, 0.4483306836248013, 0.46740858505564387, 0.48012718600953896, 0.4848966613672496, 0.48012718600953896, 0.47217806041335453, 0.4546899841017488, 0.47217806041335453, 0.45151033386327505, 0.4769475357710652, 0.5007949125596184, 0.47058823529411764, 0.5007949125596184, 0.4848966613672496, 0.5007949125596184, 0.4960254372019078, 0.4753577106518283, 0.5103338632750397, 0.5278219395866455, 0.5135135135135135, 0.5119236883942766, 0.5421303656597775, 0.5310015898251192, 0.5039745627980922, 0.5246422893481717, 0.5151033386327504, 0.5230524642289348, 0.5325914149443561, 0.5389507154213037, 0.5325914149443561, 0.5119236883942766, 0.5325914149443561, 0.5246422893481717, 0.5373608903020668, 0.5071542130365659, 0.5532591414944356, 0.5548489666136724, 0.5278219395866455, 0.5739268680445151, 0.5437201907790143, 0.5627980922098569, 0.5500794912559619, 0.56120826709062, 0.5580286168521462, 0.5882352941176471, 0.5580286168521462, 0.5914149443561209, 0.5834658187599364, 0.5453100158982512]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 27: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 28: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 29: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 30: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 31: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 32: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 33: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 34: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 35: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 36: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 37: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 38: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 39: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 40: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 41: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 42: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 43: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 44: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 45: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 46: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 47: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 48: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 49: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 50: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 51: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 52: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 53: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 54: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 55: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 56: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 57: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 58: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 59: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 60: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 61: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 62: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 63: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 64: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 65: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 66: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 67: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 68: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 69: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 70: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 71: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 72: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 73: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 74: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 75: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 76: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 77: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 78: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 79: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 80: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 81: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 82: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 83: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 84: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 85: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 86: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 87: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 88: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 89: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 90: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 91: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 92: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 93: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 94: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 95: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 96: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 97: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 98: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 99: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 100: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 101: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 102: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 103: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 104: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 105: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 106: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 107: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 108: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 109: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 110: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 111: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 112: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 113: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 114: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 115: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 116: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 117: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 118: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 119: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 120: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 121: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 122: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 123: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 124: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 125: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 126: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 127: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 128: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 129: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 130: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 131: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 132: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 133: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+
+ Epoch 134: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2664 			 847 			 772 
+2366 			 4183 			 2291 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+350 			 106 			 85 
+279 			 523 			 258 
+model stopped improving at epoch 115
+test accuracy: 0.5103338632750397
+test precision: 0.924901185770751
+test recall: 0.4474187380497132
+test f1-score: 0.6030927835051546
+confusion matrix:
+ [[ 87  19]
+ [289 234]]

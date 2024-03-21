@@ -1,0 +1,1129 @@
+Ex4_LLAMA2-7b_LSTM_cofacts_undersample_1710921597.579001
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'LstmHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 10, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 100 took 38406.65184736252s 
+The best validation result was obtained after 100 epochs 
+Checkpoint saved at: Ex4_LLAMA2-7b_LSTM_cofacts_undersample_1710921597.579001/checkpoint_Ex4_LLAMA2-7b_LSTM_cofacts_undersample_1710921597.579001.pthTraining took: 38406.65184736252s in total.
+
+Training Loss: 
+[0.6982176452172253, 0.6716931994371819, 0.6618459220483618, 0.6553253870246545, 0.6495485340930381, 0.6437300900524517, 0.6392357269266866, 0.6406054736448908, 0.6380174483330745, 0.6365278250063365, 0.6344195548796429, 0.633087601864113, 0.6300727227386439, 0.630777203038616, 0.6305758594623152, 0.6265724655592216, 0.6268324449236663, 0.6254807331792589, 0.6237789691197422, 0.6219907601205807, 0.6252695846388925, 0.6223435728055127, 0.6236059161711414, 0.6189168924992939, 0.6206997914134331, 0.6186959174865821, 0.6218172657602238, 0.619984903355252, 0.6171231109578654, 0.6174253954921128, 0.6165083498465564, 0.6175578875502326, 0.6168845850482302, 0.6175901032984257, 0.6161321855659755, 0.6158196576783117, 0.6137947089407804, 0.6164419781768097, 0.614079872040816, 0.6120813332919804, 0.6131516666907184, 0.6142558611507686, 0.612456768259125, 0.6112241312017981, 0.6098860613298867, 0.6114768585506475, 0.6094887031699127, 0.6107675279929953, 0.6114304936578814, 0.6095440838977976, 0.6110582013596904, 0.6098300342992792, 0.6087204919389959, 0.609246701283275, 0.6076161732088845, 0.6076356579532038, 0.608686866062992, 0.6083382598634036, 0.6090530675818335, 0.6072948910998848, 0.6049168109893799, 0.6098881763107372, 0.6062105324751926, 0.6069439502678952, 0.6070509273910297, 0.6052705369327428, 0.6053213214255729, 0.6066693431645069, 0.60626683714536, 0.6075702263920937, 0.607498863255078, 0.6074576994298764, 0.6059870187825752, 0.6088110570497108, 0.6056535542714145, 0.6075742855527491, 0.6050433385062892, 0.605578029352539, 0.6054203802684568, 0.6059102321851928, 0.6062205629247539, 0.6045718835491054, 0.6025702986374216, 0.6026712147132406, 0.6043669426778577, 0.603875615335298, 0.6030100869401446, 0.6028194286210357, 0.6061761826276779, 0.6033557126263402, 0.6039303977675033, 0.6033495283632908, 0.6029044197837137, 0.6005454897739977, 0.6033172116808172, 0.601322305582042, 0.603208268869598, 0.5990342913230635, 0.6021297886124197, 0.6011669049566647]
+
+Validation Loss: 
+[0.6738929281819541, 0.6658737350184962, 0.6538311394880403, 0.6562765662400227, 0.6485279759146133, 0.6427743676698433, 0.6409392851703571, 0.6423040004271381, 0.6354903977996899, 0.6352948074070912, 0.6339968684709297, 0.6314233350303938, 0.6331128135042371, 0.6364829214114063, 0.6287444987387028, 0.6262508045952275, 0.6266662444708482, 0.6243923998103952, 0.6238786943678586, 0.6301089722030567, 0.6229694665602918, 0.620022215370862, 0.6226855617649151, 0.623955322324105, 0.6203007945474589, 0.6227676193669157, 0.6272312503940655, 0.6229403974874964, 0.6235236761704931, 0.6213514866693964, 0.6258221229292312, 0.6181557302205067, 0.6187196295216398, 0.6206747619610913, 0.6219349745309578, 0.6161701043821731, 0.621133064886309, 0.6182980745468499, 0.6203629009003909, 0.6185261955801046, 0.614351638083188, 0.6175206730950553, 0.6168444089169772, 0.6213298254417923, 0.6148196571278122, 0.616654281908611, 0.6137693141991237, 0.6206165647731637, 0.614615002893052, 0.6136341792232586, 0.6175165789307289, 0.6167215041394504, 0.6130732809597591, 0.6141700834598182, 0.6171889518791774, 0.6147007576699527, 0.6137505674137259, 0.6146571990453972, 0.6134605396468684, 0.6166450544348303, 0.6150093421621142, 0.6118227159077266, 0.6126537457951959, 0.6108618131223714, 0.6129149384093735, 0.6167915210408984, 0.6118784170105772, 0.6118725065915089, 0.6174390091086334, 0.6107902813632533, 0.6110741782863185, 0.6151018513823455, 0.6157900983432554, 0.6121791533704074, 0.6124942836896429, 0.6192536146010993, 0.609962597208203, 0.6116511630562117, 0.6177834041838376, 0.6158371320310628, 0.6176320668661369, 0.6115259640621689, 0.6116626555064939, 0.6110716405904518, 0.6097851384360835, 0.6152067634294618, 0.6115254141249746, 0.6159273903324919, 0.6128975574700337, 0.6115598594242672, 0.6131926471332334, 0.6082676165508774, 0.6171713038435522, 0.6084010640405259, 0.6117402534439879, 0.6087018425734538, 0.6116175415380946, 0.6090227421724571, 0.6072820329441214, 0.6058979613601037]
+
+Training Acc: 
+[0.6056670602125147, 0.6900826446280992, 0.7355371900826446, 0.8022432113341205, 0.806965761511216, 0.8264462809917356, 0.8441558441558441, 0.8423848878394333, 0.8553719008264463, 0.8512396694214877, 0.8494687131050768, 0.8571428571428571, 0.8606847697756789, 0.8665879574970484, 0.8642266824085005, 0.8642266824085005, 0.8659976387249114, 0.8742621015348289, 0.8671782762691853, 0.8695395513577332, 0.8642266824085005, 0.8654073199527745, 0.8612750885478159, 0.8742621015348289, 0.871900826446281, 0.871900826446281, 0.8659976387249114, 0.8695395513577332, 0.871900826446281, 0.8707201889020071, 0.8748524203069658, 0.8772136953955135, 0.8736717827626919, 0.8754427390791027, 0.8742621015348289, 0.8754427390791027, 0.8813459268004723, 0.8760330578512396, 0.8766233766233766, 0.8789846517119244, 0.8801652892561983, 0.8701298701298701, 0.8766233766233766, 0.8819362455726092, 0.8783943329397875, 0.8795749704840614, 0.8837072018890201, 0.8807556080283353, 0.8783943329397875, 0.8807556080283353, 0.8772136953955135, 0.8789846517119244, 0.884887839433294, 0.8789846517119244, 0.8837072018890201, 0.885478158205431, 0.8819362455726092, 0.8813459268004723, 0.8831168831168831, 0.8831168831168831, 0.8878394332939787, 0.8683589138134593, 0.8837072018890201, 0.8819362455726092, 0.8831168831168831, 0.8860684769775679, 0.8890200708382526, 0.8842975206611571, 0.8825265643447462, 0.8801652892561983, 0.8819362455726092, 0.8801652892561983, 0.8825265643447462, 0.8795749704840614, 0.8860684769775679, 0.8860684769775679, 0.8890200708382526, 0.8860684769775679, 0.8931523022432113, 0.8866587957497049, 0.8831168831168831, 0.884887839433294, 0.8872491145218417, 0.8878394332939787, 0.8913813459268005, 0.8866587957497049, 0.884887839433294, 0.8896103896103896, 0.8831168831168831, 0.8878394332939787, 0.8837072018890201, 0.8872491145218417, 0.8825265643447462, 0.8866587957497049, 0.8807556080283353, 0.8872491145218417, 0.8819362455726092, 0.8907910271546635, 0.8825265643447462, 0.8890200708382526]
+
+Validation Acc: 
+[0.7122641509433962, 0.7264150943396226, 0.8254716981132075, 0.8443396226415094, 0.8584905660377359, 0.8679245283018868, 0.8726415094339622, 0.8584905660377359, 0.8773584905660378, 0.8679245283018868, 0.8773584905660378, 0.8820754716981132, 0.8726415094339622, 0.8584905660377359, 0.8726415094339622, 0.8773584905660378, 0.8679245283018868, 0.8773584905660378, 0.8773584905660378, 0.8632075471698113, 0.8773584905660378, 0.8773584905660378, 0.8726415094339622, 0.8726415094339622, 0.8773584905660378, 0.8726415094339622, 0.8584905660377359, 0.8679245283018868, 0.8679245283018868, 0.8726415094339622, 0.8679245283018868, 0.8773584905660378, 0.8726415094339622, 0.8726415094339622, 0.8679245283018868, 0.8773584905660378, 0.8726415094339622, 0.8726415094339622, 0.8632075471698113, 0.8679245283018868, 0.8773584905660378, 0.8773584905660378, 0.8679245283018868, 0.8632075471698113, 0.8726415094339622, 0.8679245283018868, 0.8773584905660378, 0.8632075471698113, 0.8773584905660378, 0.8773584905660378, 0.8679245283018868, 0.8726415094339622, 0.8726415094339622, 0.8773584905660378, 0.8632075471698113, 0.8726415094339622, 0.8726415094339622, 0.8726415094339622, 0.8726415094339622, 0.8679245283018868, 0.8679245283018868, 0.8773584905660378, 0.8773584905660378, 0.8820754716981132, 0.8726415094339622, 0.8726415094339622, 0.8773584905660378, 0.8773584905660378, 0.8632075471698113, 0.8773584905660378, 0.8820754716981132, 0.8679245283018868, 0.8726415094339622, 0.8726415094339622, 0.8726415094339622, 0.8632075471698113, 0.8820754716981132, 0.8773584905660378, 0.8632075471698113, 0.8679245283018868, 0.8632075471698113, 0.8726415094339622, 0.8773584905660378, 0.8773584905660378, 0.8773584905660378, 0.8679245283018868, 0.8726415094339622, 0.8679245283018868, 0.8679245283018868, 0.8726415094339622, 0.8726415094339622, 0.8773584905660378, 0.8584905660377359, 0.8726415094339622, 0.8726415094339622, 0.8773584905660378, 0.8679245283018868, 0.8726415094339622, 0.8773584905660378, 0.8820754716981132]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 27: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 28: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 29: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 30: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 31: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 32: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 33: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 34: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 35: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 36: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 37: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 38: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 39: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 40: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 41: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 42: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 43: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 44: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 45: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 46: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 47: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 48: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 49: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 50: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 51: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 52: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 53: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 54: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 55: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 56: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 57: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 58: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 59: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 60: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 61: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 62: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 63: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 64: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 65: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 66: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 67: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 68: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 69: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 70: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 71: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 72: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 73: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 74: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 75: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 76: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 77: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 78: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 79: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 80: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 81: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 82: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 83: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 84: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 85: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 86: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 87: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 88: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 89: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 90: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 91: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 92: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 93: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 94: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 95: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 96: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 97: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 98: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+
+ Epoch 99: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+721 			 847 			 690 
+973 			 847 			 816 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+83 			 106 			 82 
+129 			 106 			 105 
+model stopped improving at epoch 100
+test accuracy: 0.8537735849056604
+test precision: 0.8099173553719008
+test recall: 0.9245283018867925
+test f1-score: 0.8634361233480177
+confusion matrix:
+ [[83 23]
+ [ 8 98]]

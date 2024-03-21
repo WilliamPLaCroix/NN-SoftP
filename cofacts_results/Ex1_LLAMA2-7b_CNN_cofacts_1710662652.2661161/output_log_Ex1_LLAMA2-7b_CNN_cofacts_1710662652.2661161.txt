@@ -1,0 +1,180 @@
+Ex1_LLAMA2-7b_CNN_cofacts_1710662652.2661161
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'CnnHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 5, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 14 took 7592.614381551743s 
+The best validation result was obtained after 9 epochs 
+Checkpoint saved at: Ex1_LLAMA2-7b_CNN_cofacts_1710662652.2661161/checkpoint_Ex1_LLAMA2-7b_CNN_cofacts_1710662652.2661161.pthTraining took: 7592.614381551743s in total.
+
+Training Loss: 
+[1.1792178040278545, 0.708894714452504, 0.647487331081081, 0.6406583801172496, 0.6227511116355325, 0.6146028697585453, 0.6064270698777822, 0.5847164087341018, 0.5861210906448728, 0.5849133902399642, 0.5764833580708466, 0.5642871947659976, 0.5562532603835453, 0.5481096761973371]
+
+Validation Loss: 
+[0.6355073180379747, 0.6099436313291139, 0.5862017281447784, 0.6007466376582279, 0.5942321004746836, 0.6055058346518988, 0.5704917424841772, 0.5773122280458861, 0.5546102403085443, 0.5589645965189873, 0.5692123219936709, 0.5757112140896954, 0.561455448971519, 0.5612082179588608]
+
+Training Acc: 
+[0.6296222664015905, 0.694831013916501, 0.7413518886679921, 0.7296222664015904, 0.7479125248508947, 0.7552683896620278, 0.7552683896620278, 0.7773359840954275, 0.7711729622266401, 0.7723658051689861, 0.785089463220676, 0.7880715705765408, 0.7833001988071571, 0.7914512922465209]
+
+Validation Acc: 
+[0.8171701112877583, 0.8378378378378378, 0.8426073131955485, 0.8314785373608903, 0.8298887122416534, 0.8457869634340223, 0.8426073131955485, 0.8378378378378378, 0.8378378378378378, 0.8410174880763116, 0.8441971383147854, 0.8473767885532592, 0.8330683624801272, 0.8362480127186009]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1038 			 847 			 418 
+3992 			 4183 			 3563 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+51 			 106 			 27 
+578 			 523 			 499 
+model stopped improving at epoch 9
+test accuracy: 82.1939586645469
+confusion matrix:
+ [[ 26  80]
+ [ 32 491]]

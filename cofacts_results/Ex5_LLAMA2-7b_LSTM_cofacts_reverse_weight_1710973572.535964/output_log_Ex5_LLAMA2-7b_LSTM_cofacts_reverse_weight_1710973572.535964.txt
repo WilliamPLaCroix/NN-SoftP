@@ -1,0 +1,568 @@
+Ex5_LLAMA2-7b_LSTM_cofacts_reverse_weight_1710973572.535964
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'LstmHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 10, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 49 took 38072.03262281418s 
+The best validation result was obtained after 39 epochs 
+Checkpoint saved at: Ex5_LLAMA2-7b_LSTM_cofacts_reverse_weight_1710973572.535964/checkpoint_Ex5_LLAMA2-7b_LSTM_cofacts_reverse_weight_1710973572.535964.pthTraining took: 38072.03262281418s in total.
+
+Training Loss: 
+[1.8310042036925287, 1.6904306731087604, 1.6545993653503623, 1.6374302633426527, 1.6218995212181953, 1.6112956233168634, 1.6051417212038996, 1.5935102511665211, 1.587316282413343, 1.5854514229847252, 1.5822762215838713, 1.5785514547449606, 1.5761438680187887, 1.5744746366252202, 1.5734969216424066, 1.5728181983404963, 1.5723726922832726, 1.5718272617397702, 1.5712970159770194, 1.570774352986407, 1.5700438909576124, 1.5699127661404815, 1.570541181226982, 1.5696060521045436, 1.5686581856874668, 1.5684281471044725, 1.567905949390181, 1.5672565847398368, 1.5677900176927662, 1.567742163596737, 1.5678401220773475, 1.5676020383834839, 1.5672749807800512, 1.5685067875207135, 1.567579519672879, 1.5677714564841958, 1.567175215113144, 1.5674719699615516, 1.566472479478354, 1.5675132889626326, 1.566991573486874, 1.5668856366071109, 1.5670975893972787, 1.5669068101858676, 1.5672173160816794, 1.5669127187213383, 1.5669081516220384, 1.566783351151477, 1.5673660113815284]
+
+Validation Loss: 
+[1.7148795867268043, 1.6616634960415997, 1.6418632548066634, 1.6236911340604854, 1.6144406901130193, 1.6015575769581372, 1.59303448396393, 1.5828803860688512, 1.5821312032168424, 1.578948143162305, 1.5749682233303408, 1.5736480815501153, 1.5701810483691059, 1.5700147295299964, 1.5697038324573371, 1.567565481119518, 1.5652985316288621, 1.5674842105636113, 1.5655792740326893, 1.564782678326474, 1.5660253461403182, 1.5661323198789283, 1.564097891879987, 1.565417338021194, 1.5647988040235978, 1.5641314960733246, 1.5637718672993817, 1.5636162018474145, 1.5636210841468619, 1.563771305959436, 1.563879652113854, 1.561706628980516, 1.5632324565815021, 1.5632596559162382, 1.5632175561747974, 1.5630623871767069, 1.561278388470034, 1.5629299773445613, 1.5611447231679023, 1.562839588032493, 1.562977369073071, 1.5630076731307596, 1.562870316867587, 1.5612681394890895, 1.5628612931770614, 1.5611661038821256, 1.56294706727885, 1.5628574822522416, 1.5629174996025954]
+
+Training Acc: 
+[0.8234592445328032, 0.8312127236580517, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.8318091451292247, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.831610337972167, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.831610337972167, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.831610337972167, 0.8320079522862823, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.8320079522862823, 0.8320079522862823, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.8318091451292247, 0.8320079522862823, 0.8320079522862823, 0.8320079522862823, 0.8320079522862823, 0.8320079522862823, 0.8320079522862823, 0.8320079522862823, 0.8320079522862823, 0.8320079522862823, 0.8318091451292247, 0.8320079522862823]
+
+Validation Acc: 
+[0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903, 0.8314785373608903]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 27: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 28: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 29: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 30: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 31: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 32: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 33: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 34: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 35: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 36: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 37: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 38: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 39: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 40: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 41: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 42: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 43: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 44: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 45: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 46: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 47: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+
+ Epoch 48: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+2 			 847 			 2 
+5028 			 4183 			 4183 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+0 			 106 			 0 
+629 			 523 			 523 
+model stopped improving at epoch 39
+test accuracy: 0.8314785373608903
+test precision: 0.8314785373608903
+test recall: 1.0
+test f1-score: 0.9079861111111112
+confusion matrix:
+ [[  0 106]
+ [  0 523]]

@@ -1,0 +1,601 @@
+Ex2_LLAMA2-7b_LSTM_cofacts_1710777618.7719188
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'LstmHead', 'FREEZE_LM': True, 'BATCH_SIZE': 8, 'NUM_EPOCHS': 300, 'EARLY_STOPPING_AFTER': 20, 'LEARNING_RATE': 1e-06, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 52 took 47633.22036099434s 
+The best validation result was obtained after 32 epochs 
+Checkpoint saved at: Ex2_LLAMA2-7b_LSTM_cofacts_1710777618.7719188/checkpoint_Ex2_LLAMA2-7b_LSTM_cofacts_1710777618.7719188.pthTraining took: 47633.22036099434s in total.
+
+Training Loss: 
+[0.24339659082065138, 0.24253283309585907, 0.2420639446647823, 0.24181295587830778, 0.24136891770391283, 0.24064300083725554, 0.24028002644855, 0.2405724771711709, 0.24003427813276768, 0.24002848146261205, 0.23969824652414065, 0.23971455811933037, 0.2396234185545926, 0.23945830013774727, 0.23944869083137693, 0.2394798383803739, 0.23930443982062166, 0.23932036039654894, 0.23915700817003918, 0.23873685414063342, 0.2386523867781098, 0.23841855965187517, 0.23854437387520255, 0.2384972626103506, 0.2381453884851383, 0.23814404028540384, 0.23801837343906182, 0.23779704539025343, 0.2378093765038754, 0.23792665649578568, 0.23758838851662242, 0.23803477434645776, 0.23808440435766606, 0.23742838736937422, 0.23801849388024388, 0.23760186097864505, 0.237715853878633, 0.23762283743091153, 0.23736141012042808, 0.2373303711793381, 0.23715711286697175, 0.23706037381779407, 0.2372197670971646, 0.23660123239260977, 0.23681365762539622, 0.2375184721024692, 0.23703844549166947, 0.2368835328303763, 0.23713075144539197, 0.23715088126769315, 0.23675843775983077, 0.23680684293823137]
+
+Validation Loss: 
+[0.24380501454012304, 0.2415770857205874, 0.24095444249201425, 0.24234021851156332, 0.24109609264738951, 0.24163066360014904, 0.23973746013037767, 0.23968294715579552, 0.2413795534757119, 0.23978414660013175, 0.23902109718020959, 0.2397687446467484, 0.23906088912788825, 0.23872703974005544, 0.23878551142502435, 0.23813452043488056, 0.2402046012538898, 0.2389980803562116, 0.23812921156611624, 0.24039046258866031, 0.2396067519542537, 0.23901977125979676, 0.24011942857428442, 0.23834747160914577, 0.23790912113234966, 0.23850531008424639, 0.23861933103467844, 0.23710197700729854, 0.23742225728457486, 0.23919929469688028, 0.23800187039224407, 0.23689907987283754, 0.2396603834968579, 0.2380969343306143, 0.23804812293641175, 0.23724586978743348, 0.23755386915010743, 0.23722565768263007, 0.23777435210686695, 0.2397344295359865, 0.23828557869301567, 0.23771568717835825, 0.23750453291437293, 0.23736237621382822, 0.2370456923978238, 0.23711665738609772, 0.2373335003098355, 0.23769718974451476, 0.23702551688574539, 0.23946904145841358, 0.2380788774241375, 0.23849255582199821]
+
+Training Acc: 
+[0.4061630218687873, 0.33578528827037774, 0.29005964214711727, 0.2614314115308151, 0.24691848906560637, 0.2320079522862823, 0.22604373757455268, 0.22047713717693837, 0.22743538767395627, 0.22226640159045727, 0.21570576540755468, 0.2143141153081511, 0.20636182902584493, 0.2039761431411531, 0.20377733598409542, 0.20099403578528827, 0.19642147117296221, 0.20079522862823063, 0.2, 0.19721669980119283, 0.1992047713717694, 0.19483101391650098, 0.19681908548707752, 0.19145129224652088, 0.1956262425447316, 0.19105367793240557, 0.19502982107355865, 0.18966202783300198, 0.1918489065606362, 0.18906560636182904, 0.1900596421471173, 0.19125248508946321, 0.1922465208747515, 0.18986083499005965, 0.19065606361829027, 0.1926441351888668, 0.18866799204771373, 0.1908548707753479, 0.1878727634194831, 0.1866799204771372, 0.18846918489065606, 0.1870775347912525, 0.18807157057654075, 0.1874751491053678, 0.18648111332007952, 0.18628230616302188, 0.1874751491053678, 0.18727634194831014, 0.18469184890656062, 0.18548707753479124, 0.1866799204771372, 0.1852882703777336]
+
+Validation Acc: 
+[0.21462639109697934, 0.21144674085850557, 0.21144674085850557, 0.1907790143084261, 0.1875993640699523, 0.1875993640699523, 0.178060413354531, 0.18282988871224165, 0.1875993640699523, 0.17965023847376788, 0.1875993640699523, 0.18600953895071543, 0.17965023847376788, 0.178060413354531, 0.178060413354531, 0.17488076311605724, 0.17488076311605724, 0.17329093799682035, 0.17170111287758347, 0.17170111287758347, 0.17488076311605724, 0.17329093799682035, 0.17329093799682035, 0.17170111287758347, 0.17329093799682035, 0.17488076311605724, 0.17170111287758347, 0.17647058823529413, 0.17965023847376788, 0.17170111287758347, 0.17488076311605724, 0.17329093799682035, 0.17329093799682035, 0.17170111287758347, 0.17488076311605724, 0.17647058823529413, 0.17329093799682035, 0.17170111287758347, 0.17170111287758347, 0.17329093799682035, 0.17329093799682035, 0.17170111287758347, 0.17170111287758347, 0.17170111287758347, 0.17170111287758347, 0.17011128775834658, 0.17011128775834658, 0.17011128775834658, 0.17011128775834658, 0.17011128775834658, 0.17170111287758347, 0.17170111287758347]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 19: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 20: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 21: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 22: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 23: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 24: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 25: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 26: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 27: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 28: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 29: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 30: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 31: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 32: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 33: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 34: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 35: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 36: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 37: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 38: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 39: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 40: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 41: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 42: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 43: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 44: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 45: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 46: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 47: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 48: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 49: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 50: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+
+ Epoch 51: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+4927 			 847 			 838 
+103 			 4183 			 94 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+627 			 106 			 106 
+2 			 523 			 2 
+model stopped improving at epoch 32
+test accuracy: 0.17329093799682035
+test precision: 0.8
+test recall: 0.0076481835564053535
+test f1-score: 0.01515151515151515
+confusion matrix:
+ [[105   1]
+ [519   4]]

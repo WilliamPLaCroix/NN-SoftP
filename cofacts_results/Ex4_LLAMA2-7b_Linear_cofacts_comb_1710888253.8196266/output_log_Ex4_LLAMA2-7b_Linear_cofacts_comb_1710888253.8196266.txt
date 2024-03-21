@@ -1,0 +1,194 @@
+Ex4_LLAMA2-7b_Linear_cofacts_comb_1710888253.8196266
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'SimplestLinearHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 10, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 15 took 17084.151728391647s 
+The best validation result was obtained after 5 epochs 
+Checkpoint saved at: Ex4_LLAMA2-7b_Linear_cofacts_comb_1710888253.8196266/checkpoint_Ex4_LLAMA2-7b_Linear_cofacts_comb_1710888253.8196266.pthTraining took: 17084.151728391647s in total.
+
+Training Loss: 
+[0.541669794766507, 0.539439652928293, 0.5392708538446528, 0.5391777034640189, 0.538786326959888, 0.5399333872041903, 0.5388941698444796, 0.5404203116033199, 0.5393092852455925, 0.5389127217440639, 0.5387550506775385, 0.5392334743560734, 0.5397922097509692, 0.5395293844733791, 0.5390889092117046]
+
+Validation Loss: 
+[0.5409517551843936, 0.540452819112893, 0.5392338613068665, 0.5393156308557961, 0.5384364641465984, 0.5392029752934372, 0.5413672472094442, 0.5387077961157967, 0.540369223844219, 0.5392852992146879, 0.5396869032756313, 0.5396747785610158, 0.5388139703280324, 0.5406473461579491, 0.5388554731731886]
+
+Training Acc: 
+[0.5383293227913373, 0.5350635957373668, 0.5328291509109659, 0.5372121003781368, 0.5409075283602612, 0.52681333791681, 0.5344620144379512, 0.5272430388449639, 0.5338604331385356, 0.5373839807493984, 0.5343760742523204, 0.5305947060845652, 0.5335166723960124, 0.5314541079408731, 0.536696459264352]
+
+Validation Acc: 
+[0.5285223367697595, 0.5381443298969072, 0.5353951890034364, 0.525085910652921, 0.5388316151202749, 0.5312714776632302, 0.525085910652921, 0.5402061855670103, 0.5168384879725086, 0.5360824742268041, 0.5388316151202749, 0.5443298969072164, 0.5415807560137457, 0.5154639175257731, 0.5415807560137457]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+8195 			 4534 			 3669 
+3441 			 7102 			 2576 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1016 			 567 			 458 
+439 			 888 			 330 
+model stopped improving at epoch 5
+test accuracy: 0.5336538461538461
+test precision: 0.7470449172576832
+test recall: 0.35585585585585583
+test f1-score: 0.4820747520976354
+confusion matrix:
+ [[461 107]
+ [572 316]]

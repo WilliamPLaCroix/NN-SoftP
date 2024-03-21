@@ -1,0 +1,125 @@
+Ex1_LLAMA2-7b_MLP_cofacts_1710662652.3106358
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'MlpHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 5, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 9 took 4840.862852811813s 
+The best validation result was obtained after 4 epochs 
+Checkpoint saved at: Ex1_LLAMA2-7b_MLP_cofacts_1710662652.3106358/checkpoint_Ex1_LLAMA2-7b_MLP_cofacts_1710662652.3106358.pthTraining took: 4840.862852811813s in total.
+
+Training Loss: 
+[0.660806774145469, 0.6361241181438791, 0.6410472972972973, 0.6336213856319555, 0.6355589849960255, 0.6297244510135135, 0.6320206925675675, 0.6291655281200318, 0.6305659404809221]
+
+Validation Loss: 
+[0.6384988132911392, 0.6394753757911392, 0.6428995253164557, 0.6181640625, 0.640909315664557, 0.6287208267405063, 0.6242335838607594, 0.6311684137658228, 0.6280903876582279]
+
+Training Acc: 
+[0.7992047713717694, 0.8216699801192843, 0.8121272365805169, 0.8145129224652088, 0.8176938369781312, 0.81610337972167, 0.8216699801192843, 0.8198807157057654, 0.8184890656063618]
+
+Validation Acc: 
+[0.8314785373608903, 0.8314785373608903, 0.8155802861685215, 0.8378378378378378, 0.8171701112877583, 0.834658187599364, 0.8314785373608903, 0.821939586645469, 0.8330683624801272]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+198 			 847 			 66 
+4832 			 4183 			 4051 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+1 			 106 			 1 
+628 			 523 			 523 
+model stopped improving at epoch 4
+test accuracy: 82.82988871224165
+confusion matrix:
+ [[  0 106]
+ [  2 521]]

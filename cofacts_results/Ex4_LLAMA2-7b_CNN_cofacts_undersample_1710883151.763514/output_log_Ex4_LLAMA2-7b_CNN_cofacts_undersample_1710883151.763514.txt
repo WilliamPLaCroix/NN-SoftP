@@ -1,0 +1,172 @@
+Ex4_LLAMA2-7b_CNN_cofacts_undersample_1710883151.763514
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'CnnHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 10, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 13 took 4996.591397285461s 
+The best validation result was obtained after 3 epochs 
+Checkpoint saved at: Ex4_LLAMA2-7b_CNN_cofacts_undersample_1710883151.763514/checkpoint_Ex4_LLAMA2-7b_CNN_cofacts_undersample_1710883151.763514.pthTraining took: 4996.591397285461s in total.
+
+Training Loss: 
+[0.6341521674591415, 0.6101373602056278, 0.6013310621228983, 0.5907996494393304, 0.5924225823496873, 0.5904658353131897, 0.5921815597926671, 0.5880252383649349, 0.5897212969666382, 0.5916991654853776, 0.5832520508260097, 0.5890258708090153, 0.5820820752601579]
+
+Validation Loss: 
+[0.581744946398825, 0.5962088040585788, 0.5766996094640696, 0.5945577497752208, 0.5854619775178298, 0.58698456354861, 0.5781014168037558, 0.5878933268897938, 0.5907546844122544, 0.5942838591224743, 0.5778217000781365, 0.5772220942209352, 0.5867890052075656]
+
+Training Acc: 
+[0.7095631641086186, 0.7922077922077922, 0.8181818181818182, 0.8376623376623377, 0.8429752066115702, 0.846517119244392, 0.8370720188902007, 0.8394332939787486, 0.8494687131050768, 0.8388429752066116, 0.8530106257378984, 0.8382526564344747, 0.8547815820543093]
+
+Validation Acc: 
+[0.8537735849056604, 0.8443396226415094, 0.8773584905660378, 0.8443396226415094, 0.8632075471698113, 0.8584905660377359, 0.8726415094339622, 0.8584905660377359, 0.8537735849056604, 0.8490566037735849, 0.8773584905660378, 0.8773584905660378, 0.8584905660377359]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+743 			 847 			 672 
+951 			 847 			 776 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+80 			 106 			 78 
+132 			 106 			 104 
+model stopped improving at epoch 3
+test accuracy: 0.8726415094339622
+test precision: 0.8110236220472441
+test recall: 0.9716981132075472
+test f1-score: 0.8841201716738198
+confusion matrix:
+ [[ 82  24]
+ [  3 103]]
