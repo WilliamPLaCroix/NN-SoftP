@@ -190,7 +190,7 @@ class LstmHead(nn.Module):
         self.conv1 = nn.Conv1d(in_channels=lm_output_size + 1, out_channels=400, kernel_size=5, padding=2)
         self.conv2 = nn.Conv1d(in_channels=400, out_channels=64, kernel_size=5, padding=2)
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
-        self.lstm = nn.LSTM(320, hidden_size, num_layers=1, bidirectional=True, batch_first=True)
+        self.lstm = nn.LSTM(320, hidden_size, num_layers=1, batch_first=True)
         self.act = nn.ReLU()
         self.dropout = nn.Dropout(0.3)
 
