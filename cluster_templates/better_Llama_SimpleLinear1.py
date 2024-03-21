@@ -611,5 +611,33 @@ with open(output_log_filename, 'w') as file:
 if PRINTING_FLAG: print(f"Output logfile saved at {output_log_filename}")
 
 
+best_classifier_so_far.eval()
+with torch.no_grad():
+    test_losses, test_predictions, test_targets = [], [], []
 
+    for batch_number, batch in enumerate(test_dataloader):
+        batch.to(device)
+
+        lm_outputs = lm(batch["input_ids"])
+        classifier_outputs = best_classifier_so_far(lm_outputs[0].float())
+
+        loss = loss_fn(classifier_outputs, batch["labels"])
+        test_losses.append(loss.item())
+
+        test_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
+        test_targets.extend(batch["labels"].to('cpu').tolist())
+
+    test_predictions = np.array(test_predictions)
+    test_targets = np.array(test_targets)
+    num_predictions_test_epoch = len(test_predictions)
+    num_predictions_test_epoch_correct = np.sum(test_predictions == test_targets)
+    test_accuracy = num_predictions_test_epoch_correct / num_predictions_test_epoch
+    #epochs_test_acc_list.append(test_accuracy)
+
+
+    test_mean_loss = np.mean(test_losses)
+
+    print(f"{EXPERIMENT_NAME}")
+    print(f"Test accuracy: {test_accuracy}")
+    print(f"Test loss: {test_mean_loss}")
 
