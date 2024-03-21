@@ -26,20 +26,19 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"binary_Llama-7b_1e-5_200_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"ablation_surprisal_Llama-7b_1e-5_100_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
 #### Other experiment details:
 """
-ADJUSTED TO BINARY
-NOT LOADING ANY PREVIOUS CHECKPOINT
+WILLIAM STYLE
 
 """
 
 ####
 experiment = {
-    "LM" : "LLAMA 2 7B", # not used in code, define yourself
+    "LM" : "LLAMA 2 7B + extra values", # not used in code, define yourself
     "HUGGINGFACE_IMPLEMENTATION" : "AutoModel", # USED
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
@@ -55,11 +54,11 @@ experiment = {
     "NUM_CLASSES" : 6, # USED
     "LABEL_MAPPING" : { # USED
         0: 0,   # false
-        1: 0,   # half true
-        2: 1,   # mostly true
-        3: 1,   # true
-        4: 0,   # barely true
-        5: 0    # pants fire
+        1: 1,   # half true
+        2: 2,   # mostly true
+        3: 3,   # true
+        4: 4,   # barely true
+        5: 5    # pants fire
         },
 
 
