@@ -26,7 +26,7 @@ import matplotlib.pyplot as plt
 
 
 ##################################################
-EXPERIMENT_NAME = f"Gemma-2b_EXP5_SimpleLinearHead_{time.time()}"
+EXPERIMENT_NAME = f"aggregation_Gemma-2b_EXP5_SimpleLinearHead_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -45,7 +45,7 @@ experiment = {
     "CLF_HEAD" : "SimplestLinearHead", # not used in code, define yourself
     "FREEZE_LM" : True, # USED
     "BATCH_SIZE" : 64, # USED
-    "NUM_EPOCHS" : 333, # USED
+    "NUM_EPOCHS" : 200, # USED
     "EARLY_STOPPING_AFTER" : "NEVER", # USED
     "LEARNING_RATE" : 0.00001, # USED
     "OPTIMIZER" : "Adam", # not used in code, define yourself
@@ -53,14 +53,14 @@ experiment = {
     "DATASET" : "Liar", # USED
     "DATA_FRAC" : 1, # USED
     "KEEP_COLUMNS" : ["statement", "label"], # USED
-    "NUM_CLASSES" : 6, # USED
+    "NUM_CLASSES" : 2, # USED
     "LABEL_MAPPING" : { # USED
         0: 0,
-        1: 1,
-        2: 2,
-        3: 3,
-        4: 4,
-        5: 5
+        1: 0,
+        2: 1,
+        3: 1,
+        4: 0,
+        5: 0
         },
 
 
@@ -583,4 +583,33 @@ if PRINTING_FLAG: print(f"Output logfile saved at {output_log_filename}")
 
 
 
+best_classifier_so_far.eval()
+with torch.no_grad():
+    test_losses, test_predictions, test_targets = [], [], []
+
+    for batch_number, batch in enumerate(test_dataloader):
+        batch.to(device)
+
+        lm_outputs = lm(batch["input_ids"])
+        classifier_outputs = best_classifier_so_far(lm_outputs[0].float())
+
+        loss = loss_fn(classifier_outputs, batch["labels"])
+        test_losses.append(loss.item())
+
+        test_predictions.extend(classifier_outputs.detach().argmax(dim=1).to('cpu').tolist())
+        test_targets.extend(batch["labels"].to('cpu').tolist())
+
+    test_predictions = np.array(test_predictions)
+    test_targets = np.array(test_targets)
+    num_predictions_test_epoch = len(test_predictions)
+    num_predictions_test_epoch_correct = np.sum(test_predictions == test_targets)
+    test_accuracy = num_predictions_test_epoch_correct / num_predictions_test_epoch
+    #epochs_test_acc_list.append(test_accuracy)
+
+
+    test_mean_loss = np.mean(test_losses)
+
+    print(f"{EXPERIMENT_NAME}")
+    print(f"Test accuracy: {test_accuracy}")
+    print(f"Test loss: {test_mean_loss}")
 
