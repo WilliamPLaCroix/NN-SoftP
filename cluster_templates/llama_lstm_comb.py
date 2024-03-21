@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex4_LLAMA2-7b_LSTM_cofacts_comb_{time.time()}"
+EXPERIMENT_NAME = f"Ex6_LLAMA2-7b_LSTM_CNN_cofacts_comb_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -187,9 +187,13 @@ class LstmHead(nn.Module):
         super(LstmHead, self).__init__()
         
         hidden_size = 100
-        self.lstm = nn.LSTM(lm_output_size + 1, hidden_size, num_layers=1, batch_first=True)
-        self.act = nn.LeakyReLU()
-        self.dropout = nn.Dropout(0.5)
+        self.conv1 = nn.Conv1d(in_channels=lm_output_size + 1, out_channels=400, kernel_size=5, padding=2)
+        self.conv2 = nn.Conv1d(in_channels=400, out_channels=64, kernel_size=5, padding=2)
+        self.pool = nn.AdaptiveMaxPool1d(output_size=5)
+        self.lstm = nn.LSTM(320, hidden_size, num_layers=1, bidirectional=True, batch_first=True)
+        self.act = nn.ReLU()
+        self.dropout = nn.Dropout(0.3)
+
         self.score = nn.Linear(hidden_size + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
@@ -203,6 +207,11 @@ class LstmHead(nn.Module):
                 lm_output.hidden_states[-1],
                 subword_surp.unsqueeze(-1)
             ), dim=-1).to(torch.float)
+
+        x = self.pool(self.act(self.conv1(x)))
+        x = self.dropout(x)
+        x = self.pool(self.act(self.conv2(x)))
+        x = self.dropout(x)
         x = self.act(self.lstm(x)[0][:, -1, :])
         x = self.dropout(x)
         x = torch.cat((x, sentiment), dim=-1).to(bnb_config.bnb_4bit_compute_dtype)
