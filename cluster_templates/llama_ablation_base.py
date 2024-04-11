@@ -197,8 +197,9 @@ class CnnHead(nn.Module):
         x = lm_output.hidden_states[-1]
         x = x.permute(0, 2, 1).to(torch.float)
         x = self.pool(self.act(self.conv1(x)))
-        x = self.dropout(x).to(bnb_config.bnb_4bit_compute_dtype)
-                
+        x = self.dropout(x)
+        x = x.view(x.size(0), -1).to(bnb_config.bnb_4bit_compute_dtype)
+
         x = self.sigmoid(self.score(x))
         return x
 
