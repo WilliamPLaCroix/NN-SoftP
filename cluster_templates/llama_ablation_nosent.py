@@ -191,7 +191,7 @@ class CnnHead(nn.Module):
         self.pool = nn.AdaptiveMaxPool1d(output_size=5)
         self.dropout = nn.Dropout(0.9)
 
-        self.score = nn.Linear(640 + 3, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
+        self.score = nn.Linear(640, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
 
@@ -204,9 +204,6 @@ class CnnHead(nn.Module):
         x = x.permute(0, 2, 1).to(torch.float)
         x = self.pool(self.act(self.conv1(x)))
         x = self.dropout(x)
-        x = x.view(x.size(0), -1)
-        x = torch.cat((x, sentiment), dim=1).to(bnb_config.bnb_4bit_compute_dtype)
-                
         x = self.sigmoid(self.score(x))
         return x
 
