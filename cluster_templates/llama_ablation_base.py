@@ -194,7 +194,7 @@ class CnnHead(nn.Module):
         self.score = nn.Linear(640, 1, dtype=bnb_config.bnb_4bit_compute_dtype)# 640 = 128 * 5 
         self.sigmoid = nn.Sigmoid()
     def forward(self, lm_output, input_ids, attention_mask, sentiment):
-
+        x = lm_output.hidden_states[-1]
         x = x.permute(0, 2, 1).to(torch.float)
         x = self.pool(self.act(self.conv1(x)))
         x = self.dropout(x)
