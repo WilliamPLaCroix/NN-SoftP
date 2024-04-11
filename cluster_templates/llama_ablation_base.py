@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex4_LLAMA2-7b_CNN_cofacts_undersample_ablation_base_{time.time()}"
+EXPERIMENT_NAME = f"Ex6_LLAMA2-7b_CNN_cofacts_undersample_ablation_base_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 

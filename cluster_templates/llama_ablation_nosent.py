@@ -20,7 +20,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 
 ##################################################
-EXPERIMENT_NAME = f"Ex4_LLAMA2-7b_CNN_cofacts_undersample_ablation_nosent_{time.time()}"
+EXPERIMENT_NAME = f"Ex6_LLAMA2-7b_CNN_cofacts_undersample_ablation_nosent_{time.time()}"
 ##################################################
 PRINTING_FLAG = True
 
@@ -204,6 +204,8 @@ class CnnHead(nn.Module):
         x = x.permute(0, 2, 1).to(torch.float)
         x = self.pool(self.act(self.conv1(x)))
         x = self.dropout(x)
+        x = x.view(x.size(0), -1).to(bnb_config.bnb_4bit_compute_dtype)
+
         x = self.sigmoid(self.score(x))
         return x
 
