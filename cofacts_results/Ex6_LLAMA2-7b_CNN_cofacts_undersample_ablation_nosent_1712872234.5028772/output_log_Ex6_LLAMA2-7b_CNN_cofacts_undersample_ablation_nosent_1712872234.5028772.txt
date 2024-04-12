@@ -1,0 +1,238 @@
+Ex6_LLAMA2-7b_CNN_cofacts_undersample_ablation_nosent_1712872234.5028772
+{'LM': 'LLAMA 2 7B', 'HUGGINGFACE_IMPLEMENTATION': 'AutoModelForCausalLM', 'CLF_HEAD': 'CnnHead', 'FREEZE_LM': True, 'BATCH_SIZE': 4, 'NUM_EPOCHS': 100, 'EARLY_STOPPING_AFTER': 10, 'LEARNING_RATE': 1e-05, 'OPTIMIZER': 'Adam', 'QUANTIZATION': True, 'DATASET': 'cofacts', 'DATA_FRAC': 1, 'KEEP_COLUMNS': ['text', 'label', 'sentiment'], 'NUM_CLASSES': 2, 'LABEL_MAPPING': {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5}}
+
+Number of epochs trained: 19 took 7254.183088064194s 
+The best validation result was obtained after 9 epochs 
+Checkpoint saved at: Ex6_LLAMA2-7b_CNN_cofacts_undersample_ablation_nosent_1712872234.5028772/checkpoint_Ex6_LLAMA2-7b_CNN_cofacts_undersample_ablation_nosent_1712872234.5028772.pthTraining took: 7254.183088064194s in total.
+
+Training Loss: 
+[0.6473590572768787, 0.6086446770800734, 0.6057053035441434, 0.5957841302426357, 0.5891049092389503, 0.5923396518348523, 0.5948863088522317, 0.5904257450041905, 0.5875299747962996, 0.5831955420380494, 0.5875020005371211, 0.5889840365721369, 0.5870775840473625, 0.5825242976535041, 0.578872845209432, 0.585175438661058, 0.5806561915801381, 0.585152850187612, 0.5796810508055507]
+
+Validation Loss: 
+[0.5816670071403935, 0.5827891781645002, 0.5822615319827817, 0.5836062065835269, 0.5844964064517111, 0.58532127175691, 0.5837974508978286, 0.5849835889519386, 0.5766528501825513, 0.5927307116535475, 0.5882988375312878, 0.5840486158739846, 0.578458843366155, 0.5796709212492097, 0.5867002881922811, 0.5825838840232705, 0.5921618775376734, 0.5813785785774015, 0.5773032971148221]
+
+Training Acc: 
+[0.6824085005903188, 0.7957497048406139, 0.8040141676505312, 0.8358913813459268, 0.846517119244392, 0.8406139315230224, 0.833530106257379, 0.845926800472255, 0.8488783943329398, 0.8536009445100354, 0.8447461629279811, 0.8423848878394333, 0.8447461629279811, 0.8577331759149941, 0.859504132231405, 0.8494687131050768, 0.8536009445100354, 0.8494687131050768, 0.8642266824085005]
+
+Validation Acc: 
+[0.8537735849056604, 0.8679245283018868, 0.8726415094339622, 0.8679245283018868, 0.8679245283018868, 0.8679245283018868, 0.8726415094339622, 0.8679245283018868, 0.8820754716981132, 0.8537735849056604, 0.8584905660377359, 0.8679245283018868, 0.8773584905660378, 0.8726415094339622, 0.8632075471698113, 0.8726415094339622, 0.8443396226415094, 0.8679245283018868, 0.8773584905660378]
+
+
+
+
+ Epoch 0: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 1: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 2: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 3: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 4: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 5: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 6: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 7: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 8: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 9: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 10: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 11: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 12: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 13: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 14: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 15: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 16: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 17: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+
+ Epoch 18: 
+Training 
+Labels predicted: 	 True targets: 	 Correct labels: 
+751 			 847 			 684 
+943 			 847 			 780 
+
+ Validation 
+Labels predicted: 	 True targets: 	 Correct labels: 
+84 			 106 			 82 
+128 			 106 			 104 
+model stopped improving at epoch 9
+test accuracy: 0.8584905660377359
+test precision: 0.8114754098360656
+test recall: 0.9339622641509434
+test f1-score: 0.868421052631579
+confusion matrix:
+ [[83 23]
+ [ 7 99]]
