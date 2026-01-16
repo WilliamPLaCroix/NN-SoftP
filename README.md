@@ -14,7 +14,7 @@ To realize these goals, the project integrates several advanced machine learning
 * **Quantization:** To further lower the barrier to entry, the system employs **quantization** (e.g., 4-bit or 8-bit precision). By reducing the numerical precision of the model weights, the project enables **QLoRA** workflows—where the base model remains quantized in memory while LoRA adapters are trained—drastically reducing VRAM requirements for both fine-tuning and real-time inference.
 * **Symbolic-Neural Hybridization:** As detailed in the project's technical `Report.pdf`, the model structure is designed to be interpretable, mapping neural outputs to logical clusters to better understand the decision-making process behind a "Fake" or "Real" news classification.
 
-By combining these methods, **NN-SoftP** serves as a high-performance prototype for efficient, accurate, and scalable news verification.
+By combining these methods, this project serves as a high-performance prototype for efficient, accurate, and scalable news verification.
 
 ---
 
